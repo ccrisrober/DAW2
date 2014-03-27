@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>Bootstrap 3, from LayoutIt!</title>
+        <title>En ca’ Paqui</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -30,7 +30,6 @@
 
         <script type="text/javascript" src="assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
-        <script type="text/javascript" src="assets/js/scripts.js"></script>
     </head>
 
     <body>
@@ -40,7 +39,7 @@
                     <header>
                         <div class="page-header">
                             <h1>
-                                Example page header <small>Subtext for header</small>
+                                En ca' Paqui <small>Tu tienda de barrio online</small>
                             </h1>
                         </div>
                         <ul class="nav nav-tabs">
@@ -48,27 +47,27 @@
                                 <a href="#">Home</a>
                             </li>
                             <li>
-                                <a href="#">Profile</a>
+                                <a href="#">Sobre nosotros</a>
+                            </li>
+                            <li>
+                                <a href="#">Contacto</a>
                             </li>
                             <li class="disabled">
                                 <a href="#">Messages</a>
                             </li>
                             <li class="dropdown pull-right">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Dropdown<strong class="caret"></strong></a>
+                                <a href="#" >Conectado</a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#">Action</a>
+                                        <a href="#">Administrar productos</a>
                                     </li>
                                     <li>
-                                        <a href="#">Another action</a>
-                                    </li>
-                                    <li>
-                                        <a href="#">Something else here</a>
+                                        <a href="#">Administrar pedidos</a>
                                     </li>
                                     <li class="divider">
                                     </li>
                                     <li>
-                                        <a href="#">Separated link</a>
+                                        <a href="#">Desconectar</a>
                                     </li>
                                 </ul>
                             </li>
@@ -108,3 +107,4 @@
                             </ul>
                         </div>
                         <div class="col-md-9 column">
+                            <div class="row clearfix">
