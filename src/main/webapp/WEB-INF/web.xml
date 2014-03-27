@@ -43,7 +43,6 @@
         <auth-constraint/>
     </security-constraint>
     
-    
     <resource-ref>
         <description>my connection</description>
         <res-ref-name>jdbc/tienda_c.rodriguezbe</res-ref-name>
