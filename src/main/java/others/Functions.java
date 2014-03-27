@@ -1,3 +1,5 @@
+package others;
+
 
 import java.io.IOException;
 import java.security.MessageDigest;
@@ -67,7 +69,7 @@ public class Functions {
         return new NumChar(randomChar);
     }
 
-    static boolean isID(String id) {
+    public static boolean isID(String id) {
         boolean exit = false;
         if(id != null) {
             try {
@@ -87,7 +89,7 @@ public class Functions {
         return random;
     }
 
-    static boolean isPrice(String price) {
+    public static boolean isPrice(String price) {
         boolean isCorrect = false;
         if(price != null && !price.isEmpty()) {
             try {

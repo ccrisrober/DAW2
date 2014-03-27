@@ -4,23 +4,27 @@
  * and open the template in the editor.
  */
 
-import others.PageTemplate;
 import java.io.IOException;
-import java.util.LinkedList;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import others.TreeView;
+import javax.sql.DataSource;
 
 /**
  *
  * @author Cristian
  */
-@WebServlet(urlPatterns = {"/Index"})
-public class Index extends HttpServlet {
+@WebServlet(urlPatterns = {"/pruebecita"})
+public class pruebecita extends HttpServlet {
+
+    @Resource(name = "jdbc/tienda_c.rodriguezbe")
+    private DataSource ds;
     
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -34,29 +38,22 @@ public class Index extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
-        List<String> ltv = new LinkedList<String>();
-        
-        TreeView tv = new TreeView(ltv, "fa-dashboard");
-
-        List<String> header = new LinkedList<String>();
-        header.add("assets/css/jvectormap/jquery-jvectormap-1.2.2.css");
-
-        List<String> footer = new LinkedList<String>();
-        footer.add("assets/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js");
-        footer.add("assets/js/plugins/jvectormap/jquery-jvectormap-es-mill-en.js");
-        footer.add("assets/js/index/index.js");
-
-        List<String> jspservlet = new LinkedList<String>();
-        jspservlet.add("index.jsp");
-
-        PageTemplate pt = new PageTemplate("index.jsp", "index", tv, header, footer, jspservlet, "", true, "Dashboard");
-        request.getSession().setAttribute("templatepage", pt);
-
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
-
+        PrintWriter out = response.getWriter();
+        try {
+            out.println("hola");
+            ProductoDAO dao = new ProductoDAO(ds);
+            List<Producto> productos = dao.getProductos();
+            if(productos == null) {
+                productos = new ArrayList<Producto>();
+            }
+            out.println("SIZE: " + productos.size());
+            out.println("hola");
+        } finally {
+            out.close();
+        }
     }
 
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -93,6 +90,6 @@ public class Index extends HttpServlet {
     @Override
     public String getServletInfo() {
         return "Short description";
-    }
-    
+    }// </editor-fold>
+
 }

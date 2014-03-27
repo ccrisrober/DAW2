@@ -1,3 +1,5 @@
+package others;
+
 
 import java.util.List;
 
@@ -11,7 +13,7 @@ import java.util.List;
  *
  * @author Cristian
  */
-class TreeView {
+public class TreeView {
     List<String> titles_;
     String icon_;
 

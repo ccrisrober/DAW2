@@ -29,11 +29,7 @@ public class pruena {
 
         //Devolver la conexión al Pool
         cn.close();*/
-        InitialContext initialContext = new InitialContext();
-        Context context = (Context) initialContext.lookup("java:comp/env");
-        //The JDBC Data source that we just created
-        DataSource ds = (DataSource) context.lookup("jdbc/tienda_c.rodriguezbe");
-        Connection connection = ds.getConnection();
+        Connection connection = Conexion.getConexion();
 
         if (connection == null) {
             throw new SQLException("Error establishing connection!");
