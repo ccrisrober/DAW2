@@ -38,22 +38,17 @@ public class ProductoDAO {
         }
     }
     
-    public List<Producto> getProductos() {
-        return null;
-    }
-    
-    public List<Producto> getAll() {
+    synchronized public List<Producto> getAll() {
         List<Producto> productos = new ArrayList<Producto>();
         Statement stm = null;
         try {
             stm = this.conn.createStatement();
-            /*String sql = "SELECT * FROM Producto";    // Aquí va la consulta
+            String sql = "SELECT * FROM Producto";    // Aquí va la consulta
             System.out.println("---------------\n" + sql + "\n---------------");
             
             ResultSet rs = stm.executeQuery(sql);
             productos = createProductosFromRS(rs);
-            rs.close();*/
-            stm.execute("CREATE TABLE Producto(aa int)");
+            rs.close();
             
         } catch (SQLException e) {
             throw new RuntimeException("Error al realizar la consulta: " + e);

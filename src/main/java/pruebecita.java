@@ -42,7 +42,7 @@ public class pruebecita extends HttpServlet {
         try {
             out.println("hola");
             ProductoDAO dao = new ProductoDAO(ds);
-            List<Producto> productos = dao.getProductos();
+            List<Producto> productos = null;
             if(productos == null) {
                 productos = new ArrayList<Producto>();
             }
