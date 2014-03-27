@@ -1,5 +1,9 @@
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -10,20 +14,54 @@ import javax.servlet.http.HttpServletResponse;
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 /**
  *
  * @author Cristian
  */
-public abstract class Controller extends HttpServlet{
-    
-    private void callFunction() {
-        
+public abstract class Controller extends HttpServlet {
+
+    private void callFunction(HttpServletRequest request, HttpServletResponse response, String nombre) {
+        Class c = this.getClass();
+        Object[] args_value = {request, response};
+        Class[] args_class = {HttpServletRequest.class, HttpServletResponse.class};
+        Method m = null;
+
+        String action = (nombre.charAt(0) + "").toUpperCase();
+        nombre = nombre.replaceFirst(nombre.charAt(0) + "", action);
+
+        try {
+            m = c.getMethod("action" + nombre, args_class);
+        } catch (SecurityException se) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, se);
+        } catch (NoSuchMethodException nsme) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, nsme);
+        }
+
+        if (m != null) {
+            try {
+                m.invoke(this, args_value);
+            } catch (IllegalArgumentException iae) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, iae);
+            } catch (IllegalAccessException iae) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, iae);
+            } catch (InvocationTargetException ite) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ite);
+            }
+        } else {
+            try {
+                response.sendError(HttpServletResponse.SC_NOT_FOUND);
+            } catch (IOException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
     }
-    
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        String action = request.getParameter("action");
+        if (action != null && !action.isEmpty()) {
+            callFunction(request, response, action);
+        }
     }
 }
