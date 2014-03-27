@@ -31,7 +31,7 @@ public class ProductoController extends Controller {
         actionList(request, response);
     }
         
-    @Resource(name = "jdbc/tienda_c.rodriguezbe")
+    @Resource(name = "jdbc/myDatasource")
     private DataSource ds;
     
     /**
