@@ -43,13 +43,13 @@
                             </h1>
                         </div>
                         <ul class="nav nav-tabs">
-                            <li class="active">
+                            <li<t:choose><t:when test="${!templatepage.getSelected().equalsIgnoreCase("index")}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
                                 <a href="Index">Home</a>
                             </li>
-                            <li>
+                            <li<t:choose><t:when test="${!templatepage.getSelected().equalsIgnoreCase("aboutus")}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
                                 <a href="AboutUs">Sobre nosotros</a>
                             </li>
-                            <li>
+                            <li<t:choose><t:when test="${!templatepage.getSelected().equalsIgnoreCase("contact")}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
                                 <a href="Contact">Contacto</a>
                             </li>
                             <li class="dropdown pull-right">

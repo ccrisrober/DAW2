@@ -38,7 +38,7 @@ public class AboutUs extends HttpServlet {
         
         List<String> footer = new LinkedList<String>();
         
-        PageTemplate pt = new PageTemplate("aboutus.jsp", "", tv, null, footer, null, "", true, "Sobre nosotros");
+        PageTemplate pt = new PageTemplate("aboutus.jsp", "aboutus", tv, null, footer, null, "", true, "Sobre nosotros");
         request.getSession().setAttribute("templatepage", pt);
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);

@@ -38,7 +38,7 @@ public class Contact extends HttpServlet {
         
         List<String> footer = new LinkedList<String>();
         
-        PageTemplate pt = new PageTemplate("contact.jsp", "", tv, null, footer, null, "", true, "Contacto");
+        PageTemplate pt = new PageTemplate("contact.jsp", "contact", tv, null, footer, null, "", true, "Contacto");
         request.getSession().setAttribute("templatepage", pt);
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
