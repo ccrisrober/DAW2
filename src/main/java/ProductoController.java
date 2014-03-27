@@ -28,7 +28,7 @@ public class ProductoController extends Controller {
     
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        actionList(request, response);
+        actionCreate(request, response);
     }
         
     @Resource(name = "jdbc/myDatasource")
