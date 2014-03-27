@@ -8,6 +8,14 @@
         <servlet-name>PedidoController</servlet-name>
         <servlet-class>PedidoController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AboutUs</servlet-name>
+        <servlet-class>AboutUs</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>Contact</servlet-name>
+        <servlet-class>Contact</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>ProductoController</servlet-name>
         <url-pattern>/ProductoController</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>PedidoController</servlet-name>
         <url-pattern>/PedidoController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AboutUs</servlet-name>
+        <url-pattern>/AboutUs</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Contact</servlet-name>
+        <url-pattern>/Contact</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
@@ -42,5 +58,4 @@
         </web-resource-collection>
         <auth-constraint/>
     </security-constraint>
-    
 </web-app>

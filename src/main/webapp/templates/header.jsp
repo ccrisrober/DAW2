@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <title>En ca’ Paqui</title>
+        <title>En ca' Paqui</title>
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta name="description" content="">
         <meta name="author" content="">
@@ -44,27 +44,27 @@
                         </div>
                         <ul class="nav nav-tabs">
                             <li class="active">
-                                <a href="#">Home</a>
+                                <a href="Index">Home</a>
                             </li>
                             <li>
-                                <a href="#">Sobre nosotros</a>
+                                <a href="AboutUs">Sobre nosotros</a>
                             </li>
                             <li>
-                                <a href="#">Contacto</a>
+                                <a href="Contact">Contacto</a>
                             </li>
                             <li class="dropdown pull-right">
                                 <a href="#" data-toggle="dropdown" class="dropdown-toggle">Conectado<strong class="caret"></strong></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a href="#">Administrar productos</a>
+                                        <a href="ProductoController?action=list">Administrar productos</a>
                                     </li>
                                     <li>
-                                        <a href="#">Administrar pedidos</a>
+                                        <a href="PedidoController?action=list">Administrar pedidos</a>
                                     </li>
                                     <li class="divider">
                                     </li>
                                     <li>
-                                        <a href="#">Desconectar</a>
+                                        <a href="Logout">Desconectar</a>
                                     </li>
                                 </ul>
                             </li>
