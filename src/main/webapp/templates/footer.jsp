@@ -5,7 +5,7 @@
                         <div class="row clearfix">
                             <div class="col-md-12 column">
                                 <p>
-                                    Me cago en tu puta madre y eso
+                                    Hola, soy el footer amo \m/
                                 </p>
                             </div>
                         </div>
