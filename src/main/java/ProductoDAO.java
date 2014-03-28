@@ -50,6 +50,7 @@ public class ProductoDAO {
             productos = createProductosFromRS(rs);
             rs.close();
             
+            
         } catch (SQLException e) {
             throw new RuntimeException("Error al realizar la consulta: " + e);
         } finally {
@@ -67,21 +68,24 @@ public class ProductoDAO {
         while(rs.next()) {
             int id = rs.getInt("id");
             String name = rs.getString("name");
-            String categoria = rs.getString("categoria");
-            double precio = rs.getDouble("precio");
+            String categoria = rs.getString("category");
+            double precio = rs.getDouble("price");
             productos.add(new Producto(id, name, categoria, precio));
         }
         return productos;
     }
 
-    synchronized boolean insert(String name, String category, double price) {
+    synchronized boolean insert(String name, String image, String category, double price) {
         boolean insert_ = false;
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("INSERT INTO producto VALUES(?, ?, ?)");
+            String sql = "INSERT INTO producto (name, image, category, price) VALUES(?, ?, ?, ?)";
+                        
+            ps = conn.prepareStatement(sql);
             ps.setString(1, name);
-            ps.setString(2, category);
-            ps.setDouble(3, price);
+            ps.setString(2, image);
+            ps.setString(3, category);
+            ps.setDouble(4, price);
             int executeUpdate = ps.executeUpdate();
             if(executeUpdate == 1) {
                 insert_ = true;     // http://lineadecodigo.com/java/insertar-datos-con-jdbc/

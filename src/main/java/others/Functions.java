@@ -39,10 +39,10 @@ public class Functions {
     public static boolean existCategory(String category) {
         if(categories == null) {
             categories = new HashSet<String>();
-            categories.add("Alimentacion");
-            categories.add("Drogueria");
+            categories.add("Alimentación");
+            categories.add("Droguería");
             categories.add("Prensa");
-            categories.add("Ferreteria");
+            categories.add("Ferretería");
         }
         return categories.contains(category);
     }

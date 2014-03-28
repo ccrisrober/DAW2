@@ -26,10 +26,6 @@ import javax.sql.DataSource;
  */
 public class ProductoController extends Controller {
     
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        actionList(request, response);
-    }
         
     @Resource(name = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
@@ -114,9 +110,9 @@ public class ProductoController extends Controller {
     
     public void postInsert(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String name = "Producto";//request.getParameter("namefield");
-        String category = "Alimentación";//request.getParameter("categoryfield");
-        String price_aux = "120.00";//request.getParameter("pricefield");
+        String name = request.getParameter("namefield");
+        String category = request.getParameter("categoryfield");
+        String price_aux = request.getParameter("pricefield");
         //String charSec = request.getParameter("ac");
         //String intSec = request.getParameter("ai");
         
@@ -148,7 +144,7 @@ public class ProductoController extends Controller {
 
             ProductoDAO dao = new ProductoDAO(ds);
 
-            boolean insert = dao.insert(name, category, price);
+            boolean insert = dao.insert(name, "<img>", category, price);
             if(insert) {
                 request.setAttribute("ok", insert);
             } else {
@@ -242,27 +238,12 @@ public class ProductoController extends Controller {
     
     public void actionList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        PrintWriter out = response.getWriter();
-        out.println("hola");
         ProductoDAO dao = new ProductoDAO(ds);
-        List<Producto> productos = dao.getAll();
-        if(productos == null) {
-            productos = new ArrayList<Producto>();
-        }
-        out.println("SIZE: " + productos.size());
-        out.println("hola");
-        out.close();
-        /*ProductoDAO dao = new ProductoDAO(ds);
         List<Producto> products = dao.getAll();
-        PrintWriter out = response.getWriter();
-        out.println("hola");
-        out.println(products);
         if(products == null) {
             products = new ArrayList<Producto>();
         }
-        out.println(products.size());
-        out.close();*/
-        /*request.setAttribute("products", products);
+        request.setAttribute("products", products);
         List<String> ltv = new LinkedList<String>();
         ltv.add("Producto");
         ltv.add("Listado");
@@ -274,7 +255,7 @@ public class ProductoController extends Controller {
         PageTemplate pt = new PageTemplate("producto/list.jsp", "", tv, null, footer, null, "", true, "Listar productos");
         request.getSession().setAttribute("templatepage", pt);
         
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);*/
+        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
     
     public void actionDelete(HttpServletRequest request, HttpServletResponse response)

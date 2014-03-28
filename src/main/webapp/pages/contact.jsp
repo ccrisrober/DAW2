@@ -1,17 +1,30 @@
-<%-- 
-    Document   : contact
-    Created on : 27-mar-2014, 16:55:10
-    Author     : Cristian
---%>
-
-<%@page contentType="text/html" pageEncoding="UTF-8"%>
-<!DOCTYPE html>
-<html>
-    <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>JSP Page</title>
-    </head>
-    <body>
-        <h1>Hello World!</h1>
-    </body>
-</html>
+<style>
+    .contact-form {
+        margin-top:70px;
+    }
+</style>
+<div class="col-sm-4">
+<h3>Drop me a line!</h3>
+<hr>
+<address>
+<strong>Email:</strong> <a href="mailto:#"> name@domain.com</a><br><br>
+<strong>Phone:</strong> (555)123-4567
+</address>
+</div>
+    
+<div class="col-sm-8 contact-form">
+<form id="contact" method="post" class="form" role="form">
+<div class="row">
+<div class="col-xs-6 col-md-6 form-group">
+<input class="form-control" id="name" name="name" placeholder="Name" type="text" required autofocus />
+</div>
+<div class="col-xs-6 col-md-6 form-group">
+<input class="form-control" id="email" name="email" placeholder="Email" type="email" required />
+</div>
+</div>
+<textarea class="form-control" id="message" name="message" placeholder="Message" rows="5"></textarea>
+<br />
+<div class="row">
+<div class="col-xs-12 col-md-12 form-group">
+<button class="btn btn-primary pull-right" type="submit">Submit</button>
+</form>

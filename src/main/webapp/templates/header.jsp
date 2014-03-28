@@ -32,6 +32,14 @@
 
         <script type="text/javascript" src="assets/js/jquery.min.js"></script>
         <script type="text/javascript" src="assets/js/bootstrap.min.js"></script>
+        
+        
+        <style>
+            .glyphicon { margin-right:10px; }
+            .panel-body { padding:0px; }
+            .panel-body table tr td { padding-left: 15px }
+            .panel-body .table {margin-bottom: 0px; }    
+        </style>
     </head>
 
     <body>
@@ -44,47 +52,198 @@
                                 En ca' Paqui <small>Tu tienda de barrio online</small>
                             </h1>
                         </div>
-                        <ul class="nav nav-tabs">
-                            <li<t:choose><t:when test="${!templatepage.getSelected().equalsIgnoreCase('index')}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
-                                <a href="Index">Home</a>
-                            </li>
-                            <li<t:choose><t:when test="${!templatepage.getSelected().equalsIgnoreCase('aboutus')}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
-                                <a href="AboutUs">Sobre nosotros</a>
-                            </li>
-                            <li<t:choose><t:when test="${!templatepage.getSelected().equalsIgnoreCase('contact')}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
-                                <a href="Contact">Contacto</a>
-                            </li>
-                            <li class="dropdown pull-right">
-                                <a href="#" data-toggle="dropdown" class="dropdown-toggle">Conectado<strong class="caret"></strong></a>
-                                <ul class="dropdown-menu">
-                                    <li>
-                                        <a href="ProductoController?action=list">Administrar productos</a>
-                                    </li>
-                                    <li>
-                                        <a href="PedidoController?action=list">Administrar pedidos</a>
-                                    </li>
-                                    <li class="divider">
-                                    </li>
-                                    <li>
-                                        <a href="Logout">Desconectar</a>
-                                    </li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </header>
-                    <div class="row clearfix">
-                        <div class="col-md-3 column">
-                            <ul class="nav nav-tabs nav-stacked">
-                                <li class="active">
-                                    <a href="#">Home</a>
-                                </li>
-                                <li>
-                                    <a href="#">Profile</a>
-                                </li>
-                                <li class="disabled">
-                                    <a href="#">Messages</a>
-                                </li>
-                            </ul>
-                        </div>
-                        <div class="col-md-9 column">
+                        <nav class="navbar navbar-inverse navbar-static-top" role="navigation">
+                            <div class="container-fluid">
+                                <!-- Brand and toggle get grouped for better mobile display -->
+                                <div class="navbar-header">
+                                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                                        <span class="sr-only">Toggle navigation</span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                        <span class="icon-bar"></span>
+                                    </button>
+                                    <!--<a class="navbar-brand" href="#">Brand</a>-->
+                                </div>
+
+                                <!-- Collect the nav links, forms, and other content for toggling -->
+                                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                                    <ul class="nav navbar-nav">
+                                        <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('index')}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
+                                                    <a href="Index">Home</a>
+                                                </li>
+                                                <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('aboutus')}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
+                                                    <a href="AboutUs">Sobre nosotros</a>
+                                                </li>
+                                                <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('contact')}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
+                                            <a href="Contact">Contacto</a>
+                                        </li>
+                                        <li class="dropdown pull-right">
+                                            <a href="#" data-toggle="dropdown" class="dropdown-toggle">Conectado<strong class="caret"></strong></a>
+                                            <ul class="dropdown-menu">
+                                                <li>
+                                                    <a href="ProductoController?action=list">Administrar productos</a>
+                                                </li>
+                                                <li>
+                                                    <a href="PedidoController?action=list">Administrar pedidos</a>
+                                                </li>
+                                                <li class="divider">
+                                                </li>
+                                                <li>
+                                                    <a href="Logout">Desconectar</a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                            </ul>
+                                        </div><!-- /.navbar-collapse -->
+                                    </div><!-- /.container-fluid -->
+                                </nav>
+                            </header>
                             <div class="row clearfix">
+                                <div class="col-md-3 column">
+                                    <div class="panel-group" id="accordion">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"><span class="glyphicon glyphicon-folder-close">
+                                                        </span>Content</a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseOne" class="panel-collapse collapse in">
+                                                <div class="panel-body">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <td>
+                                                                <span class="glyphicon glyphicon-pencil text-primary"></span><a href="http://www.jquery2dotnet.com">Articles</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="glyphicon glyphicon-flash text-success"></span><a href="http://www.jquery2dotnet.com">News</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="glyphicon glyphicon-file text-info"></span><a href="http://www.jquery2dotnet.com">Newsletters</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="glyphicon glyphicon-comment text-success"></span><a href="http://www.jquery2dotnet.com">Comments</a>
+                                                                <span class="badge">42</span>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"><span class="glyphicon glyphicon-th">
+                                                        </span>Modules</a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseTwo" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <td>
+                                                                <a href="http://www.jquery2dotnet.com">Orders</a> <span class="label label-success">$ 320</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <a href="http://www.jquery2dotnet.com">Invoices</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <a href="http://www.jquery2dotnet.com">Shipments</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <a href="http://www.jquery2dotnet.com">Tex</a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseThree"><span class="glyphicon glyphicon-user">
+                                                        </span>Account</a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseThree" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <td>
+                                                                <a href="http://www.jquery2dotnet.com">Change Password</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <a href="http://www.jquery2dotnet.com">Notifications</a> <span class="label label-info">5</span>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <a href="http://www.jquery2dotnet.com">Import/Export</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="glyphicon glyphicon-trash text-danger"></span><a href="http://www.jquery2dotnet.com" class="text-danger">
+                                                                    Delete Account</a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading">
+                                                <h4 class="panel-title">
+                                                    <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"><span class="glyphicon glyphicon-file">
+                                                        </span>Reports</a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapseFour" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <table class="table">
+                                                        <tr>
+                                                            <td>
+                                                                <span class="glyphicon glyphicon-usd"></span><a href="http://www.jquery2dotnet.com">Sales</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="glyphicon glyphicon-user"></span><a href="http://www.jquery2dotnet.com">Customers</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="glyphicon glyphicon-tasks"></span><a href="http://www.jquery2dotnet.com">Products</a>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>
+                                                                <span class="glyphicon glyphicon-shopping-cart"></span><a href="http://www.jquery2dotnet.com">Shopping Cart</a>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-9 column">
+                                    <ol class="breadcrumb">
+                                        ${templatepage.getTV()}
+                                    </ol>
+
+                            <!--<div class="row clearfix">-->
