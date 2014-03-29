@@ -25,7 +25,7 @@ public class TreeView {
     @Override
     public String toString() {
         int size = titles_.size();
-        String data = "<li" + (size==0? " class=\"active\"" : "")  + "><a href=\"pruebaServlet\"><i class=\"fa " + this.icon_  + "\"></i> Dashboard</a></li>";
+        String data = "<li" + (size==0? " class=\"active\"" : "")  + "><a href=\"Index\"><i class=\"fa " + this.icon_  + "\"></i> Dashboard</a></li>";
         for(int i = 0; i < size; i++) {
             data += "<li";
             if(i + 1 == size) { // El último lo ponemos activo
