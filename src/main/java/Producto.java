@@ -11,6 +11,7 @@
 public class Producto {
     private int id;
     private String name;
+    private String image;
     private String categoria;
     private double precio;
 
@@ -18,9 +19,10 @@ public class Producto {
         
     }
     
-    public Producto(int id, String name, String categoria, double precio) {
+    public Producto(int id, String name, String image, String categoria, double precio) {
         this.id = id;
         this.name = name;
+        this.image = image;
         this.categoria = categoria;
         this.precio = precio;
     }
@@ -57,9 +59,17 @@ public class Producto {
         this.precio = precio;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
     @Override
     public String toString() {
-        return "Producto{" + "id=" + id + ", name=" + name + ", categoria=" + categoria + ", precio=" + precio + '}';
+        return "Producto{" + "id=" + id + ", name=" + name + ", image=" + image + ", categoria=" + categoria + ", precio=" + precio + '}';
     }
-    
+
 }

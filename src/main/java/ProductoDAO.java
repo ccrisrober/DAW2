@@ -68,9 +68,10 @@ public class ProductoDAO {
         while(rs.next()) {
             int id = rs.getInt("id");
             String name = rs.getString("name");
+            String image = rs.getString("image");
             String categoria = rs.getString("category");
             double precio = rs.getDouble("price");
-            productos.add(new Producto(id, name, categoria, precio));
+            productos.add(new Producto(id, name, image, categoria, precio));
         }
         return productos;
     }
@@ -197,9 +198,10 @@ public class ProductoDAO {
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 String name = rs.getString("name");
+                String image = rs.getString("image");
                 String categoria = rs.getString("categoria");
                 double precio = rs.getDouble("precio");
-                p = new Producto(id, name, categoria, precio);
+                p = new Producto(id, name, image, categoria, precio);
             }
             rs.close();
         } catch (SQLException e) {
@@ -225,6 +227,31 @@ public class ProductoDAO {
             }
         }
         return p;
+    }
+
+    List<Producto> getLast(int max) {
+        List<Producto> productos = new ArrayList<Producto>();
+        Statement stm = null;
+        try {
+            stm = this.conn.createStatement();
+            String sql = "SELECT * FROM Producto ORDER BY id DESC FETCH FIRST " + max + " ROWS ONLY";    // Aquí va la consulta
+            System.out.println("---------------\n" + sql + "\n---------------");
+            
+            ResultSet rs = stm.executeQuery(sql);
+            productos = createProductosFromRS(rs);
+            rs.close();
+            
+            
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al realizar la consulta: " + e);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException e) {
+                System.err.println("Error al realizar la consulta: " + e.getLocalizedMessage());
+            }
+        }
+        return productos;
     }
     
 }

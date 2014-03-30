@@ -292,7 +292,24 @@ public class ProductoController extends Controller {
 
     public void actionLast(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        ProductoDAO dao = new ProductoDAO(ds);
+        List<Producto> products = dao.getLast(15);
+        if(products == null) {
+            products = new ArrayList<Producto>();
+        }
+        request.setAttribute("products", products);
+        List<String> ltv = new LinkedList<String>();
+        ltv.add("Producto");
+        ltv.add("Últimos productos");
+        TreeView tv = new TreeView(ltv, "fa-dashboard");
         
+        List<String> footer = new LinkedList<String>();
+        footer.add("assets/js/producto/list.js");
+        
+        PageTemplate pt = new PageTemplate("producto/list.jsp", "", tv, null, footer, null, "", true, "Listar productos");
+        request.getSession().setAttribute("templatepage", pt);
+        
+        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
 
 }
