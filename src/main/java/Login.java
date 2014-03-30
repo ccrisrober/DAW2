@@ -46,7 +46,7 @@ public class Login extends HttpServlet {
         footer.add("assets/js/index/index.js");
 
         List<String> jspservlet = new LinkedList<String>();
-        jspservlet.add("index.jsp");
+        jspservlet.add("login.jsp");
 
         PageTemplate pt = new PageTemplate("login.jsp", "index", tv, header, footer, jspservlet, "", true, "Dashboard");
         request.getSession().setAttribute("templatepage", pt);

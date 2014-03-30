@@ -8,3 +8,11 @@ and open the template in the editor.
     Author     : Cristian
 */
 
+body {
+    background-color: #DDD;
+}
+#body {
+    background-color: white;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}

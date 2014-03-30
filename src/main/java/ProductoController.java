@@ -288,4 +288,11 @@ public class ProductoController extends Controller {
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
+
+
+    public void actionLast(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+    }
+
 }
