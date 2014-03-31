@@ -26,7 +26,7 @@ import javax.sql.DataSource;
  */
 public class ProductoController extends Controller {
     
-    @Resource(name = "jdbc/tienda_crodriguezbe")
+    @Resource(lookup = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
     
     /**
@@ -159,15 +159,15 @@ public class ProductoController extends Controller {
             boolean ok = Functions.setImagenProducto(request.getPart("filefield").getInputStream(), fileName);
             if (!ok){
                 request.setAttribute("error", "Fallo al guardar archivo<br/>Ocurrio un error guardando la imagen.");
-            } else {
-                /*ProductoDAO dao = new ProductoDAO(ds);
+            } else {*/
+                ProductoDAO dao = new ProductoDAO(ds);
 
                 boolean insert = dao.insert(name, "<img>", category, price);
                 if(insert) {
                     request.setAttribute("ok", insert);
                 } else {
                     request.setAttribute("error", "No se ha podido ingresar.");
-                }*/
+                }
                 
                     /*request.setAttribute("ok", "to guay : D");
             }*/

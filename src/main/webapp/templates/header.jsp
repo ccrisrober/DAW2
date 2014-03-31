@@ -32,42 +32,13 @@
         <link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72-precomposed.png">
         <link rel="apple-touch-icon-precomposed" href="img/apple-touch-icon-57-precomposed.png">-->
         <link rel="shortcut icon" href="assets/img/favicon.png">
-
-  
-        <style>
-            .glyphicon { margin-right:10px; }
-            .panel-body { padding:0px; }
-            .panel-body table tr td { padding-left: 15px }
-            .panel-body .table {margin-bottom: 0px; }    
-        </style>
-                        <style>
-                            #page-header {
-                                -webkit-background-size: cover; 
-                                -moz-background-size: cover; 
-                                -o-background-size: cover; 
-                                background: url("assets/img/header.jpg") center; 
-                                background-size: cover; 
-                                width: 100%; 
-                                margin: 0 auto;
-                                padding-left: 10px;
-                            }
-                            #page-header h1 {
-                                color: white;
-                            }
-                            #page-header h1 small {
-                                color: #EEE;
-                            }
-                            body {
-                                margin-top: 10px;
-                                margin-bottom: 10px;
-                            }
-                        </style>
     </head>
 
     <body>
         <div class="container">
             <div class="row clearfix">
                 <div class="col-md-12 column">
+                    <div class="row clearfix">
                     <header>
                         <div id="page-header">
                             <div class="row clearfix">

@@ -65,9 +65,9 @@ public abstract class Controller extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action != null && !action.isEmpty()) {
-            action = "Index";
+            callFunction(request, response, action, "action");
+            //action = "Index";
         }
-        callFunction(request, response, action, "action");
     }
     
     @Override
