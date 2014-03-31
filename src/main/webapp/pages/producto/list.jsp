@@ -46,7 +46,19 @@
             </t:forEach>
             </div>
             <script>
+                function realizarFiltro(class_select, filter, num) {
+                    if($(class_select + num).text() === filter) {
+                        $(class_select + num).css('display', 'none');
+                    }
+                }
+                
                 $(document).ready(function() {
+                    $("#btnClean").click(function() {
+                        var max = $(".thumbnail").length;
+                        for ( var i = 0; i < max; i++) {
+                            $('.prod_' + i).css('display', 'block');
+                        }
+                    });
                     $("#btnSubmit").click(function(){
                         var max = $(".thumbnail").length;
                         var filtro = $('#filtronombre').val();
