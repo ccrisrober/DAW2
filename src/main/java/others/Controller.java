@@ -4,6 +4,8 @@ package others;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -63,13 +65,22 @@ public abstract class Controller extends HttpServlet {
             throws ServletException, IOException {
         String action = request.getParameter("action");
         if (action != null && !action.isEmpty()) {
-            callFunction(request, response, action, "action");
+            action = "Index";
         }
+        callFunction(request, response, action, "action");
     }
     
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        System.out.println("Datos: : D");
+        Set<Map.Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
+        for(Map.Entry<String, String[]> entry: entrySet) {
+            System.out.print(entry.getKey());
+            for(String ss: entry.getValue()) {
+                System.out.println(ss);
+            }
+        }
         String action = request.getParameter("action");
         if (action != null && !action.isEmpty()) {
             callFunction(request, response, action, "post");

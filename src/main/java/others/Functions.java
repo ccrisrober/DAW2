@@ -1,7 +1,10 @@
 package others;
 
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.Collection;
@@ -101,4 +104,34 @@ public class Functions {
         }
         return isCorrect;
     }
+ 
+    public static boolean setImagenProducto(InputStream input, String fileName)
+            throws ServletException {
+        FileOutputStream output = null;
+        boolean ok = false;
+        try {
+            output = new FileOutputStream(fileName);
+            int leido = 0;
+            leido = input.read();
+            while (leido != -1) {
+                output.write(leido);
+                leido = input.read();
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(Functions.class.getName()).log(Level.SEVERE, ex.getMessage());
+        } catch (IOException ex) {
+            Logger.getLogger(Functions.class.getName()).log(Level.SEVERE, ex.getMessage());
+        } finally {
+            try {
+                output.flush();
+                output.close();
+                input.close();
+                ok = true;
+            } catch (IOException ex) {
+                Logger.getLogger(Functions.class.getName()).log(Level.SEVERE, "Error cerrando flujo de salida", ex);
+            }
+        }
+        return ok;
+    }
+    
 }

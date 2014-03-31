@@ -16,7 +16,7 @@
                             <label for="pricefield">Precio</label><input type="text" class="form-control" id="pricefield" name="pricefield"/>
                         </div>
                         <div class="form-group">
-                            <label for="exampleInputFile">Foto</label><input type="file" id="exampleInputFile" />
+                            <label for="filefield">Foto</label><input type="file" id="exampleInputFile" />
                         </div>
                         <button type="submit" class="btn btn-default">Submit</button>
                     </form>

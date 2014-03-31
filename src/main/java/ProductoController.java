@@ -26,7 +26,6 @@ import javax.sql.DataSource;
  */
 public class ProductoController extends Controller {
     
-        
     @Resource(name = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
     
@@ -39,7 +38,6 @@ public class ProductoController extends Controller {
     public String getServletInfo() {
         return "Short description";
     }
-
     
     //Este será por POST, cambiar en la función post y también en lo de SSDD
     public void postEdit(HttpServletRequest request, HttpServletResponse response)
@@ -137,19 +135,42 @@ public class ProductoController extends Controller {
             error += "<li>Se ha producido un problema de seguridad. " + generateSecurity.toString() + " : " + formSecurity.toString() + "</li>";
         }*/
         
+        
+        
+        //Comprobamos si el formulario contiene o no la imagen (usamos el tamaño para comprobar si existe el campo o no)
+        /*if (request.getPart("filefield").getSize() > 0) {
+            //Nos aseguramos que el archivo es una imagen y que no excece de unos 8mb
+            if (request.getPart("filefield").getContentType().contains("image") == false ||
+                    request.getPart("filefield").getSize() > 8388608) {
+                error += "<li>Archivo no válido.</li>";
+                error += "<li>Solo se admiten archivos de tipo imagen.</li>";
+                error += "<li>El tamaño máximo de archivo son 8 Mb.</li>";
+            }
+        }*/
+        
         if(!error.isEmpty()) {
             request.setAttribute("error", "<ul>" + error + "</ul>");
         } else {     // If not errors
             double price = Double.parseDouble(price_aux);
-
-            ProductoDAO dao = new ProductoDAO(ds);
-
-            boolean insert = dao.insert(name, "<img>", category, price);
-            if(insert) {
-                request.setAttribute("ok", insert);
+            System.out.println("Insertado xD");
+            /*//Obtenemos la ruta absoluta del sistema donde queremos guardar la imagen
+            String fileName = this.getServletContext().getRealPath("assets/img");
+            //Guardamos la imagen en disco con la ruta que hemos obtenido en el paso anterior
+            boolean ok = Functions.setImagenProducto(request.getPart("filefield").getInputStream(), fileName);
+            if (!ok){
+                request.setAttribute("error", "Fallo al guardar archivo<br/>Ocurrio un error guardando la imagen.");
             } else {
-                request.setAttribute("error", "No se ha podido ingresar.");
-            }
+                /*ProductoDAO dao = new ProductoDAO(ds);
+
+                boolean insert = dao.insert(name, "<img>", category, price);
+                if(insert) {
+                    request.setAttribute("ok", insert);
+                } else {
+                    request.setAttribute("error", "No se ha podido ingresar.");
+                }*/
+                
+                    /*request.setAttribute("ok", "to guay : D");
+            }*/
         }
         List<String> ltv = new LinkedList<String>();
         ltv.add("Producto");
