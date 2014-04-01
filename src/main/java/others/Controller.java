@@ -81,9 +81,9 @@ public abstract class Controller extends HttpServlet {
                 System.out.println(ss);
             }
         }
-        String action = request.getParameter("action");
+        /*String action = request.getParameter("action");
         if (action != null && !action.isEmpty()) {
             callFunction(request, response, action, "post");
-        }
+        }*/
     }
 }

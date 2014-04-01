@@ -1,10 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <web-app version="3.0" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd">
     <servlet>
-        <servlet-name>ProductoController</servlet-name>
-        <servlet-class>ProductoController</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>PedidoController</servlet-name>
         <servlet-class>PedidoController</servlet-class>
     </servlet>
@@ -28,10 +24,14 @@
         <servlet-name>UserController</servlet-name>
         <servlet-class>user.UserController</servlet-class>
     </servlet>
-    <servlet-mapping>
+    <servlet>
         <servlet-name>ProductoController</servlet-name>
-        <url-pattern>/ProductoController</url-pattern>
-    </servlet-mapping>
+        <servlet-class>producto.ProductoController</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ProductoController1</servlet-name>
+        <servlet-class>producto.ProductoController1</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PedidoController</servlet-name>
         <url-pattern>/PedidoController</url-pattern>
@@ -55,6 +55,14 @@
     <servlet-mapping>
         <servlet-name>UserController</servlet-name>
         <url-pattern>/UserController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductoController</servlet-name>
+        <url-pattern>/ProductoController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProductoController1</servlet-name>
+        <url-pattern>/ProductoController1</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

@@ -4,11 +4,8 @@
  * and open the template in the editor.
  */
 
-import others.NumChar;
-import others.Controller;
-import others.PageTemplate;
-import others.Functions;
-import others.TreeView;
+package producto;
+
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
@@ -16,15 +13,21 @@ import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
+import others.Controller;
+import others.Functions;
+import others.NumChar;
+import others.PageTemplate;
+import others.TreeView;
 
 /**
  *
  * @author Cristian
  */
-public class ProductoController extends Controller {
+public class ProductoController1 extends Controller {
     
     @Resource(lookup = "jdbc/tienda_crodriguezbe")
     private DataSource ds;

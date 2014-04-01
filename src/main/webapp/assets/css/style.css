@@ -1,8 +1,3 @@
-/* 
-    Created on : 27-mar-2014, 16:43:47
-    Author     : Cristian
-*/
-
 body {
     background-color: #DDD;
 }
@@ -53,6 +48,16 @@ body {
     color: white;
 }
 
+#page-header h1 span {
+    color:black;
+    font-size: 70%;
+    font-weight: bold;
+}
+
 #page-header h1 small {
     color: #EEE;
+}
+
+#tituloListado h1 {
+    width: 200px;
 }

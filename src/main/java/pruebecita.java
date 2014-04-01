@@ -4,6 +4,8 @@
  * and open the template in the editor.
  */
 
+import producto.ProductoDAO;
+import producto.Producto;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;

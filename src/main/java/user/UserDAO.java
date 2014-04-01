@@ -7,6 +7,7 @@
 package user;
 
 import java.sql.Connection;
+import java.sql.SQLException;
 import javax.sql.DataSource;
 
 /**
@@ -17,21 +18,21 @@ public class UserDAO {
     private Connection conn;
     
     public UserDAO(DataSource ds) {
-        /*try {
+        try {
             conn = ds.getConnection();
         } catch (SQLException e) {
-            throw new RuntimeException("Error en la base de datos",e);
-        }*/
+            throw new RuntimeException("Error en la base de datos " + e);
+        }
     }
     
     public void close() {
-        /*if (conn != null) {
+        if (conn != null) {
             try {
                 conn.close();
             } catch (SQLException e) {
                 System.err.println("Error al cerrar la conexión: " + e.getMessage());
             }
-        }*/
+        }
     }
 
     public boolean validate(String user, String pass) {
