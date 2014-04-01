@@ -16,6 +16,7 @@
         <!--append ‘#!watch’ to the browser URL, then refresh the page. -->
 
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/bootstrap-theme.min.css" rel="stylesheet">
         <link href="assets/css/style.css" rel="stylesheet">
 
         <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
@@ -101,7 +102,7 @@
                         </nav>
                     </header>
                     <div id="body">
-                        <div class="row clearfix">
+                        <div><!--<div class="row clearfix">-->
                             <div class="col-md-3 column">
                                 <div class="panel-group" id="accordion">
                                     <div class="panel panel-default">
