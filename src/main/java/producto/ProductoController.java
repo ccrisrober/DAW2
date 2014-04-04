@@ -1,11 +1,5 @@
 package producto;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import others.NumChar;
 import others.Controller;
 import others.PageTemplate;
@@ -261,6 +255,7 @@ public class ProductoController extends Controller {
     
     public void actionList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         ProductoDAO dao = new ProductoDAO(ds);
         List<Producto> products = dao.getAll();
         if(products == null) {

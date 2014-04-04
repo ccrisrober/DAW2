@@ -1,6 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@taglib prefix="t" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
+<%@taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -69,13 +69,13 @@
                                 <!-- Collect the nav links, forms, and other content for toggling -->
                                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                                     <ul class="nav navbar-nav">
-                                        <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('index')}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
+                                        <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('index')}"> class="active"</t:when></t:choose>>
                                                     <a href="Index">Home</a>
                                                 </li>
-                                                <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('aboutus')}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
+                                                <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('aboutus')}"> class="active"</t:when></t:choose>>
                                                     <a href="AboutUs">Sobre nosotros</a>
                                                 </li>
-                                                <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('contact')}"><% out.println(" class=\"active\"");%></t:when></t:choose>>
+                                                <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('contact')}"> class="active"</t:when></t:choose>>
                                             <a href="Contact">Contacto</a>
                                         </li>
                                     </ul>

@@ -67,5 +67,9 @@ public class Carrito {
         productos.put(id_producto, quantity);
     }
     
+    public Map<Integer, Integer> getProductos(){
+        return productos;
+    }
+    
     //synchronized public boolean removeProducto()
 }

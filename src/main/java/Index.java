@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 import others.PageTemplate;
 import java.io.IOException;
 import java.util.LinkedList;
@@ -40,11 +34,8 @@ public class Index extends HttpServlet {
         TreeView tv = new TreeView(ltv, "fa-dashboard");
 
         List<String> header = new LinkedList<String>();
-        header.add("assets/css/jvectormap/jquery-jvectormap-1.2.2.css");
-
+        
         List<String> footer = new LinkedList<String>();
-        footer.add("assets/js/plugins/jvectormap/jquery-jvectormap-1.2.2.min.js");
-        footer.add("assets/js/plugins/jvectormap/jquery-jvectormap-es-mill-en.js");
         footer.add("assets/js/index/index.js");
 
         List<String> jspservlet = new LinkedList<String>();

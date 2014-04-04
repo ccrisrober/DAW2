@@ -6,33 +6,33 @@ body {
     padding-top: 10px;
     padding-bottom: 10px;
 }
-
+ 
 .thumbnail {
     height: 270px;
 }
-
+ 
 .bloqueProducto{
     height: 300px;  
 }
-
+ 
 .bloqueProducto img {
     height: 100px;
     width: 100px;
 };
-
+ 
 .encabezadoh3 {
     text-align: center;
 }
-
+ 
 .container {
     background-color: white;
 }
-
+ 
 .glyphicon { margin-right:10px; }
 .panel-body { padding:0px; }
 .panel-body table tr td { padding-left: 15px }
 .panel-body .table { margin-bottom: 0px; }    
-
+ 
 #page-header {
     -webkit-background-size: cover; 
     -moz-background-size: cover; 
@@ -43,21 +43,21 @@ body {
     margin: 0 auto;
     padding-left: 10px;
 }
-
+ 
 #page-header h1 {
     color: white;
 }
-
+ 
 #page-header h1 span {
     color:black;
     font-size: 70%;
     font-weight: bold;
 }
-
+ 
 #page-header h1 small {
     color: #EEE;
 }
-
+ 
 #tituloListado h1 {
     width: 200px;
 }

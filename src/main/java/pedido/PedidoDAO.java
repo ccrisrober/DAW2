@@ -13,6 +13,7 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.sql.DataSource;
 import producto.Producto;
 
@@ -57,4 +58,11 @@ public class PedidoDAO {
         
         return pedido;
     }
+
+    public boolean create(Map<Integer, Integer> productos, int id_usu) {
+        
+        return true;       
+        
+    }
+    
 }
