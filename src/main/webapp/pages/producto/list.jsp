@@ -47,6 +47,7 @@
             </div>
         </div>
     </t:forEach>
+</div>
         
          <script>
         // check de los rangos

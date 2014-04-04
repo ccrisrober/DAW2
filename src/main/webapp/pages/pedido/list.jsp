@@ -29,6 +29,7 @@
         </p>
     </div>
 </div>
+<form action="CarritoController" method="POST" >
 <div id="contenedor">
     <div id="noprods" style="display:none;"><p>No hay productos con esas características</p></div>
     <% int i = 0; %>
@@ -42,9 +43,13 @@
                     <p>
                         <span>Precio:</span> 
                         <span class="price_<% out.print(i);i++;%>">${product.getPrecio()}</span> &euro;
-                        <input id="cantidad[${product.getId()}]" type="number" min="0" value="0" />
+                        <input id="cantidad[${product.getId()}]" name="cantidad[${product.getId()}]" type="number" min="0" value="0" />
                     </p>
                 </div>
             </div>
         </div>
     </t:forEach>
+    <input type="hidden" value="listado" name="action" id="action" />
+    <input type="submit" value="Enviar" />
+</div>
+</form>
