@@ -1,19 +1,15 @@
 package admin;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import others.Controller;
-import others.Functions;
-import others.NumChar;
 import others.PageTemplate;
 import others.TreeView;
 import producto.Producto;
@@ -58,7 +54,5 @@ public class AdminController extends Controller {
         request.getSession().setAttribute("templatepage", pt);
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
-    }
-    
-    
+    }    
 }

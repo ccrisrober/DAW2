@@ -28,10 +28,10 @@
                                 i++;%>">${product.getPrecio()}</td>
                             <td>Validado</td>
                         </tr>
-
                     </t:forEach>
                 </tbody>
             </table>
+                    
         </div>
     </div>
 </div>
