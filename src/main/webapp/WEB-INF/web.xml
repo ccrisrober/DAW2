@@ -32,6 +32,10 @@
         <servlet-name>ProductoController1</servlet-name>
         <servlet-class>producto.ProductoController1</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AdminController</servlet-name>
+        <servlet-class>admin.AdminController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>PedidoController</servlet-name>
         <url-pattern>/PedidoController</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>ProductoController1</servlet-name>
         <url-pattern>/ProductoController1</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AdminController</servlet-name>
+        <url-pattern>/AdminController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

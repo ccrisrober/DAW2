@@ -72,8 +72,8 @@
                                         <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('index')}"> class="active"</t:when></t:choose>>
                                                     <a href="Index">Home</a>
                                                 </li>
-                                                <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('aboutus')}"> class="active"</t:when></t:choose>>
-                                                    <a href="AboutUs">Sobre nosotros</a>
+                                                <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('aboutuss')}"> class="active"</t:when></t:choose>>
+                                                    <a href="AboutUss">Sobre nosotros</a>
                                                 </li>
                                                 <li<t:choose><t:when test="${templatepage.getSelected().equalsIgnoreCase('contact')}"> class="active"</t:when></t:choose>>
                                             <a href="Contact">Contacto</a>
