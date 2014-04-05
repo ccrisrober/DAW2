@@ -211,6 +211,11 @@ public class PedidoDAO {
 
     private boolean delete(int num_ped, int id_usu) {
         System.err.println("Borrando");
+        
+        
+        
+        
+        
         return false;
     }
 
@@ -250,5 +255,39 @@ public class PedidoDAO {
             }
         }
         return pedidos;    
+    }
+    
+    boolean haveAccess(int id_ped, int id_user) {
+        boolean access = false;
+        ResultSet rs = null;
+        PreparedStatement ps = null;
+        try {
+            String query = "SELECT date FROM Pedido WHERE id_pedido = ? AND id_user = ?";
+            ps = this.conn.prepareStatement(query);
+            ps.setInt(1, id_ped);
+            ps.setInt(2, id_user);
+            rs = ps.executeQuery();
+            if(rs.next()) {
+                access = true;
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al realizar la consulta: " + e);
+        } finally {
+            if(rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+        return access;
     }
 }

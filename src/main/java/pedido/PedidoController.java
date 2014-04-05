@@ -45,13 +45,17 @@ public class PedidoController extends Controller {
         } else {
             int id_ped = Integer.parseInt(id_ped_aux);
             PedidoDAO dao = new PedidoDAO(ds);
-            Pedido pedido = dao.get(id_ped);
-            dao.close();
-            if(pedido == null) {
-                request.setAttribute("error", "Interneeeeeeet");
+            if(dao.haveAccess(id_ped, id_user)) {
+                Pedido pedido = dao.get(id_ped);
+                if(pedido == null) {
+                    request.setAttribute("error", "Interneeeeeeet");
+                } else {
+                    request.setAttribute("pedido", pedido);
+                }
             } else {
-                request.setAttribute("pedido", pedido);
+                request.setAttribute("error", "No tienes acceso");
             }
+            dao.close();
         }
         //Esto está mal, es para probar : D
         List<String> ltv = new LinkedList<String>();

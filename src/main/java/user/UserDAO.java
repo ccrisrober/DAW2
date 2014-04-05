@@ -50,4 +50,8 @@ public class UserDAO {
     public boolean editPassword(int id_user, String password) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    public boolean isAdmin(int pos) {
+        return false;
+    }
 }
