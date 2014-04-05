@@ -141,12 +141,12 @@
                                                 <table class="table">
                                                     <tr>
                                                         <td>
-                                                            <a href="http://www.jquery2dotnet.com">Realizar pedido</a>
+                                                            <a href="CarritoController?action=create">Realizar pedido</a>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <a href="http://www.jquery2dotnet.com">Tus pedidos</a>
+                                                            <a href="UserController?action=MisPedidos">Tus pedidos</a>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -165,17 +165,17 @@
                                                 <table class="table">
                                                     <tr>
                                                         <td>
-                                                            <a href="http://www.jquery2dotnet.com">Cambiar contraseña</a>
+                                                            <a href="UserController?action=editPassword">Cambiar contraseña</a>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <a href="http://www.jquery2dotnet.com">Mis datos</a>
+                                                            <a href="UserController?action=profile">Mis datos</a>
                                                         </td>
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <span class="glyphicon glyphicon-trash text-danger"></span><a href="http://www.jquery2dotnet.com" class="text-danger">
+                                                            <span class="glyphicon glyphicon-trash text-danger"></span><a href="UserController?action=delete" class="text-danger">
                                                                 Delete Account</a>
                                                         </td>
                                                     </tr>

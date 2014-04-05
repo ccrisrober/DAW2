@@ -7,6 +7,8 @@
 package user;
 
 import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import others.Controller;
 import others.Functions;
+import pedido.Pedido;
+import pedido.PedidoDAO;
 
 /**
  *
@@ -25,7 +29,49 @@ public class UserController extends Controller {
     @Resource(name = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
     
-    public void postEdit(HttpServletRequest request, HttpServletResponse response)
+    public void actionEditPassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+    }
+    
+    public void postEditPassword(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+    }
+    
+    public void actionDelete(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+    }
+    
+    public void actionMisPedidos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        String id_usu_aux = (String) session.getAttribute("id_user");
+        String error = "";
+        
+        if(!Functions.isID(id_usu_aux)){
+            error = "No se encuentra la sesión";
+        }
+        if(!error.isEmpty()){
+            request.setAttribute("error", error);
+        } else {
+            PedidoDAO dao = new PedidoDAO(ds);
+            List<Pedido> pedidos = dao.getAll(Integer.parseInt(id_usu_aux));
+            if(pedidos == null) {
+                pedidos = new LinkedList<Pedido>();
+            }
+            request.setAttribute("pedidos", pedidos);
+        }
+        
+    }
+    
+    public void actionProfile(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+    }
+    
+    /*public void postEdit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String oldpassword = request.getParameter("oldpasswordfield");
         String password = request.getParameter("passwordfield");
@@ -109,6 +155,6 @@ public class UserController extends Controller {
         // Aquí abrimos la página : D
         
         
-    }
+    }*/
         
 }

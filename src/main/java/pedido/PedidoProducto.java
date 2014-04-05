@@ -19,6 +19,11 @@ public class PedidoProducto {
     protected Producto prod;
     protected Pedido ped;
 
+    public PedidoProducto(Producto prod, int quantity) {
+        this.prod = prod;
+        this.quantity = quantity;
+    }
+    
     public PedidoProducto(int id_pedido, int id_producto, int quantity) {
         this.id_pedido = id_pedido;
         this.id_producto = id_producto;

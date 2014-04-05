@@ -8,7 +8,7 @@ CREATE TABLE producto (
 );
 
 CREATE TABLE pedido_producto (
-    id_pedido INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),     /* esto es la foreign key con pedido*/
+    id_pedido INTEGER NOT NULL,     /* esto es la foreign key con pedido*/
     id INTEGER NOT NULL,        /* Unión con el producto */
     quantity INTEGER NOT NULL DEFAULT 0,        /* Nº productos*/
     primary key(id_pedido)
@@ -21,9 +21,11 @@ CREATE TABLE pedido_producto (
 );
 
 CREATE TABLE pedido (
-    id_pedido INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+    id_pedido INTEGER NOT NULL,     /* Uniñon con Pedido_Producto */
     id_usu INTEGER NOT NULL,        /* Unión con los usuarios*/
-    date date not null
+    date date not null,
+    completo boolean default false
     /* falta booleano de si se ha realizado ya el envío : D */
 );
 

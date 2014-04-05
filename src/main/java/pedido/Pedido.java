@@ -7,6 +7,8 @@
 package pedido;
 
 import java.sql.Timestamp;
+import java.util.List;
+import producto.Producto;
 
 /**
  *
@@ -16,7 +18,13 @@ public class Pedido {
     protected int id_pedido;
     protected int id_usu;
     protected Timestamp date;
+    protected List<Producto> productos;
 
+    public Pedido() {
+    }
+    
+    
+    
     public Pedido(int id_pedido, int id_usu, Timestamp date) {
         this.id_pedido = id_pedido;
         this.id_usu = id_usu;
@@ -47,5 +55,12 @@ public class Pedido {
         this.date = date;
     }
     
+    public void setProductos(List<Producto> l) {
+        this.productos = l;
+    }
+    
+    public List<Producto> getProductos() {
+        return productos;
+    }
     
 }

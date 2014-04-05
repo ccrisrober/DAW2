@@ -184,18 +184,18 @@ public class ProductoDAO {
         return update_;
     }
 
-    synchronized Producto get(int id) {
+    public Producto get(int id) {
         Producto p = null;
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("SELECT FROM producto WHERE id=?");
+            ps = conn.prepareStatement("SELECT * FROM producto WHERE id=?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
                 String name = rs.getString("name");
                 String image = rs.getString("image");
-                String categoria = rs.getString("categoria");
-                double precio = rs.getDouble("precio");
+                String categoria = rs.getString("category");
+                double precio = rs.getDouble("price");
                 p = new Producto(id, name, image, categoria, precio);
             }
             rs.close();
@@ -213,13 +213,13 @@ public class ProductoDAO {
                 }
             }
 
-            if (conn != null) {
+            /*if (conn != null) {
                 try {
                     conn.close();
                 } catch (SQLException ex) {
                     Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
                 }
-            }
+            }*/
         }
         return p;
     }
