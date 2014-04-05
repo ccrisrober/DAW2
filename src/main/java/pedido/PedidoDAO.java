@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -224,6 +225,30 @@ public class PedidoDAO {
             lp.add(new Pedido(id_pedido, id_usu, date, price, procesado));
         }
         return lp;
-    }
+    }    
+
+    synchronized public List<Pedido> getAll() {
     
+        List<Pedido> pedidos = new ArrayList<Pedido>();
+        Statement stm = null;
+        try {
+            stm = this.conn.createStatement();
+            String sql = "SELECT * FROM Pedido";    // Aquí va la consulta
+            System.out.println("---------------\n" + sql + "\n---------------");
+            
+            ResultSet rs = stm.executeQuery(sql);
+            pedidos = createPedidosFromRS(rs);
+            rs.close();            
+            
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al realizar la consulta: " + e);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException e) {
+                System.err.println("Error al realizar la consulta: " + e.getLocalizedMessage());
+            }
+        }
+        return pedidos;    
+    }
 }

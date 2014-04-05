@@ -12,6 +12,8 @@ import javax.sql.DataSource;
 import others.Controller;
 import others.PageTemplate;
 import others.TreeView;
+import pedido.Pedido;
+import pedido.PedidoDAO;
 import producto.Producto;
 import producto.ProductoDAO;
 
@@ -44,13 +46,36 @@ public class AdminController extends Controller {
         request.setAttribute("products", products);
         List<String> ltv = new LinkedList<String>();
         ltv.add("Administrador");
-        ltv.add("Listado");
+        ltv.add("Listado productos");
         TreeView tv = new TreeView(ltv, "fa-dashboard");
         
         List<String> footer = new LinkedList<String>();
         footer.add("assets/js/producto/list.js");
         
         PageTemplate pt = new PageTemplate("admin/list.jsp", "", tv, null, footer, null, "", true, "Listar productos");
+        request.getSession().setAttribute("templatepage", pt);
+        
+        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
+    }    
+    
+    public void actionPedidos(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        
+        PedidoDAO pDao = new PedidoDAO(ds);
+        List<Pedido> pedidos = pDao.getAll();
+        if(pedidos == null) {
+            pedidos = new ArrayList<Pedido>();
+        }
+        request.setAttribute("pedidos", pedidos);
+        List<String> ltv = new LinkedList<String>();
+        ltv.add("Administrador");
+        ltv.add("Listado pedidos");
+        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        
+        List<String> footer = new LinkedList<String>();
+        footer.add("assets/js/producto/list.js");
+        
+        PageTemplate pt = new PageTemplate("admin/pedidos.jsp", "", tv, null, footer, null, "", true, "Listar pedidos");
         request.getSession().setAttribute("templatepage", pt);
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
