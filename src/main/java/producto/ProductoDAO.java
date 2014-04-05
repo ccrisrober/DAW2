@@ -61,7 +61,7 @@ public class ProductoDAO {
     private List<Producto> createProductosFromRS(ResultSet rs) throws SQLException {
         List<Producto> productos = new ArrayList<Producto>();
         while(rs.next()) {
-            int id = rs.getInt("id");
+            int id = rs.getInt("id_prod");
             String name = rs.getString("name");
             String image = rs.getString("image");
             String categoria = rs.getString("category");
@@ -188,7 +188,7 @@ public class ProductoDAO {
         Producto p = null;
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("SELECT * FROM producto WHERE id=?");
+            ps = conn.prepareStatement("SELECT * FROM producto WHERE id_prod=?");
             ps.setInt(1, id);
             ResultSet rs = ps.executeQuery();
             while(rs.next()) {
@@ -229,7 +229,7 @@ public class ProductoDAO {
         Statement stm = null;
         try {
             stm = this.conn.createStatement();
-            String sql = "SELECT * FROM Producto ORDER BY id DESC FETCH FIRST " + max + " ROWS ONLY";    // Aquí va la consulta
+            String sql = "SELECT * FROM Producto ORDER BY id_prod DESC FETCH FIRST " + max + " ROWS ONLY";    // Aquí va la consulta
             System.out.println("---------------\n" + sql + "\n---------------");
             
             ResultSet rs = stm.executeQuery(sql);

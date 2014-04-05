@@ -1,43 +1,43 @@
-CREATE TABLE producto (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+CREATE TABLE Producto (
+    id_prod INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     name varchar(100) not null,
     image varchar(200) not null,
     category VARCHAR(15) CONSTRAINT ctg_ck CHECK (category IN ('Alimentación', 'Droguería', 'Prensa', 'Ferretería')),
-    price decimal not null,
-    primary key (id)
+    price decimal not null
 );
 
-CREATE TABLE pedido_producto (
-    id_pedido INTEGER NOT NULL,     /* esto es la foreign key con pedido*/
-    id INTEGER NOT NULL,        /* Unión con el producto */
-    quantity INTEGER NOT NULL DEFAULT 0,        /* Nº productos*/
-    primary key(id_pedido)
-);
+ALTER TABLE Producto ADD CONSTRAINT PK_Producto PRIMARY KEY (id_prod);
 
-CREATE TABLE pedido_producto (
-    id_pedido INTEGER NOT NULL,     /* esto es la foreign key con pedido*/
-    id INTEGER NOT NULL,        /* Unión con el producto */
-    quantity INTEGER NOT NULL DEFAULT 0        /* Nº productos*/
-);
-
-CREATE TABLE pedido (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
-    id_pedido INTEGER NOT NULL,     /* Uniñon con Pedido_Producto */
-    id_usu INTEGER NOT NULL,        /* Unión con los usuarios*/
-    date date not null,
-    completo boolean default false
-    /* falta booleano de si se ha realizado ya el envío : D */
-);
-
-CREATE TABLE usuario (
-    id INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
+CREATE TABLE Usuario (
+    id_user INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     username varchar(20) not null unique,
     password varchar(20) not null,
-    isAdmin boolean not null default false,
-    primary key(id)
+    isAdmin boolean not null default false
 );
 
+ALTER TABLE Usuario ADD CONSTRAINT PK_Usuario PRIMARY KEY (id_user);
 
-ALTER TABLE pedido_producto ADD FOREIGN KEY(id_pedido) REFERENCES pedido(id_pedido);
-ALTER TABLE pedido_producto ADD FOREIGN KEY(id) REFERENCES producto(id);
-ALTER TABLE pedido ADD FOREIGN KEY(id_usu) REFERENCES usuario(id);
+CREATE TABLE Pedido (
+    id_pedido integer NOT NULL,
+    id_user integer NOT NULL,
+    date date not null,
+    procesado boolean not null default false
+);
+
+ALTER TABLE Pedido ADD CONSTRAINT PK_Pedido PRIMARY KEY (id_pedido,id_user);
+
+CREATE TABLE Pedido_Producto (
+    id_prod integer NOT NULL,
+    id_pedido integer NOT NULL,
+    id_user integer NOT NULL,
+    quantity integer
+);
+
+ALTER TABLE Pedido_Producto ADD CONSTRAINT PK_Pedido_Producto PRIMARY KEY (id_prod,id_pedido,id_user);
+
+ALTER TABLE Pedido ADD CONSTRAINT FK_Pedido_0 FOREIGN KEY (id_user) REFERENCES Usuario (id_user);
+
+ALTER TABLE Pedido_Producto ADD CONSTRAINT FK_Pedido_Producto_0 FOREIGN KEY (id_prod) REFERENCES Producto (id_prod);
+ALTER TABLE Pedido_Producto ADD CONSTRAINT FK_Pedido_Producto_1 FOREIGN KEY (id_pedido,id_user) REFERENCES Pedido (id_pedido,id_user);
+
+

@@ -1,7 +1,7 @@
 package producto;
 
 public class Producto {
-    private int id;
+    private int id_prod;
     private String name;
     private String image;
     private String categoria;
@@ -11,8 +11,8 @@ public class Producto {
         
     }
     
-    public Producto(int id, String name, String image, String categoria, double precio) {
-        this.id = id;
+    public Producto(int id_prod, String name, String image, String categoria, double precio) {
+        this.id_prod = id_prod;
         this.name = name;
         this.image = image;
         this.categoria = categoria;
@@ -20,11 +20,11 @@ public class Producto {
     }
 
     public int getId() {
-        return id;
+        return id_prod;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.id_prod = id;
     }
 
     public String getName() {
@@ -61,7 +61,7 @@ public class Producto {
 
     @Override
     public String toString() {
-        return "Producto{" + "id=" + id + ", name=" + name + ", image=" + image + ", categoria=" + categoria + ", precio=" + precio + '}';
+        return "Producto{" + "id_prod=" + id_prod + ", name=" + name + ", image=" + image + ", categoria=" + categoria + ", precio=" + precio + '}';
     }
 
 }

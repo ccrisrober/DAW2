@@ -1,3 +1,5 @@
+                    
+                    ${requestScope.ok}
                     <form role="form" method="post" action="ProductoController1">
                         <input type="hidden" name="action" id="action" value="insert" />
                         <div class="form-group">
@@ -19,14 +21,5 @@
                             <label for="filefield">Foto</label><input type="file" id="exampleInputFile" />
                         </div>
                         <button type="submit" class="btn btn-default">Submit</button>
-                        
-                        
-                            <label for="pricefield">Precio</label><input type="text" class="form-control" id="pricefield[0]" name="pricefield[0]"/>
-                            <label for="pricefield">Precio</label><input type="text" class="form-control" id="pricefield[1]" name="pricefield[1]"/>
-                            <label for="pricefield">Precio</label><input type="text" class="form-control" id="pricefield[2]" name="pricefield[2]"/>
-                            <label for="pricefield">Precio</label><input type="text" class="form-control" id="pricefield[3]" name="pricefield[3]"/>
-                        
-                        
-                        
                         
                     </form>

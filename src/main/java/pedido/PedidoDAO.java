@@ -27,15 +27,13 @@ import producto.ProductoDAO;
  * @author Cristian
  */
 public class PedidoDAO {
+    private DataSource ds;
     private Connection conn;
-    private PedidoProductoDAO pedprod;
-    private ProductoDAO prod;
     
     public PedidoDAO(DataSource ds) {
         try {
+            this.ds = ds;
             conn = ds.getConnection();
-            pedprod = new PedidoProductoDAO(ds);
-            prod = new ProductoDAO(ds);
         } catch (SQLException e) {
             throw new RuntimeException("Error en la base de datos " + e);
         }
@@ -45,8 +43,6 @@ public class PedidoDAO {
         if (conn != null) {
             try {
                 conn.close();
-                pedprod.close();
-                prod.close();
             } catch (SQLException e) {
                 System.err.println("Error al cerrar la conexión: " + e.getMessage());
             }
@@ -59,9 +55,9 @@ public class PedidoDAO {
         Timestamp time = new Timestamp(date.getTime());
         Pedido pedido = new Pedido(id_pedido, id_usu, time);
         
-        
+        PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
         List<Producto> productos = pedprod.getProductoPedido(id_pedido);
-        
+        pedprod.close();
         
         
         return pedido;
@@ -76,10 +72,12 @@ public class PedidoDAO {
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            String sql = "INSERT INTO pedido(id_usu, date) VALUES (?, ?)";
+            String sql = "INSERT INTO pedido(id_user, date) VALUES (?, ?)";
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+            //ps.setInt(1, num_ped);
             ps.setInt(1, id_usu);
             ps.setDate(2, sqlDate);
+            
             int execute = ps.executeUpdate();
             int num_ped = 0;
             if(execute == 1) {
@@ -88,13 +86,12 @@ public class PedidoDAO {
                     num_ped = rs.getInt(1);
                 }
             }
-                  
-            ok = pedprod.insert(num_ped, productos);
-            
+            PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
+            ok = pedprod.insert(num_ped, id_usu, productos);
+            pedprod.close();
             if(!ok) {
                 delete(num_ped, id_usu);
             }
-            
             
         } catch (SQLException e) {
             System.out.println(e.getMessage());

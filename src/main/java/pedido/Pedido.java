@@ -18,19 +18,23 @@ public class Pedido {
     protected int id_pedido;
     protected int id_usu;
     protected Timestamp date;
-    protected List<Producto> productos;
+    protected boolean procesado;
 
-    public Pedido() {
-    }
-    
-    
-    
-    public Pedido(int id_pedido, int id_usu, Timestamp date) {
+    public Pedido(int id_pedido, int id_usu, Timestamp date, boolean procesado) {
         this.id_pedido = id_pedido;
         this.id_usu = id_usu;
         this.date = date;
+        this.procesado = procesado;
     }
 
+    public Pedido(int id_pedido, int id_usu, Timestamp date) {
+        this(id_pedido, id_usu, date, false);
+    }
+
+    public boolean isProcesado() {
+        return procesado;
+    }
+    
     public int getId_pedido() {
         return id_pedido;
     }
@@ -53,14 +57,6 @@ public class Pedido {
 
     public void setDate(Timestamp date) {
         this.date = date;
-    }
-    
-    public void setProductos(List<Producto> l) {
-        this.productos = l;
-    }
-    
-    public List<Producto> getProductos() {
-        return productos;
     }
     
 }

@@ -10,7 +10,7 @@ package user;
  *
  * @author d
  */
-class User {
+public class User {
     protected int id;
     protected String name;
     protected String password;

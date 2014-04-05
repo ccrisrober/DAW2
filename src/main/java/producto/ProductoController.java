@@ -158,7 +158,7 @@ public class ProductoController extends Controller {
             } else {*/
                 ProductoDAO dao = new ProductoDAO(ds);
 
-                boolean insert = dao.insert(name, "<img>", category, price);
+                boolean insert = dao.insert(name, "http://naranjasonline.bligoo.es/media/users/27/1379511/images/public/446344/naranjas-11.jpg?v=1369142198276", category, price);
                 if(insert) {
                     request.setAttribute("ok", insert);
                 } else {

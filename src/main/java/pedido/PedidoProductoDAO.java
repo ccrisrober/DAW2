@@ -48,13 +48,13 @@ class PedidoProductoDAO {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    boolean insert(int num_pedido, Map<Integer, Integer> productos) {
+    boolean insert(int num_pedido, int id_user, Map<Integer, Integer> productos) {
         boolean finish = false;
-        String sql = "INSERT INTO Pedido_Producto (id_pedido, id, quantity) VALUES ";
+        String sql = "INSERT INTO Pedido_Producto (id_prod, id_pedido, id_user, quantity) VALUES ";
         String aux = sql;
         int size = productos.size();
         for (int i = 0; i < size; i++) {
-            sql += "(?, ?, ?),";
+            sql += "(?, ?, ?, ?),";
         }
         if (sql.lastIndexOf(",") == sql.length() - 1) {    // Para eliminar última ","
             sql = sql.substring(0, sql.length() -1);
@@ -66,10 +66,11 @@ class PedidoProductoDAO {
             int i = 1;
             Set<Entry<Integer, Integer>> entrySet = productos.entrySet();
             for (Entry<Integer, Integer> e : entrySet) {
-                /*ps.setInt(i++, num_pedido);
                 ps.setInt(i++, e.getKey());
-                ps.setInt(i++, e.getValue());*/
-                aux += "(" + num_pedido + ", " + e.getKey() + ", " + e.getValue() + "),";
+                ps.setInt(i++, num_pedido);
+                ps.setInt(i++, id_user);
+                ps.setInt(i++, e.getValue());
+                aux += "(" + e.getKey() + ", " + num_pedido + ", " + id_user + ", " + e.getValue() + "),";
             }
             
             
@@ -78,10 +79,12 @@ class PedidoProductoDAO {
             }
             
             System.err.println(aux);
-            /*int executeInsert = ps.executeUpdate();
-            if (executeInsert == 1) {
+            int executeInsert = ps.executeUpdate();
+            System.out.println("Insertado: " + executeInsert);
+            System.err.println(executeInsert > 0);
+            if (executeInsert > 0) {
                 finish = true;
-            }*/
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
         } finally {

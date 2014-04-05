@@ -7,6 +7,7 @@
 package pedido;
 
 import producto.Producto;
+import user.User;
 
 /**
  *
@@ -15,7 +16,9 @@ import producto.Producto;
 public class PedidoProducto {
     protected int id_pedido;
     protected int id_producto;
+    protected int id_user;
     protected int quantity;
+    protected User us;
     protected Producto prod;
     protected Pedido ped;
 
@@ -62,13 +65,29 @@ public class PedidoProducto {
         this.prod = prod;
     }
 
-    /*public Pedido getPed() {
+    public int getId_user() {
+        return id_user;
+    }
+
+    public void setId_user(int id_user) {
+        this.id_user = id_user;
+    }
+
+    public User getUs() {
+        return us;
+    }
+
+    public void setUs(User us) {
+        this.us = us;
+    }
+
+    public Pedido getPed() {
         return ped;
     }
 
     public void setPed(Pedido ped) {
         this.ped = ped;
-    }*/
+    }
 
     
 }

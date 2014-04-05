@@ -36,7 +36,7 @@ public class CarritoController extends Controller {
 
     @Override
     public void init() throws ServletException {
-        numpedido = 4;
+        numpedido = 0;
     }
 
     @Resource(lookup = "jdbc/tienda_crodriguezbe")
@@ -94,7 +94,7 @@ public class CarritoController extends Controller {
         PrintWriter out = response.getWriter();
         
         int num_ped = (Integer)request.getSession(true).getAttribute("num_ped");
-        int id_user = (Integer)(request.getSession(true).getAttribute("id_user"));
+        int id_user = (Integer)(request.getSession(true).getAttribute("id_user"));  //Esto puede servir para validar que todo va bien, creo xD
         
         List<PedidoProducto> lpp = new LinkedList<PedidoProducto>();
         
