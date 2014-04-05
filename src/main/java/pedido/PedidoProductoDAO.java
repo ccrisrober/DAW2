@@ -142,7 +142,7 @@ class PedidoProductoDAO {
             int id_prod = rs.getInt("id_prod");
             int id_pedido = rs.getInt("id_pedido");
             int id_user = rs.getInt("id_user");
-            int quantity = rs.getInt("quatity");
+            int quantity = rs.getInt("quantity");
             ProductoDAO dao = new ProductoDAO(ds);
             Producto producto = dao.get(id_prod);
             lpp.add(new PedidoProducto(id_prod, id_pedido, id_user, quantity, producto));

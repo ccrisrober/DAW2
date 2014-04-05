@@ -56,7 +56,7 @@ public class PedidoDAO {
         ResultSet rs = null;
         Pedido pedido = null;
         try {
-            String query = "SELECTED * FROM Pedido WHERE id_pedido = ?";
+            String query = "SELECT * FROM Pedido WHERE id_pedido = ?";
             ps = this.conn.prepareStatement(query);
             ps.setInt(1, id_pedido);
             rs = ps.executeQuery();
