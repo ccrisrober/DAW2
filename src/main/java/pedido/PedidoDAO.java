@@ -13,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,16 +51,51 @@ public class PedidoDAO {
     }
     
     
-    synchronized public Pedido get(int id_pedido, int id_usu) {
-        java.util.Date date= new java.util.Date();
-        Timestamp time = new Timestamp(date.getTime());
-        Pedido pedido = new Pedido(id_pedido, id_usu, time);
-        
-        PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
-        List<Producto> productos = pedprod.getProductoPedido(id_pedido);
-        pedprod.close();
-        
-        
+    synchronized public Pedido get(int id_pedido) {
+        PreparedStatement ps = null;
+        ResultSet rs = null;
+        Pedido pedido = null;
+        try {
+            String query = "SELECTED * FROM Pedido WHERE id_pedido = ?";
+            ps = this.conn.prepareStatement(query);
+            ps.setInt(1, id_pedido);
+            rs = ps.executeQuery();
+            
+            int id_user = 0;
+            Date date = null;
+            double price = 0;
+            boolean procesado = false;
+            
+            while(rs.next()) {
+                id_user = rs.getInt("id_user");
+                date = rs.getDate("date");
+                price = rs.getDouble("price");
+                procesado = rs.getBoolean("procesado");
+            }
+            PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
+            List<PedidoProducto> productos = pedprod.getProductos(id_pedido);
+            pedprod.close();
+            
+            pedido = new Pedido(id_pedido, id_user, date, price, procesado, productos);
+            
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        } finally {
+            if (rs != null) {
+                try {
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
         return pedido;
     }
 
@@ -122,10 +158,32 @@ public class PedidoDAO {
 
     }
 
-    public List<Pedido> getAll(int parseInt) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public List<Pedido> getAll(int id_user) {
+        List<Pedido> lp = new LinkedList<Pedido>();
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            String query = "SELECT * FROM pedido WHERE id_user=?";
+            stm = this.conn.prepareStatement(query);
+            stm.setInt(1, id_user);
+
+            rs = stm.executeQuery();
+            lp = createPedidosFromRS(rs);
+            rs.close();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error al realizar la consulta: " + e);
+        } finally {
+            try {
+                stm.close();
+            } catch (SQLException e) {
+                System.err.println("Error al realizar la consulta: " + e.getLocalizedMessage());
+            }
+        }
+
+        return lp;
     }
-    
+
     synchronized public int lastID() {
         Statement stm = null;
         ResultSet rs = null;
@@ -153,6 +211,19 @@ public class PedidoDAO {
     private boolean delete(int num_ped, int id_usu) {
         System.err.println("Borrando");
         return false;
+    }
+
+    private List<Pedido> createPedidosFromRS(ResultSet rs) throws SQLException {
+        List<Pedido> lp = new LinkedList<Pedido>();
+        while(rs.next()) {
+            int id_pedido = rs.getInt("id_pedido");
+            int id_usu = rs.getInt("id_user");
+            Date date = rs.getDate("date");
+            double price = rs.getDouble("price");
+            boolean procesado = rs.getBoolean("procesado");
+            lp.add(new Pedido(id_pedido, id_usu, date, price, procesado));
+        }
+        return lp;
     }
     
 }

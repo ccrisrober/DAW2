@@ -1,5 +1,6 @@
 <%@taglib prefix="t" uri="http://java.sun.com/jsp/jstl/core" %>
-<!-- Mostrar el resto de datos del pedido aquí arriba : D -->
+${error}
+
 <table>
     <tr>
         <th>Nombre producto</th>
@@ -7,7 +8,7 @@
         <th>Precio</th>
         <th>Cantidad</th>
     </tr>
-<t:forEach var="product" items="${products}">
+<t:forEach var="product" items="${pedido.getPedidoProducto()}">
     <tr>
         <td>${product.getProd().getName()}</td>
         <td>${product.getProd().getCategoria()}</td>
@@ -21,9 +22,3 @@
         <td>${requestScope.total}</td>
     </tr>
 </table>
-
-<form action="CarritoController" method="POST">
-    <input type="hidden" value="finish" name="action" id="action" />
-    <input type="submit" value="Enviar" />
-    </div>
-</form>

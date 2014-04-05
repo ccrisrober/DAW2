@@ -17,6 +17,8 @@ import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import others.Controller;
 import others.Functions;
+import others.PageTemplate;
+import others.TreeView;
 import pedido.Pedido;
 import pedido.PedidoDAO;
 
@@ -47,22 +49,42 @@ public class UserController extends Controller {
     public void actionMisPedidos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         HttpSession session = request.getSession(true);
-        String id_usu_aux = (String) session.getAttribute("id_user");
+        //int id_usu_aux = (Integer) session.getAttribute("id_user");
         String error = "";
         
-        if(!Functions.isID(id_usu_aux)){
+        
+        int id_usu_aux = 1;
+        
+        /*if(!Functions.isID(id_usu_aux)){
             error = "No se encuentra la sesión";
         }
         if(!error.isEmpty()){
             request.setAttribute("error", error);
-        } else {
+        } else {*/
             PedidoDAO dao = new PedidoDAO(ds);
-            List<Pedido> pedidos = dao.getAll(Integer.parseInt(id_usu_aux));
+            List<Pedido> pedidos = dao.getAll(id_usu_aux);
             if(pedidos == null) {
                 pedidos = new LinkedList<Pedido>();
             }
+            dao.close();
             request.setAttribute("pedidos", pedidos);
+        //}
+        //Esto está mal, es para probar : D
+        List<String> ltv = new LinkedList<String>();
+        ltv.add("Carrito");
+        ltv.add("Listar");
+        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        
+        List<String> footer = new LinkedList<String>();
+        if(!error.isEmpty()) {
+            footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
+            footer.add("assets/js/carrito/list.js");
         }
+        
+        PageTemplate pt = new PageTemplate("user/list.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
+        request.getSession().setAttribute("templatepage", pt);
+        
+        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
         
     }
     

@@ -21,6 +21,7 @@ CREATE TABLE Pedido (
     id_pedido integer NOT NULL,
     id_user integer NOT NULL,
     date date not null,
+    price decimal not null default 0,
     procesado boolean not null default false
 );
 
