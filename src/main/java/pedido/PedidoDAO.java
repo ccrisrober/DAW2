@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -52,7 +53,7 @@ public class PedidoDAO extends AbstractDAO {
 
     synchronized public boolean create(Map<Integer, Integer> productos, int id_usu) {
         boolean ok = false;
-        Date date = Functions.extraerFechaActual();        // Extraigo fecha actual
+        Date date = new Date(Calendar.getInstance().getTime().getTime());
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
@@ -70,12 +71,14 @@ public class PedidoDAO extends AbstractDAO {
                     num_ped = rs.getInt(1);
                 }
             }
-            PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
+            
+            ok = true;
+            /*PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
             ok = pedprod.insert(num_ped, id_usu, productos);
             pedprod.close();
             if (!ok) {
                 delete(num_ped, id_usu);
-            }
+            }*/
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             this.close();

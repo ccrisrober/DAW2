@@ -19,7 +19,7 @@
                 <label for="userfield">Username:</label><input class="form-control" id="userfield" type="text" name="userfield" />
             </div>
             <div class="form-group">
-                <label for="passfield">Password:</label><input class="form-control" id="passfield" type="text" name="passfield" />
+                <label for="passfield">Password:</label><input class="form-control" id="passfield" type="password" name="passfield" />
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
         </form>

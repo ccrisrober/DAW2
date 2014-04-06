@@ -63,15 +63,16 @@ public abstract class Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        System.out.println("Datos: : D");
+        /*System.out.println("Datos: : D");
         Set<Map.Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
         for(Map.Entry<String, String[]> entry: entrySet) {
             System.out.print(entry.getKey());
             for(String ss: entry.getValue()) {
                 System.out.println(ss);
             }
-        }
+        }*/
         String action = request.getParameter("action");
+        System.err.println("Esto en action por POST: " + action);
         if (action != null && !action.isEmpty()) {
             callFunction(request, response, action, "post");
         }
