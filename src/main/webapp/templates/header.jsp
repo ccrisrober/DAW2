@@ -79,15 +79,18 @@
                                             <a href="Contact">Contacto</a>
                                         </li>
                                     </ul>
+                                            
+                                    <t:choose>
+                                        <t:when test="${not empty sessionScope.admin_mode}">
                                     <ul class="nav navbar-nav navbar-right">
                                         <li class="dropdown pull-right">
                                             <a href="#" data-toggle="dropdown" class="dropdown-toggle">Conectado<strong class="caret"></strong></a>
                                             <ul class="dropdown-menu">
                                                 <li>
-                                                    <a href="ProductoController?action=list">Administrar productos</a>
+                                                    <a href="AdminController?action=list">Administrar productos</a>
                                                 </li>
                                                 <li>
-                                                    <a href="PedidoController?action=list">Administrar pedidos</a>
+                                                    <a href="AdminController?action=pedidos">Administrar pedidos</a>
                                                 </li>
                                                 <li class="divider">
                                                 </li>
@@ -97,12 +100,36 @@
                                             </ul>
                                         </li>
                                     </ul>
+                                        </t:when>
+                                        <t:otherwise>
+                                            <t:choose>
+                                                <t:when test="${not empty sessionScope.id_user}">
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="pull-right">
+                                            <a href="Logout">Logout</a>
+                                        </li>
+                                    </ul>
+                                                </t:when>
+                                                <t:otherwise>
+                                    <ul class="nav navbar-nav navbar-right">
+                                        <li class="pull-right">
+                                            <a href="Login">Login</a>
+                                        </li>
+                                    </ul>
+                                                </t:otherwise>
+                                            </t:choose>
+                                        </t:otherwise>
+                                    </t:choose>
                                 </div><!-- /.navbar-collapse -->
                             </div><!-- /.container-fluid -->
                         </nav>
                     </header>
                     <div id="body">
                         <div><!--<div class="row clearfix">-->
+                            <t:choose>
+                                <t:when test="${!templatepage.isAdmin()}">
+                                    
+                            
                             <div class="col-md-3 column">
                                 <div class="panel-group" id="accordion">
                                     <div class="panel panel-default">
@@ -221,6 +248,12 @@
                                 </div>
                             </div>
                             <div class="col-md-9 column">
+                                </t:when>
+                                <t:otherwise>
+                            <div class="col-md-12 column">
+                                </t:otherwise>
+                            </t:choose>
+                            
                                 <ol class="breadcrumb">
                                     ${templatepage.getTV()}
                                 </ol>

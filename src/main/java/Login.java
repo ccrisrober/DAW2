@@ -1,44 +1,24 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
-import org.json.simple.JSONObject;
 import others.Controller;
 import others.Functions;
 import others.PageTemplate;
 import others.TreeView;
 import user.UserDAO;
 
-/**
- *
- * @author Cristian
- */
 public class Login extends Controller {
 
     @Resource(lookup = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
     
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -51,24 +31,13 @@ public class Login extends Controller {
 
         List<String> footer = new LinkedList<String>();
         footer.add("assets/js/index/index.js");
-
-        List<String> jspservlet = new LinkedList<String>();
-        //jspservlet.add("login.jsp");
-
-        PageTemplate pt = new PageTemplate("login.jsp", "index", tv, header, footer, jspservlet, "", true, "Dashboard");
+        
+        PageTemplate pt = new PageTemplate("login.jsp", "index", tv, header, footer, null, "", true, "Dashboard");
         request.getSession().setAttribute("templatepage", pt);
 
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -82,7 +51,6 @@ public class Login extends Controller {
             error = true;
         }
         if(error) {
-            error = true;
             request.setAttribute("error", "Usuario y/o contraseña vacío(s)");
         } else {
             UserDAO dao = new UserDAO(ds);
@@ -97,21 +65,9 @@ public class Login extends Controller {
                     session.setAttribute("admin_mode", true);
                 }
             } else {
-                error = true;
                 request.setAttribute("error", "Pareja usuario/contraseña no encontrado");
             }
         }
         doGet(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
 }

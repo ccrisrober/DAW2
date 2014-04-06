@@ -24,9 +24,10 @@ public class PageTemplate {
     protected String scripts;
     protected boolean checkLogin;
     protected String titleH_;
+    protected boolean isAdmin_;
 
     public PageTemplate(String file, String selected_, TreeView tv_, List<String> headerInclude_, List<String> footerInclude_, 
-            List<String> jsp_servlet_include_, String scripts, boolean checkLogin, String titleH) {
+            List<String> jsp_servlet_include_, String scripts, boolean checkLogin, String titleH, boolean isAdmin) {
         this.setFile_(file);
         this.setSelected_(selected_);
         this.setTv_(tv_);
@@ -36,8 +37,18 @@ public class PageTemplate {
         this.setScripts(scripts);
         this.checkLogin = checkLogin;
         this.titleH_ = titleH;
+        this.isAdmin_ = isAdmin;
     }
-
+    
+    public PageTemplate(String file, String selected_, TreeView tv_, List<String> headerInclude_, List<String> footerInclude_, 
+            List<String> jsp_servlet_include_, String scripts, boolean checkLogin, String titleH) {
+        this(file, selected_, tv_, headerInclude_, footerInclude_, jsp_servlet_include_, scripts, checkLogin, titleH, false);
+    }
+    
+    public boolean isAdmin() {
+        return isAdmin_;
+    }
+    
     private void setFile_(String file_) {
         this.file_ = file_ != null? file_ : "";
     }

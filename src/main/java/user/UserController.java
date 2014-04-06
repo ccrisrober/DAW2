@@ -84,10 +84,6 @@ public class UserController extends Controller {
         TreeView tv = new TreeView(ltv, "fa-dashboard");
         
         List<String> footer = new LinkedList<String>();
-        /*if(!error.isEmpty()) {
-            footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
-            footer.add("assets/js/carrito/list.js");
-        }*/
         
         PageTemplate pt = new PageTemplate("user/change_password.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
         request.getSession().setAttribute("templatepage", pt);

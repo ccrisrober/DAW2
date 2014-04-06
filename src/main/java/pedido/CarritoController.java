@@ -1,15 +1,13 @@
 package pedido;
 
-
-
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Pattern;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -17,16 +15,9 @@ import javax.sql.DataSource;
 import others.Controller;
 import others.PageTemplate;
 import others.TreeView;
-import pedido.PedidoDAO;
-import pedido.PedidoProducto;
 import producto.Producto;
 import producto.ProductoDAO;
 
-/**
- *
- * @author Cristian
- */
-@WebServlet(urlPatterns = {"/CarritoController"})
 public class CarritoController extends Controller {
 
     private int numpedido;
@@ -66,6 +57,7 @@ public class CarritoController extends Controller {
             if (products == null) {
                 products = new LinkedList<Producto>();
             }
+            dao.close();
             request.setAttribute("products", products);
         //}     
         
@@ -106,7 +98,12 @@ public class CarritoController extends Controller {
         Carrito carr = (Carrito)request.getSession(true).getAttribute("carrito");
         
         for(Map.Entry<String, String[]> entry: entrySet) {
-            if(entry.getKey().startsWith("cantidad")) {
+            /*Pattern p = Pattern.compile(re1+re2,Pattern.CASE_INSENSITIVE | Pattern.DOTALL);
+    Matcher m = p.matcher(txt);
+    if (m.find())*/
+            if(Pattern.compile("cantidad\\[[0-9]*\\]").matcher(entry.getKey()).find()) {
+            //if(entry.getKey().startsWith("cantidad")) {
+                //^cantidad\[[0-9]*\] Esta es la expresión regular a utilizar : D
                 int key = Integer.parseInt(entry.getKey().substring("cantidad".length()+1, entry.getKey().length()-1));
                 if(Integer.parseInt(entry.getValue()[0]) > 0) {
                     int value = Integer.parseInt(entry.getValue()[0]);

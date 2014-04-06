@@ -17,23 +17,10 @@ import pedido.PedidoDAO;
 import producto.Producto;
 import producto.ProductoDAO;
 
-/**
- *
- * @author d
- */
 public class AdminController extends Controller {
     
     @Resource(lookup = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
-    
-    /**
-     * Returns a short description of the servlet.
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
     
     public void actionUser(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -64,7 +51,7 @@ public class AdminController extends Controller {
         List<String> footer = new LinkedList<String>();
         footer.add("assets/js/producto/list.js");
         
-        PageTemplate pt = new PageTemplate("admin/list.jsp", "", tv, null, footer, null, "", true, "Listar productos");
+        PageTemplate pt = new PageTemplate("admin/list.jsp", "", tv, null, footer, null, "", true, "Listar productos", true);
         request.getSession().setAttribute("templatepage", pt);
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
@@ -88,7 +75,7 @@ public class AdminController extends Controller {
         List<String> footer = new LinkedList<String>();
         footer.add("assets/js/producto/list.js");
         
-        PageTemplate pt = new PageTemplate("admin/pedidos.jsp", "", tv, null, footer, null, "", true, "Listar pedidos");
+        PageTemplate pt = new PageTemplate("admin/pedidos.jsp", "", tv, null, footer, null, "", true, "Listar pedidos", true);
         request.getSession().setAttribute("templatepage", pt);
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);

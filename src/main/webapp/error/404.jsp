@@ -6,7 +6,7 @@
         <title>JSP Page</title>
     </head>
     <body>
-        <h1><i class="fa fa-warning text-red"></i> Que no puedes acceder cojones</h1>
-        <img src="../assets/img/errors/403.png" alt="403"/>
+        <h1><i class="fa fa-warning text-yellow"></i> Ooops! you found a Dead Link</h1>
+        <img src="../assets/img/errors/404.png" alt="401"/>
     </body>
 </html>

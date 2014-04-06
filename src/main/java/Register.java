@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 import java.io.IOException;
 import java.util.LinkedList;
@@ -18,28 +13,16 @@ import others.PageTemplate;
 import others.TreeView;
 import user.UserDAO;
 
-/**
- *
- * @author Cristian
- */
 public class Register extends Controller {
-    
+
     @Resource(name = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
-    
-    /**
-     * Handles the HTTP <code>GET</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<String> ltv = new LinkedList<String>();
-        
+
         TreeView tv = new TreeView(ltv, "fa-dashboard");
 
         List<String> header = new LinkedList<String>();
@@ -47,30 +30,19 @@ public class Register extends Controller {
         List<String> footer = new LinkedList<String>();
         footer.add("assets/js/index/index.js");
 
-        List<String> jspservlet = new LinkedList<String>();
-        //jspservlet.add("login.jsp");
-
-        PageTemplate pt = new PageTemplate("register.jsp", "index", tv, header, footer, jspservlet, "", true, "Dashboard");
+        PageTemplate pt = new PageTemplate("register.jsp", "index", tv, header, footer, null, "", true, "Dashboard");
         request.getSession().setAttribute("templatepage", pt);
 
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
 
-    /**
-     * Handles the HTTP <code>POST</code> method.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String user = request.getParameter("userfield");
         String pass = request.getParameter("passfield");
         String pass2 = request.getParameter("passfield2");
-        
+
         String error = "";
         boolean errorPass = false;
         if (Functions.isEmpty(user)) {
@@ -84,40 +56,28 @@ public class Register extends Controller {
             error += "<li>Password Confirm está vacío</li>";
             errorPass = true;
         }
-        if(!errorPass) {
-            if(!pass.equals(pass2)) {
+        if (!errorPass) {
+            if (!pass.equals(pass2)) {
                 error += "<li>Las contraseñas no son iguales</li>";
             }
         }
-        
+
         request.setAttribute("userfield", user);
         request.setAttribute("passfield", pass);
         request.setAttribute("passfield2", pass2);
-        
+
         // Si la variable error tiene caracteres, salimos y marcamos los errores
         if (!error.isEmpty()) {
             request.setAttribute("error", "<ul>" + error + "</ul>");
         } else {
             UserDAO dao = new UserDAO(ds);
             boolean exito = dao.register(user, pass);            // Registramos al usuario
-            if(!exito) {
+            if (!exito) {
                 request.setAttribute("error", "Error al registrar.");
-            }
-            else {
+            } else {
                 request.setAttribute("ok", "¡Se ha ingresado con éxito!");
             }
         }
         doGet(request, response);
     }
-
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-
 }

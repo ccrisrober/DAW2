@@ -16,30 +16,16 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 
-/**
- *
- * @author Cristian
- */
 public class ProductoController extends Controller {
     
     @Resource(lookup = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
     
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
-    @Override
-    public String getServletInfo() {
-        return "Short description";
-    }
-    
     //Este será por POST, cambiar en la función post y también en lo de SSDD
     public void postEdit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        this.checkAccessLogin(request, response);
+        this.checkAccessAdmin(request, response);
         
         String id_aux = request.getParameter("idfield");
         String name = request.getParameter("namefield");
@@ -85,6 +71,7 @@ public class ProductoController extends Controller {
             } else {
                 request.setAttribute("error", "No se ha podido actualizar.");
             }
+            dao.close();
         }
         
         List<String> ltv = new LinkedList<String>();
@@ -108,7 +95,7 @@ public class ProductoController extends Controller {
     public void postInsert(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        this.checkAccessLogin(request, response);
+        this.checkAccessAdmin(request, response);
         
         String name = request.getParameter("namefield");
         String category = request.getParameter("categoryfield");
@@ -170,6 +157,7 @@ public class ProductoController extends Controller {
                 } else {
                     request.setAttribute("error", "No se ha podido ingresar.");
                 }
+                dao.close();
                 
                     /*request.setAttribute("ok", "to guay : D");
             }*/
@@ -198,7 +186,7 @@ public class ProductoController extends Controller {
     public void actionCreate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        this.checkAccessLogin(request, response);
+        this.checkAccessAdmin(request, response);
         
         String random = Functions.updateSecurity(request.getSession(true));  // Código seguridad de usuario
         
@@ -225,7 +213,7 @@ public class ProductoController extends Controller {
     public void actionUpdate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        this.checkAccessLogin(request, response);
+        this.checkAccessAdmin(request, response);
         
         String id_aux = request.getParameter("idfield");
         
@@ -246,6 +234,7 @@ public class ProductoController extends Controller {
             } else {
                 request.setAttribute("producto", p);
             }
+            dao.close();
         }
         
         List<String> ltv = new LinkedList<String>();
@@ -267,9 +256,6 @@ public class ProductoController extends Controller {
     
     public void actionList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        this.checkAccessLogin(request, response);
-        
         
         ProductoDAO dao = new ProductoDAO(ds);
         List<Producto> products = dao.getAll();
@@ -294,7 +280,7 @@ public class ProductoController extends Controller {
     public void actionDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        this.checkAccessLogin(request, response);
+        this.checkAccessAdmin(request, response);
         
         String id_aux = request.getParameter("idfield");
         
@@ -310,6 +296,7 @@ public class ProductoController extends Controller {
             } else {
                 request.setAttribute("error", "No se encuentra el producto a borrar.");
             }
+            dao.close();
         }
         List<String> ltv = new LinkedList<String>();
         ltv.add("Producto");
@@ -329,13 +316,12 @@ public class ProductoController extends Controller {
     public void actionLast(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        this.checkAccessLogin(request, response);
-        
         ProductoDAO dao = new ProductoDAO(ds);
         List<Producto> products = dao.getLast(15);
         if(products == null) {
             products = new ArrayList<Producto>();
         }
+        dao.close();
         request.setAttribute("products", products);
         List<String> ltv = new LinkedList<String>();
         ltv.add("Producto");
