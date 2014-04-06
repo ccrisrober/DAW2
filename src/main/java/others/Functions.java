@@ -133,4 +133,11 @@ public class Functions {
         }
         return ok;
     }
+    
+    public static java.sql.Date extraerFechaActual() {
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        java.util.Date utilDate = cal.getTime();
+        java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
+        return sqlDate;
+    }
 }
