@@ -71,14 +71,12 @@ public class PedidoDAO extends AbstractDAO {
                     num_ped = rs.getInt(1);
                 }
             }
-            
-            ok = true;
-            /*PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
+            PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
             ok = pedprod.insert(num_ped, id_usu, productos);
             pedprod.close();
             if (!ok) {
                 delete(num_ped, id_usu);
-            }*/
+            }
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             this.close();

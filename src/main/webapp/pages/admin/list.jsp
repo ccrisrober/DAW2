@@ -10,20 +10,26 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Nº Pedido</th>
+                        <th style="display: none">Nº Producto</th>
                         <th>Nombre</th>
                         <th>Categoría</th>
                         <th>Precio</th>
+                        <th>Editar</th>
+                        <th>Borrar</th>
                     </tr>
                 </thead>
                 <tbody>
                     
                     <t:forEach var="product" items="${products}">
                         <tr>
-                            <td>${product.getId()}</td>
+                            <th style="display: none">${product.getId()}</td>
                             <td>${product.getName()}</td>
                             <td>${product.getCategoria()}</td>
                             <td>${product.getPrecio()}</td>
+                            <td><a href="ProductoController?action=edit&id_prod=${product.getId()}">
+                                <span class="glyphicon glyphicon-pencil"></span></a>
+                            <td><a href="delete">
+                                <span class="glyphicon glyphicon-remove"></span></a>
                         </tr>
                     </t:forEach>
                         
@@ -33,8 +39,8 @@
         </div>
     </div>
     
-    <button id="btnSubmit" class="btn" style="">Nuevo producto</button>
-    <br><br />
+    <a class="btn btn-default" href="ProductoController?action=create">Nuevo producto</a>
+    <br/><br/>
     
         
 </div>

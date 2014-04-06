@@ -43,10 +43,10 @@ public class CarritoController extends Controller {
         
         HttpSession session = request.getSession(true);
         
-        /*session.setAttribute("id_user", 1);
+        /*session.setAttribute("id_user", 1);*/
         session.setAttribute("num_ped", numpedido);
         
-        int id_usu_aux = (Integer) session.getAttribute("id_user");*/
+        /*int id_usu_aux = (Integer) session.getAttribute("id_user");*/
         String error = "";
         int id_usu_aux = 1;
         
@@ -158,26 +158,20 @@ public class CarritoController extends Controller {
         }else{*/
             Carrito car = (Carrito) session.getAttribute("carrito");
             Map<Integer, Integer> productos = car.getProductos();
-            
-        PrintWriter out = response.getWriter();
-        out.println("ola k ase?");
         
-            /*PedidoDAO pedidos = new PedidoDAO(ds);
+            PedidoDAO pedidos = new PedidoDAO(ds);
             boolean creado = false;
             creado = pedidos.create(productos, id_usu_aux);
             if(!creado){
                 request.setAttribute("error", "Hay un error puto");
-                out.println("Hay un error");
             }else{
                 request.setAttribute("ok", "pedido creado con éxito");
-                out.println("Pedido creado con éxito");
-            }*/
+            }
         //} 
         System.err.println("Aquí se supone que entra");
-        out.close();
         //redireccion
         //Esto está mal, es para probar : D
-        /*List<String> ltv = new LinkedList<String>();
+        List<String> ltv = new LinkedList<String>();
         ltv.add("Carrito");
         ltv.add("Listar");
         TreeView tv = new TreeView(ltv, "fa-dashboard");
@@ -187,11 +181,11 @@ public class CarritoController extends Controller {
             footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
             footer.add("assets/js/carrito/list.js");
         }*/
-        /*
+        
         PageTemplate pt = new PageTemplate("pedido/finish.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
         request.getSession().setAttribute("templatepage", pt);
         
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);*/
+        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
     
 }

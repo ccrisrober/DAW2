@@ -5,9 +5,9 @@
         </div>
         Pincha <a href="Index">aquí</a> para volver al inicio.
     </t:when>
-    <t:when test="${not empty error}">
+    <t:otherwise>
         <div class="alert alert-danger">
             ${error}
         </div>
-    </t:when>
+    </t:otherwise>
 </t:choose>

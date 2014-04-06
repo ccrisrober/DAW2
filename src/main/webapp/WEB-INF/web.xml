@@ -36,7 +36,10 @@
         <servlet-name>PedidoController</servlet-name>
         <servlet-class>pedido.PedidoController</servlet-class>
     </servlet>
-    
+    <servlet>
+        <servlet-name>CarritoController</servlet-name>
+        <servlet-class>pedido.CarritoController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/Register</url-pattern>
@@ -72,6 +75,10 @@
     <servlet-mapping>
         <servlet-name>PedidoController</servlet-name>
         <url-pattern>/PedidoController</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>CarritoController</servlet-name>
+        <url-pattern>/CarritoController</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
