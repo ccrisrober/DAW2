@@ -44,6 +44,7 @@ public class CarritoController extends Controller {
     
     public void actionCreate(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+        checkAccessLogin(request, response);
         numpedido++;
         
         HttpSession session = request.getSession(true);
@@ -89,6 +90,7 @@ public class CarritoController extends Controller {
     
     public void postListado(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        checkAccessLogin(request, response);
         
         Set<Map.Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
         PrintWriter out = response.getWriter();
@@ -149,6 +151,7 @@ public class CarritoController extends Controller {
     
     public void postFinish(HttpServletRequest request, HttpServletResponse response)
         throws ServletException, IOException {
+        checkAccessLogin(request, response);
         
         HttpSession session = request.getSession(true);
         int id_usu_aux = (Integer) session.getAttribute("id_user");

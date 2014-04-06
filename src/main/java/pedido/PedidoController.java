@@ -30,6 +30,8 @@ public class PedidoController extends Controller {
     
     public void actionGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        checkAccessLogin(request, response);
+        
         String id_ped_aux = request.getParameter("id_ped");
         
         int id_user = 1;        // Esto sería mirar la variable de sesión
@@ -77,6 +79,7 @@ public class PedidoController extends Controller {
     
     public void actionIndex(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        checkAccessLogin(request, response);
         PrintWriter out = response.getWriter();
         out.println("hola");
         out.close();

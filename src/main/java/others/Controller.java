@@ -77,4 +77,18 @@ public abstract class Controller extends HttpServlet {
             callFunction(request, response, action, "post");
         }
     }
+    
+    protected void checkAccessLogin(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if(request.getSession(true).getAttribute("id_user") == null) {
+            response.sendRedirect("Login");
+        }        
+    }
+    
+    protected void checkAccessAdmin(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        if(request.getSession(true).getAttribute("admin_mode") == null) {
+            response.sendError(HttpServletResponse.SC_FORBIDDEN);
+        }        
+    }
 }
