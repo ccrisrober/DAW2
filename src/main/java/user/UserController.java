@@ -16,11 +16,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import others.Controller;
-import others.Functions;
 import others.PageTemplate;
 import others.TreeView;
 import pedido.Pedido;
 import pedido.PedidoDAO;
+import producto.ProductoDAO;
 
 /**
  *
@@ -34,16 +34,67 @@ public class UserController extends Controller {
     public void actionEditPassword(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        //Esto está mal, es para probar : D
+        List<String> ltv = new LinkedList<String>();
+        ltv.add("Carrito");
+        ltv.add("Listar");
+        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        
+        List<String> footer = new LinkedList<String>();
+        /*if(!error.isEmpty()) {
+            footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
+            footer.add("assets/js/carrito/list.js");
+        }*/
+        
+        PageTemplate pt = new PageTemplate("user/change_password.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
+        request.getSession().setAttribute("templatepage", pt);
+        
+        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
     
     public void postEditPassword(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        // Extramoes usuario sessión
+        
+        int id_user = 2;
+        
+        String password1 = request.getParameter("password1");
+        String password2 = request.getParameter("password2");
+        
+        if(!password1.equals(password2)) {
+            request.setAttribute("error", "Las contraseñas no coinciden.");
+        } else {
+            UserDAO user = new UserDAO(ds);
+            boolean edit = user.editPassword(id_user, password2);
+            if(!edit) {
+                request.setAttribute("error", "No se ha podido editar la contraseña.");
+            } else {
+                request.setAttribute("ok", "Contraseña cambiada con éxito");
+            }
+        }
+        //Esto está mal, es para probar : D
+        List<String> ltv = new LinkedList<String>();
+        ltv.add("Carrito");
+        ltv.add("Listar");
+        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        
+        List<String> footer = new LinkedList<String>();
+        /*if(!error.isEmpty()) {
+            footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
+            footer.add("assets/js/carrito/list.js");
+        }*/
+        
+        PageTemplate pt = new PageTemplate("user/change_password.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
+        request.getSession().setAttribute("templatepage", pt);
+        
+        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
     
     public void actionDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
+        request.getSession(true).invalidate();
+        response.sendRedirect("Index");
     }
     
     public void actionMisPedidos(HttpServletRequest request, HttpServletResponse response)
@@ -90,6 +141,34 @@ public class UserController extends Controller {
     
     public void actionProfile(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession session = request.getSession(true);
+        //int id_usu_aux = (Integer) session.getAttribute("id_user");
+        
+        
+        int id_usu_aux = 1;
+        
+            UserDAO dao = new UserDAO(ds);
+            User user = dao.getUser(id_usu_aux);
+            if(user == null) {
+                request.setAttribute("error", "Usuario no encontrado");
+            } else {
+                request.setAttribute("user", user);
+            }
+            dao.close();
+        //}
+        //Esto está mal, es para probar : D
+        List<String> ltv = new LinkedList<String>();
+        ltv.add("Carrito");
+        ltv.add("Listar");
+        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        
+        List<String> footer = new LinkedList<String>();
+        
+        PageTemplate pt = new PageTemplate("user/profile.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
+        request.getSession().setAttribute("templatepage", pt);
+        
+        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
+        
         
     }
     

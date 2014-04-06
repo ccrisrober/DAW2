@@ -8,11 +8,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.sql.DataSource;
 import org.json.simple.JSONObject;
+import others.Controller;
 import others.Functions;
 import others.PageTemplate;
 import others.TreeView;
@@ -22,8 +26,11 @@ import user.UserDAO;
  *
  * @author Cristian
  */
-public class Login extends HttpServlet {
+public class Login extends Controller {
 
+    @Resource(lookup = "jdbc/tienda_crodriguezbe")
+    private DataSource ds;
+    
     /**
      * Handles the HTTP <code>GET</code> method.
      *
@@ -35,7 +42,6 @@ public class Login extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-                response.setContentType("text/html;charset=UTF-8");
         
         List<String> ltv = new LinkedList<String>();
         
@@ -47,7 +53,7 @@ public class Login extends HttpServlet {
         footer.add("assets/js/index/index.js");
 
         List<String> jspservlet = new LinkedList<String>();
-        jspservlet.add("login.jsp");
+        //jspservlet.add("login.jsp");
 
         PageTemplate pt = new PageTemplate("login.jsp", "index", tv, header, footer, jspservlet, "", true, "Dashboard");
         request.getSession().setAttribute("templatepage", pt);
@@ -66,34 +72,40 @@ public class Login extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        response.setContentType("application/json");
         String user = request.getParameter("userfield");
         String pass = request.getParameter("passfield");
 
         boolean error = false;
-        JSONObject json = new JSONObject();
         if(Functions.isEmpty(user)) {
             error = true;
         } else if(Functions.isEmpty(pass)) {
             error = true;
         }
         if(error) {
-            json.put("data", "Usuario y/o contraseña vacío(s).");
+            error = true;
+            request.setAttribute("error", "Usuario y/o contraseña vacío(s)");
         } else {
-            UserDAO dao = new UserDAO(null);
-            boolean validate = dao.validate(user, pass);
-            if(validate) {
-                json.put("data", "Conectado con éxito");
+            UserDAO dao = new UserDAO(ds);
+            int pos = dao.validate(user, pass);
+            if(pos > 0) {
+                request.setAttribute("ok", "Conectado con éxito");
+                HttpSession session = request.getSession(true);
+                session.setAttribute("id_user", pos);
+                System.err.println("Creo usuario");
+                if(dao.isAdmin(pos)) {
+                    System.err.println("Creo admin");
+                    session.setAttribute("admin_mode", true);
+                }
             } else {
                 error = true;
-                json.put("data", "Pareja usuario/contraseña no encontrado");
+                request.setAttribute("error", "Pareja usuario/contraseña no encontrado");
             }
         }
-        json.put("error", error);
-
-        PrintWriter out = response.getWriter();
-        out.println(json);
-        out.flush();
+        if(error) {
+            response.sendRedirect("Login");
+        } else {
+            response.sendRedirect("Index");
+        }
     }
 
     /**

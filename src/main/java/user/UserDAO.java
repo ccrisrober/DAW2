@@ -35,8 +35,8 @@ public class UserDAO {
         }
     }
 
-    public boolean validate(String user, String pass) {
-        return (user.equals("costa") && (pass.equals("zorra")));
+    synchronized public int validate(String user, String pass) {
+        return (user.equals("costa") && (pass.equals("zorra"))) ? 1: 0;
     }
 
     public boolean register(String user, String pass) {

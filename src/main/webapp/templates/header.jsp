@@ -129,6 +129,8 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <t:choose>
+                                        <t:when test="${not empty sessionScope.id_user}">
                                     <div class="panel panel-default">
                                         <div class="panel-heading">
                                             <h4 class="panel-title">
@@ -175,8 +177,16 @@
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <span class="glyphicon glyphicon-trash text-danger"></span><a href="UserController?action=delete" class="text-danger">
+                                                            <span class="glyphicon glyphicon-trash text-danger"></span><a href="UserController?action=delete" onClick="delete_(); return false;" class="text-danger">
                                                                 Delete Account</a>
+                                                            <script>
+                                                                function delete_() {
+                                                                    var _delete_ = confirm("¿De verdad deseas borrar tu cuenta de usuario?");
+                                                                    if(_delete_) {
+                                                                        document.location.href="UserController?action=delete";
+                                                                    }
+                                                                }
+                                                            </script>
                                                         </td>
                                                     </tr>
                                                 </table>
@@ -190,6 +200,17 @@
                                             </h4>
                                         </div>
                                     </div>
+                                    </t:when>
+                                    <t:otherwise>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a href="Login"><span class="glyphicon glyphicon-file"></span>Login</a>
+                                            </h4>
+                                        </div>
+                                    </div>
+                                    </t:otherwise>
+                                </t:choose>
                                 </div>
                             </div>
                             <div class="col-md-9 column">
