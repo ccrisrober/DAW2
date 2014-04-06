@@ -1,40 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package user;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import javax.sql.DataSource;
+import others.AbstractDAO;
 
-/**
- *
- * @author d
- */
-public class UserDAO {
-    private Connection conn;
-    
+public class UserDAO extends AbstractDAO {
+
     public UserDAO(DataSource ds) {
-        try {
-            conn = ds.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la base de datos " + e);
-        }
+        super(ds);
     }
     
-    public void close() {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
-            }
-        }
-    }
-
     synchronized public int validate(String user, String pass) {
         int salida = 0;
         if(user.equals("costa") && (pass.equals("costa"))) {

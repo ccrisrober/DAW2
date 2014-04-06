@@ -6,31 +6,12 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
+import others.AbstractDAO;
 
-/**
- *
- * @author Cristian
- */
-public class ProductoDAO {
-    
-    private Connection conn;
-    
+public class ProductoDAO extends AbstractDAO {
+
     public ProductoDAO(DataSource ds) {
-        try {
-            conn = ds.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error en la base de datos",e);
-        }
-    }
-    
-    public void close() {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
-            }
-        }
+        super(ds);
     }
     
     synchronized public List<Producto> getAll() {
@@ -38,8 +19,7 @@ public class ProductoDAO {
         Statement stm = null;
         try {
             stm = this.conn.createStatement();
-            String sql = "SELECT * FROM Producto";    // Aquí va la consulta
-            System.out.println("---------------\n" + sql + "\n---------------");
+            String sql = "SELECT * FROM Producto";
             
             ResultSet rs = stm.executeQuery(sql);
             productos = createProductosFromRS(rs);

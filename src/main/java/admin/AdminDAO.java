@@ -1,28 +1,11 @@
 package admin;
 
-import java.sql.Connection;
-import java.sql.SQLException;
 import javax.sql.DataSource;
+import others.AbstractDAO;
 
-public class AdminDAO {
-    
-    private Connection conn;
-    
+public class AdminDAO extends AbstractDAO {
+
     public AdminDAO(DataSource ds) {
-        try {
-            conn = ds.getConnection();
-        } catch (SQLException e) {
-            throw new RuntimeException("Error con la conexión.",e);
-        }
+        super(ds);
     }
-    
-    public void close() {
-        if (conn != null) {
-            try {
-                conn.close();
-            } catch (SQLException e) {
-                System.err.println("Error al cerrar la conexión: " + e.getMessage());
-            }
-        }
-    }    
 }
