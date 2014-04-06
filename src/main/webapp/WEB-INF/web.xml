@@ -5,6 +5,10 @@
         <servlet-class>AboutUs</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>Register</servlet-name>
+        <servlet-class>Register</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>Contact</servlet-name>
         <servlet-class>Contact</servlet-class>
     </servlet>
@@ -32,6 +36,11 @@
         <servlet-name>PedidoController</servlet-name>
         <servlet-class>pedido.PedidoController</servlet-class>
     </servlet>
+    
+    <servlet-mapping>
+        <servlet-name>Register</servlet-name>
+        <url-pattern>/Register</url-pattern>
+    </servlet-mapping>
     <servlet-mapping>
         <servlet-name>AboutUs</servlet-name>
         <url-pattern>/AboutUs</url-pattern>

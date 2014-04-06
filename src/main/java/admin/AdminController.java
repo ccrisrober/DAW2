@@ -35,8 +35,20 @@ public class AdminController extends Controller {
         return "Short description";
     }
     
+    public void actionUser(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        this.checkAccessAdmin(request, response);
+        
+        
+        
+        
+        
+        
+    }
+    
     public void actionList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        this.checkAccessAdmin(request, response);
         
         ProductoDAO dao = new ProductoDAO(ds);
         List<Producto> products = dao.getAll();
@@ -60,6 +72,7 @@ public class AdminController extends Controller {
     
     public void actionPedidos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        this.checkAccessAdmin(request, response);
         
         PedidoDAO pDao = new PedidoDAO(ds);
         List<Pedido> pedidos = pDao.getAll();

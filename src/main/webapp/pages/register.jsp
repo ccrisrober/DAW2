@@ -6,7 +6,7 @@
         <div class="alert alert-success">
             ${ok}
         </div>
-        Pincha <a href="Index">aquí</a> para volver al inicio.
+        Pincha <a href="Login">aquí</a> para loguearse.
     </t:when>
     <t:otherwise>
         <t:if test="${not empty error}">
@@ -14,12 +14,15 @@
             ${error}
         </div>
         </t:if>
-        <form id="loginform" name="loginform" method="post" action="Login">
+        <form action="Register" class="form-horizontal" method="POST">
             <div class="form-group">
-                <label for="userfield">Username:</label><input class="form-control" id="userfield" type="text" name="userfield" />
+                <label for="userfield">Username:</label><input class="form-control" id="userfield" type="text" name="userfield" value="${userfield}"/>
             </div>
             <div class="form-group">
-                <label for="passfield">Password:</label><input class="form-control" id="passfield" type="text" name="passfield" />
+                <label for="passfield">Password:</label><input class="form-control" id="passfield" type="password" name="passfield"  value="${passfield}"/>
+            </div>
+            <div class="form-group">
+                <label for="passfield2">Password 2:</label><input class="form-control" id="passfield2" type="password" name="passfield2" />
             </div>
             <button type="submit" class="btn btn-default">Submit</button>
         </form>
@@ -27,3 +30,4 @@
 </t:choose>
         <br/>
 </div>
+

@@ -5,19 +5,27 @@
  */
 
 import java.io.IOException;
-import java.io.PrintWriter;
+import java.util.LinkedList;
+import java.util.List;
+import javax.annotation.Resource;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+import others.Controller;
 import others.Functions;
+import others.PageTemplate;
+import others.TreeView;
 import user.UserDAO;
 
 /**
  *
  * @author Cristian
  */
-public class Register extends HttpServlet {
+public class Register extends Controller {
+    
+    @Resource(name = "jdbc/tienda_crodriguezbe")
+    private DataSource ds;
     
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -30,7 +38,22 @@ public class Register extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        getServletContext().getRequestDispatcher("/pages/register.jsp").forward(request, response);
+        List<String> ltv = new LinkedList<String>();
+        
+        TreeView tv = new TreeView(ltv, "fa-dashboard");
+
+        List<String> header = new LinkedList<String>();
+
+        List<String> footer = new LinkedList<String>();
+        footer.add("assets/js/index/index.js");
+
+        List<String> jspservlet = new LinkedList<String>();
+        //jspservlet.add("login.jsp");
+
+        PageTemplate pt = new PageTemplate("register.jsp", "index", tv, header, footer, jspservlet, "", true, "Dashboard");
+        request.getSession().setAttribute("templatepage", pt);
+
+        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
 
     /**
@@ -45,15 +68,11 @@ public class Register extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String user = request.getParameter("userfield");
-        String pass = request.getParameter("passwordfield");
-        String pass2 = request.getParameter("passwordfield2");
-        String acepto = request.getParameter("remember_me");
+        String pass = request.getParameter("passfield");
+        String pass2 = request.getParameter("passfield2");
         
         String error = "";
         boolean errorPass = false;
-        if (acepto == null || !acepto.equals("on")) {
-            error += "<li>Tienes que aceptar las condiciones de uso.</li>";
-        }
         if (Functions.isEmpty(user)) {
             error += "<li>Usuario está vacío</li>";
         }
@@ -74,40 +93,21 @@ public class Register extends HttpServlet {
         request.setAttribute("userfield", user);
         request.setAttribute("passfield", pass);
         request.setAttribute("passfield2", pass2);
-        request.setAttribute("remember_me", acepto);
         
         // Si la variable error tiene caracteres, salimos y marcamos los errores
         if (!error.isEmpty()) {
             request.setAttribute("error", "<ul>" + error + "</ul>");
-            
-            
-            
-            
-            
-            
-            
-            
         } else {
-            UserDAO dao = new UserDAO(null);
+            UserDAO dao = new UserDAO(ds);
             boolean exito = dao.register(user, pass);            // Registramos al usuario
             if(!exito) {
                 request.setAttribute("error", "Error al registrar.");
-                
-                
-                
-                
-                
-                
-                
-                
             }
             else {
-                PrintWriter out = response.getWriter();
-                out.println("<script>alert('Se has ingresado con éxito.'); location.href='Login';</script>");
-                out.close();
+                request.setAttribute("ok", "¡Se ha ingresado con éxito!");
             }
         }
-        
+        doGet(request, response);
     }
 
     /**

@@ -36,22 +36,47 @@ public class UserDAO {
     }
 
     synchronized public int validate(String user, String pass) {
-        return (user.equals("costa") && (pass.equals("zorra"))) ? 1: 0;
+        int salida = 0;
+        if(user.equals("costa") && (pass.equals("costa"))) {
+            salida = 2;
+        } else if(user.equals("admin") && (pass.equals("admin"))) {
+            salida = 1;
+        } else if(user.equals("cristian") && (pass.equals("cristian"))) {
+            salida = 3;
+        } else if(user.equals("dani") && (pass.equals("dani"))) {
+            salida = 4;
+        }
+        return salida;
     }
 
     public boolean register(String user, String pass) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     public User getUser(int id_user) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        User salida = null;
+        switch(id_user) {
+            case 1:
+                salida = new User("admin", "admin");
+                break;
+            case 2:
+                salida = new User("costa", "costa");
+                break;
+            case 3:
+                salida = new User("cristian", "cristian");
+                break;
+            case 4:
+                salida = new User("dani", "dani");
+                break;
+        }
+        return salida;
     }
 
     public boolean editPassword(int id_user, String password) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        return true;
     }
 
     public boolean isAdmin(int pos) {
-        return false;
+        return pos == 1;
     }
 }

@@ -30,7 +30,8 @@ public class PedidoController extends Controller {
     
     public void actionGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        checkAccessLogin(request, response);
+        
+        this.checkAccessLogin(request, response);
         
         String id_ped_aux = request.getParameter("id_ped");
         
@@ -79,7 +80,9 @@ public class PedidoController extends Controller {
     
     public void actionIndex(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        checkAccessLogin(request, response);
+        
+        this.checkAccessLogin(request, response);
+        
         PrintWriter out = response.getWriter();
         out.println("hola");
         out.close();

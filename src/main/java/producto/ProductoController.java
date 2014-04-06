@@ -38,6 +38,9 @@ public class ProductoController extends Controller {
     //Este será por POST, cambiar en la función post y también en lo de SSDD
     public void postEdit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        this.checkAccessLogin(request, response);
+        
         String id_aux = request.getParameter("idfield");
         String name = request.getParameter("namefield");
         String category = request.getParameter("categoryfield");
@@ -104,6 +107,9 @@ public class ProductoController extends Controller {
     
     public void postInsert(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        this.checkAccessLogin(request, response);
+        
         String name = request.getParameter("namefield");
         String category = request.getParameter("categoryfield");
         String price_aux = request.getParameter("pricefield");
@@ -191,6 +197,9 @@ public class ProductoController extends Controller {
     
     public void actionCreate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        this.checkAccessLogin(request, response);
+        
         String random = Functions.updateSecurity(request.getSession(true));  // Código seguridad de usuario
         
         NumChar generateSecurity = Functions.generateNumChar(random);
@@ -215,6 +224,9 @@ public class ProductoController extends Controller {
     
     public void actionUpdate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        this.checkAccessLogin(request, response);
+        
         String id_aux = request.getParameter("idfield");
         
         // Check correct values
@@ -256,6 +268,9 @@ public class ProductoController extends Controller {
     public void actionList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
+        this.checkAccessLogin(request, response);
+        
+        
         ProductoDAO dao = new ProductoDAO(ds);
         List<Producto> products = dao.getAll();
         if(products == null) {
@@ -278,6 +293,9 @@ public class ProductoController extends Controller {
     
     public void actionDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        this.checkAccessLogin(request, response);
+        
         String id_aux = request.getParameter("idfield");
         
         // Checks errors
@@ -310,6 +328,9 @@ public class ProductoController extends Controller {
 
     public void actionLast(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
+        this.checkAccessLogin(request, response);
+        
         ProductoDAO dao = new ProductoDAO(ds);
         List<Producto> products = dao.getLast(15);
         if(products == null) {

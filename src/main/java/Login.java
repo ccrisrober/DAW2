@@ -101,11 +101,7 @@ public class Login extends Controller {
                 request.setAttribute("error", "Pareja usuario/contraseña no encontrado");
             }
         }
-        if(error) {
-            response.sendRedirect("Login");
-        } else {
-            response.sendRedirect("Index");
-        }
+        doGet(request, response);
     }
 
     /**

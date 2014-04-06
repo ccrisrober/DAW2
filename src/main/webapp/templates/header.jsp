@@ -209,6 +209,13 @@
                                             </h4>
                                         </div>
                                     </div>
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading">
+                                            <h4 class="panel-title">
+                                                <a href="Register"><span class="glyphicon glyphicon-file"></span>Registro</a>
+                                            </h4>
+                                        </div>
+                                    </div>
                                     </t:otherwise>
                                 </t:choose>
                                 </div>

@@ -11,7 +11,7 @@
             ${error}
         </div>
         </t:if>
-        <form action="UserController" method="POST" class="form-horizontal">
+        <form action="UserController" method="POST" class="form-inline">
             <input type="hidden" value="editPassword" name="action" />
             <div class="form-group">
                 <label for="password1">Password</label><input class="form-control" id="password1" type="password" name="password1" />
