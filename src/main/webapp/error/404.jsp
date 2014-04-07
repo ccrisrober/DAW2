@@ -7,6 +7,6 @@
     </head>
     <body>
         <h1><i class="fa fa-warning text-yellow"></i> Ooops! you found a Dead Link</h1>
-        <img src="../assets/img/errors/404.png" alt="401"/>
+        <img src="assets/img/errors/404.png" alt="401"/>
     </body>
 </html>

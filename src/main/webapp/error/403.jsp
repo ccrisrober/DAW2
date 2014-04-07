@@ -7,6 +7,6 @@
     </head>
     <body>
         <h1><i class="fa fa-warning text-red"></i> Que no puedes acceder cojones</h1>
-        <img src="../assets/img/errors/403.png" alt="403"/>
+        <img src="assets/img/errors/403.png" alt="403"/>
     </body>
 </html>

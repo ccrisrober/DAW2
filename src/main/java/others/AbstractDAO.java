@@ -15,7 +15,7 @@ public abstract class AbstractDAO {
     protected DataSource ds;
     protected Connection conn;
     
-    public AbstractDAO(DataSource ds) {
+    protected AbstractDAO(DataSource ds) {
         try {
             this.ds = ds;
             conn = ds.getConnection();
