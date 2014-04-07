@@ -1,6 +1,7 @@
 package others;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Map;
@@ -11,6 +12,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileItemIterator;
+import org.apache.commons.fileupload.FileItemStream;
+import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.servlet.ServletFileUpload;
+import org.apache.commons.fileupload.util.Streams;
 
 public abstract class Controller extends HttpServlet {
 
@@ -63,15 +69,34 @@ public abstract class Controller extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        /*System.out.println("Datos: : D");
-        Set<Map.Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
-        for(Map.Entry<String, String[]> entry: entrySet) {
-            System.out.print(entry.getKey());
-            for(String ss: entry.getValue()) {
-                System.out.println(ss);
+        String action = "";
+        if (ServletFileUpload.isMultipartContent(request)) {
+            try {
+                FileItemIterator iterator = new ServletFileUpload().getItemIterator(request);
+                while (iterator.hasNext()) {
+                    FileItemStream item = iterator.next();
+                    if (item.isFormField()) {
+                        if(item.getFieldName().equals("action")) {
+                            action = Streams.asString(item.openStream());
+                        }
+                    }
+                }
+            } catch (FileUploadException ex) {
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            action = request.getParameter("action");
+        }
+        /*if (action == null) {
+        System.out.println("Datos: : D");
+            Set<Map.Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
+            for (Map.Entry<String, String[]> entry : entrySet) {
+                System.out.print(entry.getKey());
+                for (String ss : entry.getValue()) {
+                    System.out.println(ss);
+                }
             }
         }*/
-        String action = request.getParameter("action");
         System.err.println("Esto en action por POST: " + action);
         if (action != null && !action.isEmpty()) {
             callFunction(request, response, action, "post");
