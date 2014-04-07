@@ -1,9 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package user;
 
 import java.io.IOException;
@@ -20,12 +14,7 @@ import others.PageTemplate;
 import others.TreeView;
 import pedido.Pedido;
 import pedido.PedidoDAO;
-import producto.ProductoDAO;
 
-/**
- *
- * @author d
- */
 public class UserController extends Controller {
     
     @Resource(name = "jdbc/tienda_crodriguezbe")
@@ -36,9 +25,8 @@ public class UserController extends Controller {
         
         this.checkAccessLogin(request, response);
         
-        //Esto está mal, es para probar : D
         List<String> ltv = new LinkedList<String>();
-        ltv.add("Carrito");
+        ltv.add("Usuario");
         ltv.add("Listar");
         TreeView tv = new TreeView(ltv, "fa-dashboard");
         

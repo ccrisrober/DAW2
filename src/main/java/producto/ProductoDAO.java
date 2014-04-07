@@ -1,10 +1,11 @@
 package producto;
 
-import java.sql.*;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.sql.DataSource;
 import others.AbstractDAO;
 
@@ -17,36 +18,35 @@ public class ProductoDAO extends AbstractDAO {
     synchronized public List<Producto> getAll() {
         List<Producto> productos = new ArrayList<Producto>();
         Statement stm = null;
+        ResultSet rs = null;
         try {
             stm = this.conn.createStatement();
             String sql = "SELECT * FROM Producto";
-            
-            ResultSet rs = stm.executeQuery(sql);
-            productos = createProductosFromRS(rs);
-            rs.close();
-            
-            
+            rs = stm.executeQuery(sql);
+            productos = createProductosFromRS(rs);            
         } catch (SQLException e) {
-            throw new RuntimeException("Error al realizar la consulta: " + e);
+            System.out.println(e.getMessage());
+            this.close();
         } finally {
-            try {
-                stm.close();
-            } catch (SQLException e) {
-                System.err.println("Error al realizar la consulta: " + e.getLocalizedMessage());
-            }
+            this.closeResultSet(rs);
+            this.closeStatament(stm);
         }
         return productos;
+    }
+    
+    private Producto createProductoFromRS(ResultSet rs) throws SQLException {
+        int id = rs.getInt("id_prod");
+        String name = rs.getString("name");
+        String image = rs.getString("image");
+        String categoria = rs.getString("category");
+        double precio = rs.getDouble("price");
+        return new Producto(id, name, image, categoria, precio);
     }
     
     private List<Producto> createProductosFromRS(ResultSet rs) throws SQLException {
         List<Producto> productos = new ArrayList<Producto>();
         while(rs.next()) {
-            int id = rs.getInt("id_prod");
-            String name = rs.getString("name");
-            String image = rs.getString("image");
-            String categoria = rs.getString("category");
-            double precio = rs.getDouble("price");
-            productos.add(new Producto(id, name, image, categoria, precio));
+            productos.add(createProductoFromRS(rs));
         }
         return productos;
     }
@@ -56,7 +56,6 @@ public class ProductoDAO extends AbstractDAO {
         PreparedStatement ps = null;
         try {
             String sql = "INSERT INTO producto (name, image, category, price) VALUES(?, ?, ?, ?)";
-                        
             ps = conn.prepareStatement(sql);
             ps.setString(1, name);
             ps.setString(2, image);
@@ -64,29 +63,13 @@ public class ProductoDAO extends AbstractDAO {
             ps.setDouble(4, price);
             int executeUpdate = ps.executeUpdate();
             if(executeUpdate == 1) {
-                insert_ = true;     // http://lineadecodigo.com/java/insertar-datos-con-jdbc/
+                insert_ = true;
             }
         } catch (SQLException e) {
-
             System.out.println(e.getMessage());
-
+            this.close();
         } finally {
-
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            this.closePreparedStatement(ps);
         }
         return insert_;
     }
@@ -99,29 +82,13 @@ public class ProductoDAO extends AbstractDAO {
             ps.setInt(1, id);
             int executeUpdate = ps.executeUpdate();
             if(executeUpdate == 1) {
-                delete_ = true;     // http://lineadecodigo.com/java/insertar-datos-con-jdbc/
+                delete_ = true;
             }
         } catch (SQLException e) {
-
             System.out.println(e.getMessage());
-
+            this.close();
         } finally {
-
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            this.closePreparedStatement(ps);
         }
         return delete_;
     }
@@ -137,29 +104,13 @@ public class ProductoDAO extends AbstractDAO {
             ps.setInt(4, id);
             int executeUpdate = ps.executeUpdate();
             if(executeUpdate == 1) {
-                update_ = true;     // http://lineadecodigo.com/java/insertar-datos-con-jdbc/
+                update_ = true;
             }
         } catch (SQLException e) {
-
             System.out.println(e.getMessage());
-
+            this.close();
         } finally {
-
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
+            this.closePreparedStatement(ps);
         }
         return update_;
     }
@@ -167,64 +118,40 @@ public class ProductoDAO extends AbstractDAO {
     public Producto get(int id) {
         Producto p = null;
         PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
             ps = conn.prepareStatement("SELECT * FROM producto WHERE id_prod=?");
             ps.setInt(1, id);
-            ResultSet rs = ps.executeQuery();
+            rs = ps.executeQuery();
             while(rs.next()) {
-                String name = rs.getString("name");
-                String image = rs.getString("image");
-                String categoria = rs.getString("category");
-                double precio = rs.getDouble("price");
-                p = new Producto(id, name, image, categoria, precio);
+                p = this.createProductoFromRS(rs);
             }
-            rs.close();
         } catch (SQLException e) {
-
             System.out.println(e.getMessage());
-
+            this.close();
         } finally {
-
-            if (ps != null) {
-                try {
-                    ps.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-
-            /*if (conn != null) {
-                try {
-                    conn.close();
-                } catch (SQLException ex) {
-                    Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }*/
+            this.closePreparedStatement(ps);
+            this.closeResultSet(rs);
         }
         return p;
     }
 
     List<Producto> getLast(int max) {
         List<Producto> productos = new ArrayList<Producto>();
-        Statement stm = null;
+        PreparedStatement ps = null;
+        ResultSet rs = null;
         try {
-            stm = this.conn.createStatement();
-            String sql = "SELECT * FROM Producto ORDER BY id_prod DESC FETCH FIRST " + max + " ROWS ONLY";    // Aquí va la consulta
-            System.out.println("---------------\n" + sql + "\n---------------");
-            
-            ResultSet rs = stm.executeQuery(sql);
+            String sql = "SELECT * FROM Producto ORDER BY id_prod DESC FETCH FIRST ? ROWS ONLY"; 
+            ps = this.conn.prepareStatement(sql);
+            ps.setInt(1, max);
+            rs = ps.executeQuery(sql);
             productos = createProductosFromRS(rs);
-            rs.close();
-            
-            
         } catch (SQLException e) {
-            throw new RuntimeException("Error al realizar la consulta: " + e);
+            System.out.println(e.getMessage());
+            this.close();
         } finally {
-            try {
-                stm.close();
-            } catch (SQLException e) {
-                System.err.println("Error al realizar la consulta: " + e.getLocalizedMessage());
-            }
+            this.closePreparedStatement(ps);
+            this.closeResultSet(rs);
         }
         return productos;
     }

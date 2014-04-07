@@ -18,7 +18,7 @@ CREATE TABLE Usuario (
 ALTER TABLE Usuario ADD CONSTRAINT PK_Usuario PRIMARY KEY (id_user);
 
 CREATE TABLE Pedido (
-    id_pedido integer NOT NULL,
+    id_pedido INTEGER NOT NULL GENERATED ALWAYS AS IDENTITY (START WITH 1, INCREMENT BY 1),
     id_user integer NOT NULL,
     date date not null,
     price decimal not null default 0,

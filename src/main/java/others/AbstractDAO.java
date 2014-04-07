@@ -1,13 +1,5 @@
 package others;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,10 +11,6 @@ import javax.sql.DataSource;
 import pedido.PedidoDAO;
 import producto.ProductoDAO;
 
-/**
- *
- * @author Cristian
- */
 public abstract class AbstractDAO {
     protected DataSource ds;
     protected Connection conn;
@@ -67,17 +55,6 @@ public abstract class AbstractDAO {
     }
     
     protected void closePreparedStatement(PreparedStatement ps) {
-        if (ps != null) {
-            try {
-                ps.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(ProductoDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    protected void closeIfException(ResultSet rs, PreparedStatement ps) {
-        
         if (ps != null) {
             try {
                 ps.close();

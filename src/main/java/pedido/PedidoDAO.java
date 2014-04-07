@@ -10,9 +10,10 @@ import java.util.Calendar;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
 import others.AbstractDAO;
-import others.Functions;
 
 public class PedidoDAO extends AbstractDAO {
 
@@ -36,9 +37,8 @@ public class PedidoDAO extends AbstractDAO {
 
             while (rs.next()) {
                 pedido = createPedidoFromRs(rs);
+                pedido.setPedidoProducto(productos);
             }
-            
-            pedido.setPedidoProducto(productos);
 
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -56,8 +56,9 @@ public class PedidoDAO extends AbstractDAO {
         Date date = new Date(Calendar.getInstance().getTime().getTime());
         PreparedStatement ps = null;
         ResultSet rs = null;
+        PedidoProductoDAO pedprod = null;
         try {
-            String sql = "INSERT INTO pedido(id_user, date) VALUES (?, ?)";
+            String sql = "INSERT INTO Pedido(id_user, date) VALUES (?, ?)";
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);   // Extraemos el último ID
 
             ps.setInt(1, id_usu);
@@ -71,21 +72,25 @@ public class PedidoDAO extends AbstractDAO {
                     num_ped = rs.getInt(1);
                 }
             }
-            PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
+            pedprod = new PedidoProductoDAO(ds);
             ok = pedprod.insert(num_ped, id_usu, productos);
-            pedprod.close();
             if (!ok) {
                 delete(num_ped, id_usu);
             }
+            pedprod.close();
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            this.close();
+            try {
+                throw new SQLException(e);
+                /*System.out.println(e.getMessage());
+                this.close();*/
+            } catch (SQLException ex) {
+                Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } finally {
             this.closeResultSet(rs);
             this.closePreparedStatement(ps);
         }
         return ok;
-
     }
 
     synchronized public List<Pedido> getAll(int id_user) {
@@ -130,14 +135,12 @@ public class PedidoDAO extends AbstractDAO {
     }
 
     synchronized private Pedido createPedidoFromRs(ResultSet rs) throws SQLException {
-        Pedido p = null;
         int id_pedido = rs.getInt("id_pedido");
         int id_usu = rs.getInt("id_user");
         Date date = rs.getDate("date");
         double price = rs.getDouble("price");
         boolean procesado = rs.getBoolean("procesado");
-        p = new Pedido(id_pedido, id_usu, date, price, procesado);
-        return p;
+        return new Pedido(id_pedido, id_usu, date, price, procesado);
     }
     
     synchronized private List<Pedido> createPedidosFromRS(ResultSet rs) throws SQLException {
