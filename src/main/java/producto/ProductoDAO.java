@@ -144,7 +144,7 @@ public class ProductoDAO extends AbstractDAO {
             String sql = "SELECT * FROM Producto ORDER BY id_prod DESC FETCH FIRST ? ROWS ONLY"; 
             ps = this.conn.prepareStatement(sql);
             ps.setInt(1, max);
-            rs = ps.executeQuery(sql);
+            rs = ps.executeQuery();
             productos = createProductosFromRS(rs);
         } catch (SQLException e) {
             System.out.println(e.getMessage());

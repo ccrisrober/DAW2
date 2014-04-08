@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -12,9 +13,11 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.FileItemIterator;
 import org.apache.commons.fileupload.FileItemStream;
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
 import org.apache.commons.fileupload.util.Streams;
 
@@ -72,13 +75,13 @@ public abstract class Controller extends HttpServlet {
         String action = "";
         if (ServletFileUpload.isMultipartContent(request)) {
             try {
-                FileItemIterator iterator = new ServletFileUpload().getItemIterator(request);
-                while (iterator.hasNext()) {
-                    FileItemStream item = iterator.next();
-                    if (item.isFormField()) {
-                        if(item.getFieldName().equals("action")) {
-                            action = Streams.asString(item.openStream());
-                        }
+                List<FileItem> multiparts = new ServletFileUpload(
+                        new DiskFileItemFactory()).parseRequest(request);
+                request.setAttribute("multiparts", multiparts);
+                for(FileItem item: multiparts) {
+                    if(item.isFormField() && item.getFieldName().equals("action")) {
+                        action = Streams.asString(item.getInputStream());
+                        break;
                     }
                 }
             } catch (FileUploadException ex) {

@@ -1,4 +1,4 @@
-                    
+                    ${requestScope.error}
                     ${requestScope.ok}
                     <form role="form" method="post" action="ProductoController" enctype="multipart/form-data">
                         <input type="hidden" name="action" id="action" value="insert" />

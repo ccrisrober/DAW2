@@ -7,6 +7,7 @@ import others.PageTemplate;
 import others.Functions;
 import others.TreeView;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -34,11 +35,7 @@ public class ProductoController extends Controller {
 
     @Override
     public void init() throws ServletException {
-        try {
-            UPLOAD_DIRECTORY = new File(".").getCanonicalPath() + File.separator + "assets" + File.separator + "img" + File.separator + "products";
-        } catch (IOException ex) {
-            Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        UPLOAD_DIRECTORY = File.separator + "assets" + File.separator + "img" + File.separator + "products";
     }
 
     //Este será por POST, cambiar en la función post y también en lo de SSDD
@@ -114,45 +111,46 @@ public class ProductoController extends Controller {
     public void postInsert(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        this.checkAccessAdmin(request, response);
+        //this.checkAccessAdmin(request, response);
 
-        String name = ""; //= request.getParameter("namefield");
-        String category = ""; //= request.getParameter("categoryfield");
-        String price_aux = ""; //= request.getParameter("pricefield");
+        String name = "";// = request.getParameter("namefield");
+        String category = "";// = request.getParameter("categoryfield");
+        String price_aux = "";// = request.getParameter("pricefield");
         //String charSec = request.getParameter("ac");
         //String intSec = request.getParameter("ai");
 
         String img_route = "";
-
         
-        //http://stackoverflow.com/questions/9625952/java-servlet-file-upload-of-images-is-the-code-efficient-or-allowing-for-memor
-        if (ServletFileUpload.isMultipartContent(request)) {
-            try {
-                FileItemIterator iterator = new ServletFileUpload().getItemIterator(request);
-                while (iterator.hasNext()) {
-                    FileItemStream item = iterator.next();
-                    if (item.isFormField()) {
-                        if(item.getFieldName().equals("namefield")) {
-                            name = Streams.asString(item.openStream());
-                        } else if(item.getFieldName().equals("categoryfield")) {
-                            category = Streams.asString(item.openStream());
-                        } else if(item.getFieldName().equals("pricefield")) {
-                            price_aux = Streams.asString(item.openStream());
-                        }
-                    } else {
-                        if (item.getContentType().equals("image/jpeg")
-                                || item.getContentType().equals("image/jpg")
-                                || item.getContentType().equals("image/png")) {
-                            item.write(new File(UPLOAD_DIRECTORY + File.separator + name));
-                            img_route = UPLOAD_DIRECTORY + File.separator + name;
-                            break;
-                        } else {
-                            break;
-                        }
-                    }
+        List<FileItem> multiparts = (List<FileItem>) request.getAttribute("multiparts");
+        for(FileItem item: multiparts) {
+            if(item.isFormField()) {        // Esto es un input : D
+                if(item.getFieldName().equals("namefield")) {
+                    name = Streams.asString(item.getInputStream());
+                } else if(item.getFieldName().equals("categoryfield")) {
+                    category = Streams.asString(item.getInputStream());
+                } else if(item.getFieldName().equals("pricefield")) {
+                    price_aux = Streams.asString(item.getInputStream());
                 }
-            } catch (FileUploadException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            } else {
+                if (item.getContentType().equals("image/jpeg")
+                        || item.getContentType().equals("image/jpg")
+                        || item.getContentType().equals("image/png")) {
+                    try {
+                        FileItem fI = (FileItem)item;
+                        File path = new File(this.getServletContext().getRealPath(UPLOAD_DIRECTORY));
+                        if(!path.exists()) {
+                            boolean status = path.mkdirs();
+                        }
+                        img_route = path + File.separator + item.getName();
+                        File uploadedFile = new File(img_route);
+                        fI.write(uploadedFile);
+                        break;
+                    } catch (Exception ex) {
+                        Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    break;
+                }
             }
         }
         
@@ -176,25 +174,6 @@ public class ProductoController extends Controller {
          if(!generateSecurity.equals(formSecurity)) {
          error += "<li>Se ha producido un problema de seguridad. " + generateSecurity.toString() + " : " + formSecurity.toString() + "</li>";
          }*/
-
-        /*if (ServletFileUpload.isMultipartContent(request)) {
-            try {
-                List<FileItem> multiparts = new ServletFileUpload(
-                        new DiskFileItemFactory()).parseRequest(request);
-
-                for (FileItem item : multiparts) {
-                    if (item.isFormField()) {
-                        if(item.getFieldName().equals("action")) {
-                            namefield = Streams.asString(item.openStream());
-                        }
-                    } else {
-                        
-                    }
-                }
-            } catch (Exception ex) {
-                error += "File Upload Failed due to " + ex;
-            }
-        }*/
 
         if (!error.isEmpty()) {
             request.setAttribute("error", "<ul>" + error + "</ul>");
@@ -230,7 +209,7 @@ public class ProductoController extends Controller {
 
     public void actionCreate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        this.checkAccessAdmin(request, response);
+        //this.checkAccessAdmin(request, response);
 
         String random = Functions.updateSecurity(request.getSession(true));  // Código seguridad de usuario
 
