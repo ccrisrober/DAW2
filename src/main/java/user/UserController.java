@@ -49,7 +49,7 @@ public class UserController extends Controller {
         
         // Extramoes usuario sessión
         
-        int id_user = 2;
+        int id_user = (Integer)request.getSession(true).getAttribute("id_user");
         
         String password1 = request.getParameter("password1");
         String password2 = request.getParameter("password2");
@@ -84,6 +84,10 @@ public class UserController extends Controller {
         
         this.checkAccessLogin(request, response);
         
+        
+        //Aquí falta borrar eh!
+        
+        
         request.getSession(true).invalidate();
         response.sendRedirect("Index");
     }
@@ -98,7 +102,7 @@ public class UserController extends Controller {
         String error = "";
         
         
-        int id_usu_aux = 1;
+        int id_usu_aux = (Integer)request.getSession(true).getAttribute("id_user");
         
         /*if(!Functions.isID(id_usu_aux)){
             error = "No se encuentra la sesión";
@@ -138,20 +142,19 @@ public class UserController extends Controller {
         
         this.checkAccessLogin(request, response);
         
-        HttpSession session = request.getSession(true);
         //int id_usu_aux = (Integer) session.getAttribute("id_user");
         
         
-        int id_usu_aux = 1;
+        int id_usu_aux = (Integer)request.getSession(true).getAttribute("id_user");
         
-            UserDAO dao = new UserDAO(ds);
-            User user = dao.getUser(id_usu_aux);
-            if(user == null) {
-                request.setAttribute("error", "Usuario no encontrado");
-            } else {
-                request.setAttribute("user", user);
-            }
-            dao.close();
+        UserDAO dao = new UserDAO(ds);
+        User user = dao.getUser(id_usu_aux);
+        if(user == null) {
+            request.setAttribute("error", "Usuario no encontrado");
+        } else {
+            request.setAttribute("user", user);
+        }
+        dao.close();
         //}
         //Esto está mal, es para probar : D
         List<String> ltv = new LinkedList<String>();

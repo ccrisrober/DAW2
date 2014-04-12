@@ -74,7 +74,10 @@ public class PedidoDAO extends AbstractDAO {
             }
             pedprod = new PedidoProductoDAO(ds);
             ok = pedprod.insert(num_ped, id_usu, productos);
-            if (!ok) {
+            if (ok) {
+                double price = pedprod.getPrice(num_ped);
+                update(num_ped, date, price); 
+            } else {
                 delete(num_ped, id_usu);
             }
             pedprod.close();
@@ -191,5 +194,27 @@ public class PedidoDAO extends AbstractDAO {
             this.closePreparedStatement(ps);
         }
         return access;
+    }
+
+    synchronized public boolean update(int num_ped, Date date, double price) {
+        boolean update = false;
+        PreparedStatement ps = null;
+        try {
+            String query = "UPDATE Pedido SET date = ?, price = ? WHERE id_pedido = ?";
+            ps = this.conn.prepareStatement(query);
+            ps.setDate(1, date);
+            ps.setDouble(2, price);
+            ps.setInt(3, num_ped);
+            int upd = ps.executeUpdate();
+            if (upd > 0) {
+                update = true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.close();
+        } finally {
+            this.closePreparedStatement(ps);
+        }
+        return update;
     }
 }

@@ -32,6 +32,6 @@
 
 <form action="CarritoController" method="POST">
     <input type="hidden" value="finish" name="action" id="action" />
-    <input type="submit" value="Enviar" />
-    </div>
+     <a href="javascript:history.back(1)" class="btn btn-warning">Volver Atrás</a>
+    <input type="submit" value="Enviar" class="btn btn-success"/>
 </form>

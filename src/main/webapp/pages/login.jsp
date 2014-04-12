@@ -1,6 +1,6 @@
 <%@taglib prefix="t" uri="http://java.sun.com/jsp/jstl/core" %>
 <div class="col-md-12 column">
-    <h2>Registro usuarios</h2>
+    <h2>Login usuarios</h2>
 <t:choose>
     <t:when test="${not empty ok}">
         <div class="alert alert-success">

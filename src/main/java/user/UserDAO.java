@@ -73,7 +73,8 @@ public class UserDAO extends AbstractDAO {
             String sql = "SELECT * FROM Usuario WHERE id_user=?"; 
             ps = this.conn.prepareStatement(sql);
             ps.setInt(1, id_user);
-            rs = ps.executeQuery(sql);
+            System.out.println(ps.toString());
+            rs = ps.executeQuery();
             usuario = createUsuarioFromRS(rs);
         } catch (SQLException e) {
             System.out.println(e.getMessage());
@@ -89,7 +90,7 @@ public class UserDAO extends AbstractDAO {
         boolean editado = false;
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("UPDATE FROM Usuario SET password=? WHERE id_user=?");
+            ps = conn.prepareStatement("UPDATE Usuario SET password=? WHERE id_user=?");
             ps.setString(1, password);
             ps.setInt(2, id_user);
             int executeUpdate = ps.executeUpdate();

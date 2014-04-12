@@ -44,10 +44,43 @@ public class ProductoController extends Controller {
 
         this.checkAccessAdmin(request, response);
 
-        String id_aux = request.getParameter("idfield");
-        String name = request.getParameter("namefield");
-        String category = request.getParameter("categoryfield");
-        String price_aux = request.getParameter("pricefield");
+        String name = null, category = null, price_aux = null, img_route = "", img_route_old = null, id_aux = null;
+        
+        List<FileItem> multiparts = (List<FileItem>) request.getAttribute("multiparts");
+        for(FileItem item: multiparts) {
+            if(item.isFormField()) {        // Esto es un input : D
+                if(item.getFieldName().equals("namefield")) {
+                    name = Streams.asString(item.getInputStream());
+                } else if(item.getFieldName().equals("categoryfield")) {
+                    category = Streams.asString(item.getInputStream());
+                } else if(item.getFieldName().equals("pricefield")) {
+                    price_aux = Streams.asString(item.getInputStream());
+                } else if(item.getFieldName().equals("file_hidden")) {
+                    img_route_old = Streams.asString(item.getInputStream());
+                } else if(item.getFieldName().equals("id_prod")) {
+                    id_aux = Streams.asString(item.getInputStream());
+                }
+            } else {
+                if (item.getContentType().equals("image/jpeg")
+                        || item.getContentType().equals("image/jpg")
+                        || item.getContentType().equals("image/png")) {
+                    try {
+                        FileItem fI = (FileItem)item;
+                        File path = new File(this.getServletContext().getRealPath(UPLOAD_DIRECTORY));
+                        if(!path.exists()) {
+                            boolean status = path.mkdirs();
+                        }
+                        img_route = path + File.separator + item.getName();
+                        File uploadedFile = new File(img_route);
+                        fI.write(uploadedFile);
+                        break;
+                    } catch (Exception ex) {
+                        Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
+        }
+        
         //String charSec = request.getParameter("ac");
         //String intSec = request.getParameter("ai");
 
@@ -81,7 +114,10 @@ public class ProductoController extends Controller {
             int id = Integer.parseInt(id_aux);
             double price = Double.parseDouble(price_aux);
             ProductoDAO dao = new ProductoDAO(ds);
-            boolean update = dao.update(id, name, category, price);
+            if(Functions.isEmpty(img_route)) {
+                img_route = img_route_old;
+            }
+            boolean update = dao.update(id, name, category, price, img_route);
             if (update) {
                 request.setAttribute("ok", "Producto actualizado con éxito");
             } else {
@@ -141,15 +177,14 @@ public class ProductoController extends Controller {
                         if(!path.exists()) {
                             boolean status = path.mkdirs();
                         }
-                        img_route = path + File.separator + item.getName();
-                        File uploadedFile = new File(img_route);
+                        img_route = UPLOAD_DIRECTORY.replace(File.separator, "/") + item.getName();
+                        File uploadedFile = new File(path + File.separator + item.getName());
                         fI.write(uploadedFile);
+                        
                         break;
                     } catch (Exception ex) {
                         Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                } else {
-                    break;
                 }
             }
         }
@@ -164,6 +199,9 @@ public class ProductoController extends Controller {
         }
         if (!Functions.isPrice(price_aux)) {
             error += "<li>Incorrect price.</li>";
+        }
+        if(Functions.isEmpty(img_route)) {
+            error += "<li>Imagen vacía</li>";
         }
         /*String random = (String) request.getSession(true).getAttribute("random_active");  // Extraigo el user conectado
         
@@ -233,12 +271,12 @@ public class ProductoController extends Controller {
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
 
-    public void actionUpdate(HttpServletRequest request, HttpServletResponse response)
+    public void actionEdit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
         this.checkAccessAdmin(request, response);
 
-        String id_aux = request.getParameter("idfield");
+        String id_aux = request.getParameter("id_prod");
 
         // Check correct values
         String error = "";
@@ -255,7 +293,11 @@ public class ProductoController extends Controller {
             if (p == null) {
                 request.setAttribute("error", "Producto no encontrado");
             } else {
-                request.setAttribute("producto", p);
+                request.setAttribute("category", p.getCategoria());
+                request.setAttribute("id", p.getId());
+                request.setAttribute("image", p.getImage());
+                request.setAttribute("name", p.getName());
+                request.setAttribute("price", p.getPrecio());
             }
             dao.close();
         }
@@ -339,7 +381,7 @@ public class ProductoController extends Controller {
             throws ServletException, IOException {
 
         ProductoDAO dao = new ProductoDAO(ds);
-        List<Producto> products = dao.getLast(15);
+        List<Producto> products = dao.getLast(10);
         if (products == null) {
             products = new ArrayList<Producto>();
         }

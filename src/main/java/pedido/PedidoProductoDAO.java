@@ -22,6 +22,16 @@ class PedidoProductoDAO extends AbstractDAO {
     List<Producto> getProductoPedido(int id_pedido) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+    
+    double getPrice(int num_pedido) {
+        double total = 0;
+        List<PedidoProducto> productos = getProductos(num_pedido);
+        Producto p;
+        for(PedidoProducto pp: productos) {
+            total += pp.getProd().getPrecio() * pp.getQuantity();
+        }
+        return total;
+    }
 
     boolean insert(int num_pedido, int id_user, Map<Integer, Integer> productos) {
         boolean finish = false;
@@ -85,7 +95,7 @@ class PedidoProductoDAO extends AbstractDAO {
             int id_pedido = rs.getInt("id_pedido");
             int id_user = rs.getInt("id_user");
             int quantity = rs.getInt("quantity");
-            lpp.add(new PedidoProducto(id_prod, id_pedido, id_user, quantity, prodDAO.get(id_prod)));
+            lpp.add(new PedidoProducto(id_pedido, id_prod, id_user, quantity, prodDAO.get(id_prod)));
         }
         prodDAO.close();
         return lpp;

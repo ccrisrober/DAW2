@@ -40,6 +40,7 @@ public class ProductoDAO extends AbstractDAO {
         String image = rs.getString("image");
         String categoria = rs.getString("category");
         double precio = rs.getDouble("price");
+        precio = Math.rint(precio*100)/100;
         return new Producto(id, name, image, categoria, precio);
     }
     
@@ -62,7 +63,7 @@ public class ProductoDAO extends AbstractDAO {
             ps.setString(3, category);
             ps.setDouble(4, price);
             int executeUpdate = ps.executeUpdate();
-            if(executeUpdate == 1) {
+            if(executeUpdate > 0) {
                 insert_ = true;
             }
         } catch (SQLException e) {
@@ -81,7 +82,7 @@ public class ProductoDAO extends AbstractDAO {
             ps = conn.prepareStatement("DELETE FROM producto WHERE id=?");
             ps.setInt(1, id);
             int executeUpdate = ps.executeUpdate();
-            if(executeUpdate == 1) {
+            if(executeUpdate > 0) {
                 delete_ = true;
             }
         } catch (SQLException e) {
@@ -93,17 +94,18 @@ public class ProductoDAO extends AbstractDAO {
         return delete_;
     }
 
-    synchronized boolean update(int id, String name, String category, double price) {
+    synchronized boolean update(int id, String name, String category, double price, String img_route) {
         boolean update_ = false;
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("UPDATE FROM producto SET name=?, category=?, price=? WHERE id=?");
+            ps = conn.prepareStatement("UPDATE Producto SET name=?, category=?, price=?, image = ? WHERE id_prod=?");
             ps.setString(1, name);
             ps.setString(2, category);
             ps.setDouble(3, price);
-            ps.setInt(4, id);
+            ps.setString(4, img_route);
+            ps.setInt(5, id);
             int executeUpdate = ps.executeUpdate();
-            if(executeUpdate == 1) {
+            if(executeUpdate > 0) {
                 update_ = true;
             }
         } catch (SQLException e) {

@@ -73,10 +73,11 @@ public class Register extends Controller {
             UserDAO dao = new UserDAO(ds);
             boolean exito = dao.register(user, pass);            // Registramos al usuario
             if (!exito) {
-                request.setAttribute("error", "Error al registrar.");
+                request.setAttribute("error", "Error al registrar. Es posible que el usuario ya exista");
             } else {
                 request.setAttribute("ok", "¡Se ha ingresado con éxito!");
             }
+            dao.close();
         }
         doGet(request, response);
     }

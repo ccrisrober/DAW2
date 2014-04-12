@@ -35,7 +35,7 @@ public class PedidoController extends Controller {
         
         String id_ped_aux = request.getParameter("id_ped");
         
-        int id_user = 1;        // Esto sería mirar la variable de sesión
+        int id_user = (Integer)request.getSession(true).getAttribute("id_user");
         
         
         //Comprobamos errores
