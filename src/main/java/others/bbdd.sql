@@ -36,7 +36,7 @@ CREATE TABLE Pedido_Producto (
 
 ALTER TABLE Pedido_Producto ADD CONSTRAINT PK_Pedido_Producto PRIMARY KEY (id_prod,id_pedido,id_user);
 
-ALTER TABLE Pedido ADD CONSTRAINT FK_Pedido_0 FOREIGN KEY (id_user) REFERENCES Usuario (id_user);
+ALTER TABLE Pedido ADD CONSTRAINT FK_Pedido_0 FOREIGN KEY (id_user) REFERENCES Usuario (id_user) ON DELETE CASCADE;
 
 ALTER TABLE Pedido_Producto ADD CONSTRAINT FK_Pedido_Producto_0 FOREIGN KEY (id_prod) REFERENCES Producto (id_prod);
 ALTER TABLE Pedido_Producto ADD CONSTRAINT FK_Pedido_Producto_1 FOREIGN KEY (id_pedido,id_user) REFERENCES Pedido (id_pedido,id_user);

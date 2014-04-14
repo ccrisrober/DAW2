@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<erd version="1.0">
+    <datasource>
+        <connection value="jdbc:derby://localhost:1527/tienda_crodriguezbe"/>
+    </datasource>
+    <table tableId="SOURCE" x="" y=""/>
+    <table tableId="PEDIDO_PRODUCTO" x="" y=""/>
+    <table tableId="PRODUCTO" x="" y=""/>
+    <table tableId="USUARIO" x="" y=""/>
+    <table tableId="PEDIDO" x="" y=""/>
+    <table tableId="DEST" x="" y=""/>
+</erd>

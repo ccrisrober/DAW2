@@ -117,7 +117,7 @@ public abstract class Controller extends HttpServlet {
     
     protected boolean isAdmin(HttpServletRequest request) {
         boolean isAdmin_ = false;
-        if(request.getSession(true).getAttribute("admin_mode") == null) {
+        if(request.getSession(true).getAttribute("admin_mode") != null) {
             isAdmin_ = true;
         }
         return isAdmin_;

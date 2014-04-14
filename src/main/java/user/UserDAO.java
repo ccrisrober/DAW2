@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.sql.DataSource;
 import others.AbstractDAO;
+import pedido.PedidoDAO;
 
 public class UserDAO extends AbstractDAO {
 
@@ -118,10 +119,17 @@ public class UserDAO extends AbstractDAO {
             ps.setInt(1, id_user);
             System.out.println(ps.toString());
             rs = ps.executeQuery();
-            usuario = createUsuarioFromRS(rs);
+            if(rs.next()) {
+                usuario = createUsuarioFromRS(rs);
+            }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
+            //System.out.println(e.getMessage());
             this.close();
+            try {
+                throw new SQLException (e);
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } finally {
             this.closePreparedStatement(ps);
             this.closeResultSet(rs);
@@ -198,7 +206,11 @@ public class UserDAO extends AbstractDAO {
             ps = conn.prepareStatement("DELETE FROM Usuario WHERE id_user = ?");
             ps.setInt(1, id_user);
             if(ps.executeUpdate() > 0) {
-                delete_ = true;
+                PedidoDAO ped = new PedidoDAO(ds);
+                if(ped.deleteUser(id_user)) {
+                    delete_ = true;
+                }
+                ped.close();
             } 
         } catch (SQLException e) {
             System.out.println(e.getMessage());

@@ -10,7 +10,7 @@ ${requestScope.error}
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th>Id Pedido</th>
+                        <th>Nº Pedido</th>
                         <th>Fecha</th>
                         <th>Precio</th>
                         <th>Validado</th>

@@ -217,4 +217,53 @@ public class PedidoDAO extends AbstractDAO {
         }
         return update;
     }
+
+    synchronized public boolean deleteUser(int id_user) {
+        boolean delete_ = false;
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("DELETE FROM Pedido WHERE id_user = ?");
+            ps.setInt(1, id_user);
+            if(ps.executeUpdate() > 0) {
+                PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
+                if(pedprod.deletePedidoUser(id_user)) {
+                    delete_ = true;
+                }
+                pedprod.close();
+            } 
+        } catch (SQLException e) {
+            //System.out.println(e.getMessage());
+            this.close();
+            try {
+                throw new SQLException (e);
+            } catch (SQLException ex) {
+                Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } finally {
+            this.closePreparedStatement(ps);
+        }
+        return delete_;
+    }
+
+    synchronized public boolean deletePedido(int id_pedido) {
+        boolean delete_ = false;
+        PreparedStatement ps = null;
+        try {
+            ps = conn.prepareStatement("DELETE FROM Pedido WHERE id_pedido = ?");
+            ps.setInt(1, id_pedido);
+            if(ps.executeUpdate() > 0) {
+                PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
+                if(pedprod.deletePedido(id_pedido)) {
+                    delete_ = true;
+                }
+                pedprod.close();
+            } 
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.close();
+        } finally {
+            this.closePreparedStatement(ps);
+        }
+        return delete_;
+    }
 }

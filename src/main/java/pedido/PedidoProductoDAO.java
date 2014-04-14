@@ -100,5 +100,43 @@ class PedidoProductoDAO extends AbstractDAO {
         prodDAO.close();
         return lpp;
     }
+    
+    synchronized public boolean deletePedidoUser(int id_user) {
+        boolean delete_ = false;
+        PreparedStatement ps = null;
+        try {
+            String query = "DELETE FROM PedidoProducto WHERE id_user = ?"; 
+            ps = this.conn.prepareStatement(query);
+            ps.setInt(1, id_user);
+            if(ps.executeUpdate() > 0) {
+                delete_ = true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.close();
+        } finally {
+            this.closePreparedStatement(ps);
+        }
+        return delete_;
+    }
+    
+    synchronized public boolean deletePedido(int id_pedido) {
+        boolean delete_ = false;
+        PreparedStatement ps = null;
+        try {
+            String query = "DELETE FROM PedidoProducto WHERE id_pedido = ?"; 
+            ps = this.conn.prepareStatement(query);
+            ps.setInt(1, id_pedido);
+            if(ps.executeUpdate() > 0) {
+                delete_ = true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.close();
+        } finally {
+            this.closePreparedStatement(ps);
+        }
+        return delete_;
+    }
 
 }
