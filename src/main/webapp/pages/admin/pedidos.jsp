@@ -3,6 +3,19 @@
 
 <h1 id="tituloListado">Listado de pedidos</h1>
 
+<t:if test="${error = ''}">
+   <div class="alert alert-success">
+       Pedido actualizado con éxito.
+   </div>
+</t:if>
+<t:if test="${not empty error}">
+    <div class="alert alert-danger">
+        ${error}
+    </div>
+</t:if>
+
+<form action="AdminController" method="POST">
+
 <div id="contenedor">
     <div class="panel panel-default">
         <div class="panel-heading">Pedidos realizados por el cliente</div>
@@ -12,7 +25,7 @@
                 <thead>
                     <tr>
                         <th>Nº Pedido</th>
-                        <th>Usuario</th>
+                        <th>Usuario ID</th>
                         <th>Fecha</th>
                         <th>Precio</th>
                         <th>Validado</th>
@@ -25,7 +38,9 @@
                             <td>${pedido.getId_usu()}</td>
                             <td><fmt:formatDate type="date" value="${pedido.getDate()}" /></td>
                             <td>${pedido.getPrice()}&euro;</td>
-                            <td class="procesado"><a<t:if test="${not pedido.isProcesado()}"> onClick="validar()"</t:if>><span class="glyphicon glyphicon-thumbs-<t:out value="${pedido.isProcesado() ? 'up': 'down'}"/>"></span></a></td>
+                            <td class="procesado"><a href="AdminController?action=update&id_ped=${pedido.getId_pedido()}" <t:if test="${not pedido.isProcesado()}"> onClick=""</t:if>>
+                                    <span class="glyphicon glyphicon-thumbs-<t:out value="${pedido.isProcesado() ? 'up': 'down'}"/>"></span>
+                                </a></td>
                         </tr>
                     </t:forEach>
                 </tbody>
@@ -33,40 +48,8 @@
         </div>
     </div>
     
-    <button id="btnSubmit" class="btn" style="">Validar pedidos</button>
+    <input type="hidden" value="validar" name="action" id="action" />
+    <input type="submit" value="Validar pedidos" />
     <br><br />
-    
-    
-    <script>
-        function validar() {
-            alert("hola");
-            var par = $(this).parent().parent(); //tr
-            alert("hola");
-            par.remove();
-            alert("hola");
-            return false;
-        }
-        $(function () {
-    $("td .procesado").dblclick(function () {
-        var OriginalContent = $(this).text();
- 
-        $(this).addClass("cellEditing");
-        $(this).html("<input type=\"text\" value=\"&quot; + OriginalContent + &quot;\" />");
-        $(this).children().first().focus();
- 
-        $(this).children().first().keypress(function (e) {
-            if (e.which === 13) {
-                var newContent = $(this).val();
-                $(this).parent().text(newContent);
-                $(this).parent().removeClass("cellEditing");
-            }
-        });
- 
-    $(this).children().first().blur(function(){
-        $(this).parent().text(OriginalContent);
-        $(this).parent().removeClass("cellEditing");
-    });
-    });
-});
-    </script>
+</form>
 </div>

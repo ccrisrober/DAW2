@@ -266,4 +266,43 @@ public class PedidoDAO extends AbstractDAO {
         }
         return delete_;
     }
+    
+    synchronized public boolean validate(int id_ped) {
+        boolean update = false;
+        PreparedStatement ps = null;
+        try {
+            String query = "UPDATE Pedido SET procesado = true WHERE id_pedido = ?";
+            ps = this.conn.prepareStatement(query);
+            ps.setInt(1, id_ped);
+            int upd = ps.executeUpdate();
+            if (upd > 0) {
+                update = true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.close();
+        } finally {
+            this.closePreparedStatement(ps);
+        }
+        return update;
+    }
+
+    synchronized public boolean validateAll() {
+        boolean update = false;
+        PreparedStatement ps = null;
+        try {
+            String query = "UPDATE Pedido SET procesado = true";
+            ps = this.conn.prepareStatement(query);
+            int upd = ps.executeUpdate();
+            if (upd > 0) {
+                update = true;
+            }
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+            this.close();
+        } finally {
+            this.closePreparedStatement(ps);
+        }
+        return update;
+    }
 }

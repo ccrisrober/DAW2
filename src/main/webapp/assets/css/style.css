@@ -1,32 +1,23 @@
-body {
-    background-color: #DDD;
-}
+body { background-color: #DDD; }
+
 #body {
     background-color: white;
     padding-top: 10px;
     padding-bottom: 10px;
 }
  
-.thumbnail {
-    height: 270px;
-}
- 
-.bloqueProducto{
-    height: 300px;  
-}
+.thumbnail { height: 270px; }
+
+.bloqueProducto{ height: 300px; }
  
 .bloqueProducto img {
     height: 100px;
     width: 100px;
 };
  
-.encabezadoh3 {
-    text-align: center;
-}
+.encabezadoh3 { text-align: center; }
  
-.container {
-    background-color: white;
-}
+.container { background-color: white; }
  
 .glyphicon { margin-right:10px; }
 .panel-body { padding:0px; }
@@ -44,20 +35,14 @@ body {
     padding-left: 10px;
 }
  
-#page-header h1 {
-    color: white;
-}
+#page-header h1 { color: black; margin:29px 0 0 15px; text-shadow: 0.1em 0.1em 0.05em #333 }
  
+#page-header h1 small { color: orange; text-shadow: 0.1em 0.1em 0.05em #333 }
+
 #page-header h1 span {
     color:black;
     font-size: 70%;
     font-weight: bold;
 }
- 
-#page-header h1 small {
-    color: #EEE;
-}
- 
-#tituloListado h1 {
-    width: 200px;
-}
+
+ #tituloListado h1 { width: 200px; }
