@@ -1,15 +1,16 @@
 package user;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import javax.sql.DataSource;
 import others.Controller;
+import others.Functions;
 import others.PageTemplate;
 import others.TreeView;
 import pedido.Pedido;
@@ -22,21 +23,16 @@ public class UserController extends Controller {
     
     public void actionEditPassword(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         this.checkAccessLogin(request, response);
         
         List<String> ltv = new LinkedList<String>();
         ltv.add("Usuario");
-        ltv.add("Listar");
+        ltv.add("Cambiar contraseña");
         TreeView tv = new TreeView(ltv, "fa-dashboard");
         
         List<String> footer = new LinkedList<String>();
-        /*if(!error.isEmpty()) {
-            footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
-            footer.add("assets/js/carrito/list.js");
-        }*/
         
-        PageTemplate pt = new PageTemplate("user/change_password.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
+        PageTemplate pt = new PageTemplate("user/change_password.jsp", "", tv, null, footer, null, "", true, "Editar contraseña");
         request.getSession().setAttribute("templatepage", pt);
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
@@ -44,10 +40,7 @@ public class UserController extends Controller {
     
     public void postEditPassword(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         this.checkAccessLogin(request, response);
-        
-        // Extramoes usuario sessión
         
         int id_user = (Integer)request.getSession(true).getAttribute("id_user");
         
@@ -59,82 +52,57 @@ public class UserController extends Controller {
         } else {
             UserDAO user = new UserDAO(ds);
             boolean edit = user.editPassword(id_user, password2);
-            if(!edit) {
-                request.setAttribute("error", "No se ha podido editar la contraseña.");
-            } else {
+            if(edit) {
                 request.setAttribute("ok", "Contraseña cambiada con éxito");
+            } else {
+                request.setAttribute("error", "No se ha podido editar la contraseña.");
             }
         }
-        //Esto está mal, es para probar : D
-        List<String> ltv = new LinkedList<String>();
-        ltv.add("Carrito");
-        ltv.add("Listar");
-        TreeView tv = new TreeView(ltv, "fa-dashboard");
-        
-        List<String> footer = new LinkedList<String>();
-        
-        PageTemplate pt = new PageTemplate("user/change_password.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
-        request.getSession().setAttribute("templatepage", pt);
-        
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
+        actionEditPassword(request, response);
     }
     
     public void actionDelete(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         this.checkAccessLogin(request, response);
-        
-        
-        //Aquí falta borrar eh!
-        
-        
-        request.getSession(true).invalidate();
-        response.sendRedirect("Index");
+        PrintWriter out = response.getWriter();
+        int id_user = (Integer)request.getSession(true).getAttribute("id_user");
+        UserDAO dao = new UserDAO(ds);
+        boolean delete = dao.delete(id_user);
+        if(delete) {
+            request.getSession(true).invalidate();
+            out.println("<script>alert('Usuario borrado con éxito'); windows.location.href='Index'</script>");
+        } else {
+            out.println("<script>alert('Error, no se ha podido borrar la cuenta'); windows.location.href='Index'</script>");
+        }
+        dao.close();
+        out.close();
     }
     
     public void actionMisPedidos(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         this.checkAccessLogin(request, response);
-        
-        HttpSession session = request.getSession(true);
-        //int id_usu_aux = (Integer) session.getAttribute("id_user");
-        String error = "";
-        
         
         int id_usu_aux = (Integer)request.getSession(true).getAttribute("id_user");
         
-        /*if(!Functions.isID(id_usu_aux)){
-            error = "No se encuentra la sesión";
+        PedidoDAO dao = new PedidoDAO(ds);
+        List<Pedido> pedidos = dao.getAll(id_usu_aux);
+        if(pedidos == null) {
+            pedidos = new LinkedList<Pedido>();
         }
-        if(!error.isEmpty()){
-            request.setAttribute("error", error);
-        } else {*/
-            PedidoDAO dao = new PedidoDAO(ds);
-            List<Pedido> pedidos = dao.getAll(id_usu_aux);
-            if(pedidos == null) {
-                pedidos = new LinkedList<Pedido>();
-            }
-            dao.close();
-            request.setAttribute("pedidos", pedidos);
-        //}
-        //Esto está mal, es para probar : D
+        dao.close();
+        request.setAttribute("pedidos", pedidos);
+        
         List<String> ltv = new LinkedList<String>();
-        ltv.add("Carrito");
-        ltv.add("Listar");
+        ltv.add("Usuario");
+        ltv.add("Mis pedidos");
         TreeView tv = new TreeView(ltv, "fa-dashboard");
         
         List<String> footer = new LinkedList<String>();
-        if(!error.isEmpty()) {
-            footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
-            footer.add("assets/js/carrito/list.js");
-        }
         
-        PageTemplate pt = new PageTemplate("user/list.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
+        PageTemplate pt = new PageTemplate("user/list.jsp", "", tv, null, footer, null, "", true, "Mis pedidos");
         request.getSession().setAttribute("templatepage", pt);
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
-        
     }
     
     public void actionProfile(HttpServletRequest request, HttpServletResponse response)
@@ -142,33 +110,39 @@ public class UserController extends Controller {
         
         this.checkAccessLogin(request, response);
         
-        //int id_usu_aux = (Integer) session.getAttribute("id_user");
-        
-        
-        int id_usu_aux = (Integer)request.getSession(true).getAttribute("id_user");
-        
+        int id_usu_aux = -1;
+        String name = "Unknow";
+        if(isAdmin(request)) {
+            String id_aux = request.getParameter("id");
+            if(!Functions.isID(id_aux)) {
+                request.setAttribute("error", "Usuario no identificado");
+            } else {
+                id_usu_aux = Integer.parseInt(id_aux);
+            }
+        } else {
+            id_usu_aux = (Integer)request.getSession(true).getAttribute("id_user");
+        }
+        if(id_usu_aux >= 0) {
         UserDAO dao = new UserDAO(ds);
         User user = dao.getUser(id_usu_aux);
-        if(user == null) {
-            request.setAttribute("error", "Usuario no encontrado");
-        } else {
+        if(user != null) {
             request.setAttribute("user", user);
+            name = user.getName();
+        } else {
+            request.setAttribute("error", "Usuario no encontrado");
         }
         dao.close();
-        //}
-        //Esto está mal, es para probar : D
+        }
         List<String> ltv = new LinkedList<String>();
-        ltv.add("Carrito");
-        ltv.add("Listar");
+        ltv.add("Usuario");
+        ltv.add("Perfil");
         TreeView tv = new TreeView(ltv, "fa-dashboard");
         
         List<String> footer = new LinkedList<String>();
         
-        PageTemplate pt = new PageTemplate("user/profile.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
+        PageTemplate pt = new PageTemplate("user/profile.jsp", "", tv, null, footer, null, "", true, "Perfil - " + name);
         request.getSession().setAttribute("templatepage", pt);
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
-        
-        
     }
 }

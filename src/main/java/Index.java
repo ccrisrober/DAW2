@@ -26,10 +26,7 @@ public class Index extends Controller {
         List<String> footer = new LinkedList<String>();
         footer.add("assets/js/index/index.js");
 
-        List<String> jspservlet = new LinkedList<String>();
-        jspservlet.add("index.jsp");
-
-        PageTemplate pt = new PageTemplate("index.jsp", "index", tv, header, footer, jspservlet, "", true, "Dashboard");
+        PageTemplate pt = new PageTemplate("index.jsp", "index", tv, header, footer, null, "", true, "Dashboard");
         request.getSession().setAttribute("templatepage", pt);
 
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);

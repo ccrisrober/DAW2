@@ -204,15 +204,18 @@
                                                     </tr>
                                                     <tr>
                                                         <td>
-                                                            <span class="glyphicon glyphicon-trash text-danger"></span><a href="UserController?action=delete" onClick="delete_(); return false;" class="text-danger">
-                                                                Delete Account</a>
+                                                            <span class="glyphicon glyphicon-trash text-danger"></span>
+                                                            <a href="UserController?action=delete" class="text-danger">
+                                                                Delete Account
+                                                            </a>
                                                             <script>
-                                                                function delete_() {
+                                                                /*function delete_() {
                                                                     var _delete_ = confirm("¿De verdad deseas borrar tu cuenta de usuario?");
-                                                                    if(_delete_) {
-                                                                        document.location.href="UserController?action=delete";
+                                                                    if(!_delete_) {
+                                                                        return false;
                                                                     }
-                                                                }
+                                                                    return true;
+                                                                }*/
                                                             </script>
                                                         </td>
                                                     </tr>

@@ -66,16 +66,19 @@ public class Register extends Controller {
         request.setAttribute("passfield", pass);
         request.setAttribute("passfield2", pass2);
 
-        // Si la variable error tiene caracteres, salimos y marcamos los errores
         if (!error.isEmpty()) {
             request.setAttribute("error", "<ul>" + error + "</ul>");
         } else {
             UserDAO dao = new UserDAO(ds);
-            boolean exito = dao.register(user, pass);            // Registramos al usuario
-            if (!exito) {
-                request.setAttribute("error", "Error al registrar. Es posible que el usuario ya exista");
+            if (dao.exist(user)) {
+                request.setAttribute("error", "El usuario ya existe");
             } else {
-                request.setAttribute("ok", "¡Se ha ingresado con éxito!");
+                boolean exito = dao.register(user, pass);
+                if (exito) {
+                    request.setAttribute("ok", "¡Se ha ingresado con éxito!");
+                } else {
+                    request.setAttribute("error", "Error al registrar. Es posible que el usuario ya exista");
+                }
             }
             dao.close();
         }

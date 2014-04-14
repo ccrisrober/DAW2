@@ -8,4 +8,6 @@ public class AdminDAO extends AbstractDAO {
     public AdminDAO(DataSource ds) {
         super(ds);
     }
+    
+    
 }

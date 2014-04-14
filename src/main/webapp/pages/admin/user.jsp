@@ -10,25 +10,19 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th style="display: none">Nº Producto</th>
-                        <th>Nombre</th>
-                        <th>Categoría</th>
-                        <th>Precio</th>
-                        <th>Editar</th>
+                        <th style="display: none">Id Usuario</th>
+                        <th>Nombre de Usuario</th>
+                        <th>Password</th>
                         <th>Borrar</th>
                     </tr>
                 </thead>
                 <tbody>
                     
-                    <t:forEach var="product" items="${products}">
+                    <t:forEach var="user" items="${users}">
                         <tr>
-                            <th style="display: none">${product.getId()}</td>
-                            <td>${product.getName()}</td>
-                            <td>${product.getCategoria()}</td>
-                            <td>${product.getPrecio()}</td>
-                            <td><a href="ProductoController?action=edit&id_prod=${product.getId()}">
-                                <span class="glyphicon glyphicon-pencil"></span></a>
-                            </td>
+                            <th style="display: none">${user.getId()}</td>
+                            <td><a href="UserController?action=profile&id=${user.getId()}">${user.getName()}</a></td>
+                            <td>${user.getPassword()}</td>
                             <td><a href="delete">
                                 <span class="glyphicon glyphicon-remove"></span></a>
                             </td>

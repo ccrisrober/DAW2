@@ -3,25 +3,14 @@ import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import others.Controller;
 
 public class Logout extends Controller {
  
-    //Ya sea que el método sea por GET o POST, cerraremos la sesion.
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
         checkAccessLogin(request, response);
-        
-        response.setContentType("text/html;charset=UTF-8");
-        
-        HttpSession sesion = request.getSession(true);
-       
-        //Cerrar sesion
-        sesion.invalidate();
-       
-        //Redirecciono a index.jsp
+        request.getSession(true).invalidate();
         response.sendRedirect("Index");
     }
  
