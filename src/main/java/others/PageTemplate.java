@@ -1,9 +1,10 @@
 package others;
 
+import java.io.Serializable;
 import java.util.LinkedList;
 import java.util.List;
 
-public class PageTemplate {
+public class PageTemplate implements Serializable{
     protected String file_;
     protected String selected_;
     protected TreeView tv_;

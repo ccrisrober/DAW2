@@ -9,8 +9,14 @@ import others.Controller;
 import others.PageTemplate;
 import others.TreeView;
 
+/**
+ *
+ * @author Cristian
+ */
 public class AboutUs extends Controller {
-
+    
+    private static final long serialVersionUID = 6106269076155338045L;
+    
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         List<String> ltv = new LinkedList<String>();

@@ -12,6 +12,7 @@ import others.TreeView;
 
 @WebServlet(urlPatterns = {"/Index"})
 public class Index extends Controller {
+    private static final long serialVersionUID = 6106269076155338047L;
     
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

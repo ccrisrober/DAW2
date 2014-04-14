@@ -21,39 +21,16 @@ import producto.Producto;
  */
 public class Carrito {
     
-    /*protected class ProductoCantidad {
-        protected int id_pedido;
-        protected int quantity;
-
-        public ProductoCantidad(int id_pedido, int quantity) {
-            this.id_pedido = id_pedido;
-            this.quantity = quantity;
-        }
-
-        public int getId_pedido() {
-            return id_pedido;
-        }
-
-        public void setId_pedido(int id_pedido) {
-            this.id_pedido = id_pedido;
-        }
-
-        public int getQuantity() {
-            return quantity;
-        }
-
-        public void setQuantity(int quantity) {
-            this.quantity = quantity;
-        }
-        
-    }*/
-    
     protected Map<Integer, Integer> productos;
     protected int id_user;
     
     public Carrito(int id_user) {
         productos = new HashMap<Integer, Integer>();
         this.id_user = id_user;
+    }
+    
+    public int getID_user() {
+        return id_user;
     }
     
     synchronized public void annadirProducto(int[] id_producto, int[] quantity) {
@@ -63,11 +40,9 @@ public class Carrito {
     }
     
     synchronized public void annadirProducto(int id_producto, int quantity) {
-        int quant = 0;
         if(productos.containsKey(id_producto)) {
-            quant = productos.get(id_producto);
+            quantity += productos.get(id_producto);
         }
-        quant += quantity;
         productos.put(id_producto, quantity);
     }
     

@@ -10,6 +10,7 @@ import others.PageTemplate;
 import others.TreeView;
 
 public class Contact extends Controller {
+    private static final long serialVersionUID = 6106269076155338046L;
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

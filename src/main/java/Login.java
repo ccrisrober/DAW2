@@ -15,6 +15,7 @@ import others.TreeView;
 import user.UserDAO;
 
 public class Login extends Controller {
+    private static final long serialVersionUID = 6106269076155338048L;
 
     @Resource(lookup = "jdbc/tienda_crodriguezbe")
     private DataSource ds;

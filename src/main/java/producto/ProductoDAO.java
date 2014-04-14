@@ -15,6 +15,10 @@ public class ProductoDAO extends AbstractDAO {
         super(ds);
     }
     
+    /**
+     * Obtener todos los productos
+     * @return List Producto
+     */
     synchronized public List<Producto> getAll() {
         List<Producto> productos = new ArrayList<Producto>();
         Statement stm = null;
@@ -34,7 +38,7 @@ public class ProductoDAO extends AbstractDAO {
         return productos;
     }
     
-    private Producto createProductoFromRS(ResultSet rs) throws SQLException {
+    synchronized private Producto createProductoFromRS(ResultSet rs) throws SQLException {
         int id = rs.getInt("id_prod");
         String name = rs.getString("name");
         String image = rs.getString("image");
@@ -44,7 +48,7 @@ public class ProductoDAO extends AbstractDAO {
         return new Producto(id, name, image, categoria, precio);
     }
     
-    private List<Producto> createProductosFromRS(ResultSet rs) throws SQLException {
+    synchronized private List<Producto> createProductosFromRS(ResultSet rs) throws SQLException {
         List<Producto> productos = new ArrayList<Producto>();
         while(rs.next()) {
             productos.add(createProductoFromRS(rs));
@@ -52,7 +56,7 @@ public class ProductoDAO extends AbstractDAO {
         return productos;
     }
 
-    synchronized boolean insert(String name, String image, String category, double price) {
+    synchronized public boolean insert(String name, String image, String category, double price) {
         boolean insert_ = false;
         PreparedStatement ps = null;
         try {
@@ -75,7 +79,7 @@ public class ProductoDAO extends AbstractDAO {
         return insert_;
     }
 
-    synchronized boolean delete(int id) {
+    synchronized public boolean delete(int id) {
         boolean delete_ = false;
         PreparedStatement ps = null;
         try {
@@ -94,7 +98,16 @@ public class ProductoDAO extends AbstractDAO {
         return delete_;
     }
 
-    synchronized boolean update(int id, String name, String category, double price, String img_route) {
+    /**
+     * Actualizar producto
+     * @param id
+     * @param name
+     * @param category
+     * @param price
+     * @param img_route
+     * @return booleano si se ha actualizado
+     */
+    synchronized public boolean update(int id, String name, String category, double price, String img_route) {
         boolean update_ = false;
         PreparedStatement ps = null;
         try {
@@ -117,7 +130,12 @@ public class ProductoDAO extends AbstractDAO {
         return update_;
     }
 
-    public Producto get(int id) {
+    /**
+     * Obtener producto asociado a un determinado id
+     * @param id
+     * @return Producto
+     */
+    synchronized public Producto get(int id) {
         Producto p = null;
         PreparedStatement ps = null;
         ResultSet rs = null;
@@ -138,7 +156,12 @@ public class ProductoDAO extends AbstractDAO {
         return p;
     }
 
-    List<Producto> getLast(int max) {
+    /**
+     * Obtener los "max" últimos productos insertados.
+     * @param max
+     * @return List Producto
+     */
+    synchronized public List<Producto> getLast(int max) {
         List<Producto> productos = new ArrayList<Producto>();
         PreparedStatement ps = null;
         ResultSet rs = null;

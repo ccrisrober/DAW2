@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import others.Controller;
 
 public class Logout extends Controller {
+    private static final long serialVersionUID = 6106269076155338049L;
  
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

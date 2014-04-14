@@ -5,8 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.sql.DataSource;
-import static org.omg.IOP.CodecPackage.InvalidTypeForEncodingHelper.id;
 import others.AbstractDAO;
 
 public class UserDAO extends AbstractDAO {
@@ -15,12 +16,18 @@ public class UserDAO extends AbstractDAO {
         super(ds);
     }
     
+    /**
+     * Determina si un par user/pass existe dentro de la base de datos (login)
+     * @param user
+     * @param pass
+     * @return
+     */
     synchronized public int validate(String user, String pass) {
         int id = 0;
         PreparedStatement ps = null;
         ResultSet rs = null;
         try {
-            ps = conn.prepareStatement("SELECT * FROM Usuario WHERE username=? and password = ?");
+            ps = conn.prepareStatement("SELECT * FROM Usuario WHERE username = ? and password = ?");
             ps.setString(1, user);
             ps.setString(2, pass);
             rs = ps.executeQuery();
@@ -38,6 +45,11 @@ public class UserDAO extends AbstractDAO {
         return id;
     }
     
+    /**
+     * Determina si existe un usuario con ese nombre de usuario
+     * @param user
+     * @return
+     */
     synchronized public boolean exist (String user) {
         boolean exist_ = false;
         PreparedStatement ps = null;
@@ -47,13 +59,18 @@ public class UserDAO extends AbstractDAO {
             ps = conn.prepareStatement(sql);
             ps.setString(1, user);
             rs = ps.executeQuery();
-            if(rs != null) {
-                System.out.println(rs.getString(1));
+            if(rs.next()) {
+                System.out.println(rs.getString("username"));
                 exist_ = true;
             }
         } catch (SQLException e) {
-            System.out.println(e.getMessage());
-            this.close();
+            try {
+                throw new SQLException (e);
+                //System.out.println(e.getMessage());
+            } catch (SQLException ex) {
+                Logger.getLogger(UserDAO.class.getName()).log(Level.SEVERE, null, ex);
+            }
+                this.close();
         } finally {
             this.closePreparedStatement(ps);
             this.closeResultSet(rs);

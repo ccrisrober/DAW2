@@ -14,6 +14,7 @@ import others.TreeView;
 import user.UserDAO;
 
 public class Register extends Controller {
+    private static final long serialVersionUID = 6106269076155338010L;
 
     @Resource(name = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
