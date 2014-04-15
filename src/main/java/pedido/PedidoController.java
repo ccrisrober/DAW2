@@ -35,8 +35,15 @@ public class PedidoController extends Controller {
         
         String id_ped_aux = request.getParameter("id_ped");
         
-        int id_user = (Integer)request.getSession(true).getAttribute("id_user");
-        
+        int id_user = -1;
+        if(isAdmin(request)) {
+           
+            // A ver cómo arreglamos eso
+            
+            
+        } else {
+            id_user = (Integer)request.getSession(true).getAttribute("id_user");
+        }
         
         //Comprobamos errores
         String error = "";

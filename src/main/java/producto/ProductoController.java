@@ -7,7 +7,6 @@ import others.PageTemplate;
 import others.Functions;
 import others.TreeView;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -33,7 +32,6 @@ public class ProductoController extends Controller {
         UPLOAD_DIRECTORY = File.separator + "assets" + File.separator + "img" + File.separator + "products";
     }
 
-    //Este será por POST, cambiar en la función post y también en lo de SSDD
     public void postEdit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
@@ -102,9 +100,10 @@ public class ProductoController extends Controller {
          if(!generateSecurity.equals(formSecurity)) {
          error += "<li>Se ha producido un problema de seguridad. " + generateSecurity.toString() + " : " + formSecurity.toString() + "</li>";
          }*/
-
+        boolean errorB = false;
         if (!error.isEmpty()) {
             request.setAttribute("error", "<ul>" + error + "</ul>");
+            errorB = true;
         } else {
             int id = Integer.parseInt(id_aux);
             double price = Double.parseDouble(price_aux);
@@ -117,8 +116,16 @@ public class ProductoController extends Controller {
                 request.setAttribute("ok", "Producto actualizado con éxito");
             } else {
                 request.setAttribute("error", "No se ha podido actualizar.");
+                errorB = true;
             }
             dao.close();
+        }
+        if(errorB) {
+            request.setAttribute("name", name);
+            request.setAttribute("category", category);
+            request.setAttribute("price", price_aux);
+            request.setAttribute("image", img_route_old);
+            request.setAttribute("id", id_aux);
         }
 
         List<String> ltv = new LinkedList<String>();

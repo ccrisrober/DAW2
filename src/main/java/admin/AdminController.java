@@ -114,26 +114,16 @@ public class AdminController extends Controller {
         } else {
             int id = Integer.parseInt(id_pedido);
             PedidoDAO dao = new PedidoDAO(ds);
-            Pedido pedido = dao.get(id);
-            dao.validate(id);
-            if (pedido == null) {
-                request.setAttribute("error", "Pedido no encontrado");
+            if(dao.validate(id)) {
+                List<Pedido> pedidos = dao.getAll();
+                if(pedidos == null) {
+                    pedidos = new ArrayList<Pedido>();
+                }
+                request.setAttribute("pedidos", pedidos);
+                request.setAttribute("ok", "Pedido actualizado con éxito");
             } else {
-                request.setAttribute("id_pedido", pedido.getId_pedido());
-                request.setAttribute("id_usu", pedido.getId_usu());
-                request.setAttribute("date", pedido.getDate());
-                request.setAttribute("price", pedido.getDate());
-                request.setAttribute("validate", pedido.isProcesado());
-                
+                request.setAttribute("error", "No se ha podido actualizar");
             }
-            
-            List<Pedido> pedidos = dao.getAll();
-            if(pedidos == null) {
-                System.out.println("hola3");
-                pedidos = new ArrayList<Pedido>();
-            }
-            request.setAttribute("pedidos", pedidos);
-            
             dao.close();
         }       
 
@@ -155,46 +145,29 @@ public class AdminController extends Controller {
     
     public void postValidar(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        this.checkAccessLogin(request, response);
+        this.checkAccessAdmin(request, response);
         
-        String error = "";
-        
-        if (!error.isEmpty()) {
-            request.setAttribute("error", "<ul>" + error + "</ul>");
+        PedidoDAO dao = new PedidoDAO(ds);
+        if(dao.validateAll()) {
+            request.setAttribute("ok", "Pedidos actualizados con éxito");
         } else {
-            PedidoDAO dao = new PedidoDAO(ds);
-            dao.validateAll();
-            /*if (pedido == null) {
-                request.setAttribute("error", "Pedido no encontrado");
-            } else {
-                request.setAttribute("id_pedido", pedido.getId_pedido());
-                request.setAttribute("id_usu", pedido.getId_usu());
-                request.setAttribute("date", pedido.getDate());
-                request.setAttribute("price", pedido.getDate());
-                request.setAttribute("validate", pedido.isProcesado());
-            }*/
-            
-            List<Pedido> pedidos = dao.getAll();
-            if(pedidos == null) {
-                pedidos = new ArrayList<Pedido>();
-            }
-            request.setAttribute("pedidos", pedidos);
-            
-            dao.close();
-        }       
+            request.setAttribute("error", "No se han podido actualizar");
+        }
+        List<Pedido> pedidos = dao.getAll();
+        if(pedidos == null) {
+            pedidos = new ArrayList<Pedido>();
+        }
+        request.setAttribute("pedidos", pedidos);
+
+        dao.close(); 
 
         List<String> ltv = new LinkedList<String>();
         ltv.add("Pedido");
         ltv.add("Actualizar");
         TreeView tv = new TreeView(ltv, "fa-dashboard");
         List<String> footer = new LinkedList<String>();
-        if (!error.isEmpty()) {
-            footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
-            footer.add("assets/js/admin/pedidos.js");
-        }
-
         PageTemplate pt = new PageTemplate("admin/pedidos.jsp", "", tv, null, footer, null, "", true, "Listar de pedidos", true);
-        request.getSession().setAttribute("templatepage", pt);
+        request.getSession(true).setAttribute("templatepage", pt);
 
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }

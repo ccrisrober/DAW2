@@ -103,10 +103,11 @@ public class CarritoController extends Controller {
 
             double total = 0.0;
             Carrito carr = (Carrito) var;
-
+            
             for (Map.Entry<String, String[]> entry : entrySet) {
                 if (Pattern.compile("cantidad\\[[0-9]*\\]").matcher(entry.getKey()).find()) {
                     int key = Integer.parseInt(entry.getKey().substring("cantidad".length() + 1, entry.getKey().length() - 1));
+                    try {
                     if (Integer.parseInt(entry.getValue()[0]) > 0) {
                         int value = Integer.parseInt(entry.getValue()[0]);
                         Producto producto = dao.get(key);
@@ -114,6 +115,9 @@ public class CarritoController extends Controller {
                         lpp.add(pp);
                         total += producto.getPrecio() * value;
                         carr.annadirProducto(key, value);
+                    }
+                    } catch (NumberFormatException nfe) {
+                        
                     }
                 }
             }

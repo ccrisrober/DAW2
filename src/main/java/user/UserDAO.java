@@ -203,15 +203,15 @@ public class UserDAO extends AbstractDAO {
         boolean delete_ = false;
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("DELETE FROM Usuario WHERE id_user = ?");
-            ps.setInt(1, id_user);
-            if(ps.executeUpdate() > 0) {
-                PedidoDAO ped = new PedidoDAO(ds);
-                if(ped.deleteUser(id_user)) {
+            PedidoDAO ped = new PedidoDAO(ds);
+            if (ped.deleteUser(id_user)) {
+                ps = conn.prepareStatement("DELETE FROM Usuario WHERE id_user = ?");
+                ps.setInt(1, id_user);
+                if (ps.executeUpdate() > 0) {
                     delete_ = true;
                 }
-                ped.close();
-            } 
+            }
+            ped.close();
         } catch (SQLException e) {
             System.out.println(e.getMessage());
             this.close();

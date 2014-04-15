@@ -98,7 +98,7 @@ public class Functions {
             try {
                 Double.parseDouble(price);
                 isCorrect = true;
-            } catch(ClassCastException cce) {
+            } catch(NumberFormatException cce) {
                 isCorrect = false;
             }
         }
