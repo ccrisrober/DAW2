@@ -26,11 +26,15 @@
                             <td>${product.getName()}</td>
                             <td>${product.getCategoria()}</td>
                             <td>${product.getPrecio()}</td>
-                            <td><a href="ProductoController?action=edit&id_prod=${product.getId()}">
-                                <span class="glyphicon glyphicon-pencil"></span></a>
+                            <td>
+                                <a href="ProductoController?action=edit&id_prod=${product.getId()}">
+                                    <span class="glyphicon glyphicon-pencil"></span>
+                                </a>
                             </td>
-                            <td><a href="delete">
-                                <span class="glyphicon glyphicon-remove"></span></a>
+                            <td>
+                                <a href="ProductoController?action=delete&id_prod=${product.getId()}">
+                                    <span class="glyphicon glyphicon-remove"></span>
+                                </a>
                             </td>
                         </tr>
                     </t:forEach>

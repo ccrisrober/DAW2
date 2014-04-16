@@ -349,8 +349,9 @@ public class ProductoController extends Controller {
 
         this.checkAccessAdmin(request, response);
 
-        String id_aux = request.getParameter("idfield");
-
+        String id_aux = request.getParameter("id_prod");
+        List<Producto> products = null;
+        
         // Checks errors
         if (!Functions.isID(id_aux)) {
             request.setAttribute("error", "No se encuentra el producto a borrar.");
@@ -363,8 +364,17 @@ public class ProductoController extends Controller {
             } else {
                 request.setAttribute("error", "No se encuentra el producto a borrar.");
             }
+            
+            products = dao.getAll();
+            if (products == null) {
+                products = new ArrayList<Producto>();
+            }
+            
+            request.setAttribute("products", products);
+            
             dao.close();
         }
+        
         List<String> ltv = new LinkedList<String>();
         ltv.add("Producto");
         ltv.add("Borrar");
@@ -373,7 +383,7 @@ public class ProductoController extends Controller {
         List<String> footer = new LinkedList<String>();
         footer.add("assets/js/producto/delete.js");
 
-        PageTemplate pt = new PageTemplate("producto/list.jsp", "", tv, null, footer, null, "", true, "Borrar producto");
+        PageTemplate pt = new PageTemplate("admin/list.jsp", "", tv, null, footer, null, "", true, "Borrar producto",true);
         request.getSession().setAttribute("templatepage", pt);
 
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
