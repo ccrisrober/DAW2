@@ -2,6 +2,7 @@ package pedido;
 
 import java.sql.Date;
 import java.util.List;
+import user.User;
 
 /**
  *
@@ -14,6 +15,7 @@ public class Pedido {
     protected double price;
     protected boolean procesado;
     protected List<PedidoProducto> lpp;
+    protected User user;
 
     public Pedido(int id_pedido, int id_usu, Date date, double price, boolean procesado) {
         this.id_pedido = id_pedido;
@@ -78,6 +80,22 @@ public class Pedido {
 
     public void setPedidoProducto(List<PedidoProducto> lpp) {
         this.lpp = lpp;
+    }
+
+    public List<PedidoProducto> getLpp() {
+        return lpp;
+    }
+
+    public void setLpp(List<PedidoProducto> lpp) {
+        this.lpp = lpp;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
     
 }
