@@ -141,7 +141,7 @@ public class PedidoDAO extends AbstractDAO {
         int id_pedido = rs.getInt("id_pedido");
         int id_usu = rs.getInt("id_user");
         Date date = rs.getDate("date");
-        double price = rs.getDouble("price");
+        double price = Math.rint(rs.getDouble("price")*100)/100;
         boolean procesado = rs.getBoolean("procesado");
         return new Pedido(id_pedido, id_usu, date, price, procesado);
     }
@@ -221,19 +221,20 @@ public class PedidoDAO extends AbstractDAO {
     synchronized public boolean deleteUser(int id_user) {
         boolean delete_ = false;
         PreparedStatement ps = null;
+        PedidoProductoDAO pedprod = null;
         try {
+            pedprod = new PedidoProductoDAO(ds);
+            pedprod.deletePedidoUser(id_user);
             ps = conn.prepareStatement("DELETE FROM Pedido WHERE id_user = ?");
             ps.setInt(1, id_user);
+            //ps.setInt(2, p.getId_pedido());
             if(ps.executeUpdate() > 0) {
-                PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
-                if(pedprod.deletePedidoUser(id_user)) {
-                    delete_ = true;
-                }
-                pedprod.close();
+                delete_ = true;
             } 
         } catch (SQLException e) {
             //System.out.println(e.getMessage());
             this.close();
+            pedprod.close();
             try {
                 throw new SQLException (e);
             } catch (SQLException ex) {
@@ -245,12 +246,13 @@ public class PedidoDAO extends AbstractDAO {
         return delete_;
     }
 
-    synchronized public boolean deletePedido(int id_pedido) {
+    synchronized public boolean deletePedido(int id_user, int id_pedido) {
         boolean delete_ = false;
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("DELETE FROM Pedido WHERE id_pedido = ?");
+            ps = conn.prepareStatement("DELETE FROM Pedido WHERE id_pedido = ? AND id_user = ?");
             ps.setInt(1, id_pedido);
+            ps.setInt(2, id_user);
             if(ps.executeUpdate() > 0) {
                 PedidoProductoDAO pedprod = new PedidoProductoDAO(ds);
                 if(pedprod.deletePedido(id_pedido)) {

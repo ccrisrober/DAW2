@@ -39,7 +39,7 @@
         <form action="CarritoController" method="POST">
             <input type="hidden" value="finish" name="action" id="action" />
             <a href="javascript:history.back(1)" class="btn btn-warning">Volver Atrás</a>
-            <input type="submit" value="Enviar" class="btn btn-success"/>
+            <input type="submit" value="Pedir a Paqui" class="btn btn-success"/>
         </form>
     </t:otherwise>
 </t:choose>

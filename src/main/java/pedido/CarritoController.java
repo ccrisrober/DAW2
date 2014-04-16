@@ -20,13 +20,6 @@ import producto.ProductoDAO;
 
 public class CarritoController extends Controller {
 
-    private int numpedido;
-
-    @Override
-    public void init() throws ServletException {
-        numpedido = 0;
-    }
-
     @Resource(lookup = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
 
@@ -55,11 +48,7 @@ public class CarritoController extends Controller {
             throws ServletException, IOException {
         this.checkAccessLogin(request, response);
 
-        numpedido++;
-
         HttpSession session = request.getSession(true);
-
-        session.setAttribute("num_ped", numpedido);
 
         int id_usu_aux = (Integer) request.getSession(true).getAttribute("id_user");
 
@@ -94,8 +83,7 @@ public class CarritoController extends Controller {
         if ((var != null) && (var instanceof Carrito)) {
             Set<Map.Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
 
-            int num_ped = (Integer) session.getAttribute("num_ped");
-            int id_user = (Integer) session.getAttribute("id_user");  //Esto puede servir para validar que todo va bien, creo xD
+            int id_user = (Integer) session.getAttribute("id_user");
 
             List<PedidoProducto> lpp = new LinkedList<PedidoProducto>();
 
@@ -123,7 +111,7 @@ public class CarritoController extends Controller {
             }
             request.getSession(true).setAttribute("carrito", carr);
             dao.close();
-
+            total = Math.rint(total*100)/100;
             request.setAttribute("products", lpp);
             request.setAttribute("total", total);
         } else {

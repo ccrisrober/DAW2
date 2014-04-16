@@ -83,7 +83,7 @@ public class ProductoDAO extends AbstractDAO {
         boolean delete_ = false;
         PreparedStatement ps = null;
         try {
-            ps = conn.prepareStatement("DELETE FROM producto WHERE id_prod=?");
+            ps = conn.prepareStatement("DELETE FROM Producto WHERE id_prod=?");
             ps.setInt(1, id);
             int executeUpdate = ps.executeUpdate();
             if(executeUpdate > 0) {

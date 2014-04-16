@@ -42,7 +42,7 @@
                                 <tr>
                             </t:otherwise>
                         </t:choose>
-                            <td><a href="PedidoController?action=get&id_ped=${pedido.getId_pedido()}">${pedido.getId_pedido()}</a></td>
+                            <td><a href="PedidoController?action=get&id_ped=${pedido.getId_pedido()}&id_user=${pedido.getId_usu()}">${pedido.getId_pedido()}</a></td>
                             <td>${pedido.getId_usu()}</td>
                             <td><fmt:formatDate type="date" value="${pedido.getDate()}" /></td>
                             <td>${pedido.getPrice()}&euro;</td>

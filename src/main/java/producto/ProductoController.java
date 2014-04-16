@@ -52,9 +52,11 @@ public class ProductoController extends Controller {
                     img_route_old = Streams.asString(item.getInputStream());
                 } else if(item.getFieldName().equals("id_prod")) {
                     id_aux = Streams.asString(item.getInputStream());
+                } else if (item.getFieldName().equals("file_routefield")) {
+                    img_route = Streams.asString(item.getInputStream());
                 }
             } else {
-                if (item.getContentType().equals("image/jpeg")
+                /*if (item.getContentType().equals("image/jpeg")
                         || item.getContentType().equals("image/jpg")
                         || item.getContentType().equals("image/png")) {
                     try {
@@ -66,11 +68,10 @@ public class ProductoController extends Controller {
                         img_route = path + File.separator + item.getName();
                         File uploadedFile = new File(img_route);
                         fI.write(uploadedFile);
-                        break;
                     } catch (Exception ex) {
                         Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
+                }*/
             }
         }
         
@@ -149,7 +150,7 @@ public class ProductoController extends Controller {
     public void postInsert(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        //this.checkAccessAdmin(request, response);
+        this.checkAccessAdmin(request, response);
 
         String name = "";// = request.getParameter("namefield");
         String category = "";// = request.getParameter("categoryfield");
@@ -168,9 +169,11 @@ public class ProductoController extends Controller {
                     category = Streams.asString(item.getInputStream());
                 } else if(item.getFieldName().equals("pricefield")) {
                     price_aux = Streams.asString(item.getInputStream());
+                } else if (item.getFieldName().equals("file_routefield")) {
+                    img_route = Streams.asString(item.getInputStream());
                 }
             } else {
-                if (item.getContentType().equals("image/jpeg")
+                /*if (item.getContentType().equals("image/jpeg")
                         || item.getContentType().equals("image/jpg")
                         || item.getContentType().equals("image/png")) {
                     try {
@@ -183,11 +186,10 @@ public class ProductoController extends Controller {
                         File uploadedFile = new File(path + File.separator + item.getName());
                         fI.write(uploadedFile);
                         
-                        break;
                     } catch (Exception ex) {
                         Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }
+                }*/
             }
         }
         
@@ -249,7 +251,7 @@ public class ProductoController extends Controller {
 
     public void actionCreate(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        //this.checkAccessAdmin(request, response);
+        this.checkAccessAdmin(request, response);
 
         String random = Functions.updateSecurity(request.getSession(true));  // Código seguridad de usuario
 
@@ -323,7 +325,7 @@ public class ProductoController extends Controller {
 
     public void actionList(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-
+        
         ProductoDAO dao = new ProductoDAO(ds);
         List<Producto> products = dao.getAll();
         if (products == null) {
@@ -374,18 +376,18 @@ public class ProductoController extends Controller {
             
             dao.close();
         }
-        
+        request.setAttribute("products", products);
         List<String> ltv = new LinkedList<String>();
-        ltv.add("Producto");
-        ltv.add("Borrar");
+        ltv.add("Administrador");
+        ltv.add("Listado productos");
         TreeView tv = new TreeView(ltv, "fa-dashboard");
-
+        
         List<String> footer = new LinkedList<String>();
-        footer.add("assets/js/producto/delete.js");
-
-        PageTemplate pt = new PageTemplate("admin/list.jsp", "", tv, null, footer, null, "", true, "Borrar producto",true);
+        footer.add("assets/js/producto/list.js");
+        
+        PageTemplate pt = new PageTemplate("admin/list.jsp", "", tv, null, footer, null, "", true, "Listar productos", true);
         request.getSession().setAttribute("templatepage", pt);
-
+        
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
     }
 

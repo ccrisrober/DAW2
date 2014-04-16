@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.sql.DataSource;
 import others.Controller;
+import others.Functions;
 import others.PageTemplate;
 import others.TreeView;
 
@@ -36,19 +37,19 @@ public class PedidoController extends Controller {
         String id_ped_aux = request.getParameter("id_ped");
         
         int id_user = -1;
-        if(isAdmin(request)) {
-           
-            // A ver cómo arreglamos eso
-            
-            
-        } else {
-            id_user = (Integer)request.getSession(true).getAttribute("id_user");
-        }
         
         //Comprobamos errores
         String error = "";
-        
-        
+        if(isAdmin(request)) {
+           String id_user_aux = request.getParameter("id_user");
+           if(!Functions.isID(id_ped_aux)) {
+               error += "<liUsuario incorrecto</li>";
+           } else {
+               id_user = Integer.parseInt(id_user_aux);
+           }
+        } else {
+            id_user = (Integer)request.getSession(true).getAttribute("id_user");
+        }
         
         if(!error.isEmpty()) {
             
@@ -63,7 +64,11 @@ public class PedidoController extends Controller {
                     request.setAttribute("pedido", pedido);
                 }
             } else {
-                request.setAttribute("error", "No tienes acceso");
+                if(isAdmin(request)) {
+                    request.setAttribute("error", "El pedido o usuario no existe");
+                } else {
+                    request.setAttribute("error", "No tienes acceso");
+                }
             }
             dao.close();
         }

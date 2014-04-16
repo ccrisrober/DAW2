@@ -202,7 +202,7 @@
                                                             <a href="UserController?action=profile">Mis datos</a>
                                                         </td>
                                                     </tr>
-                                                    <tr>
+                                                    <!--<tr>
                                                         <td>
                                                             <span class="glyphicon glyphicon-trash text-danger"></span>
                                                             <a href="UserController?action=delete" class="text-danger">
@@ -218,7 +218,7 @@
                                                                 }*/
                                                             </script>
                                                         </td>
-                                                    </tr>
+                                                    </tr>-->
                                                 </table>
                                             </div>
                                         </div>

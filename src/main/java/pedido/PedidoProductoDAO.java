@@ -105,7 +105,7 @@ class PedidoProductoDAO extends AbstractDAO {
         boolean delete_ = false;
         PreparedStatement ps = null;
         try {
-            String query = "DELETE FROM PedidoProducto WHERE id_user = ?"; 
+            String query = "DELETE FROM Pedido_Producto WHERE id_user = ?"; 
             ps = this.conn.prepareStatement(query);
             ps.setInt(1, id_user);
             if(ps.executeUpdate() > 0) {
