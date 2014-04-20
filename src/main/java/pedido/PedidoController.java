@@ -1,13 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
 package pedido;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.LinkedList;
 import java.util.List;
 import javax.annotation.Resource;
@@ -20,14 +13,12 @@ import others.Functions;
 import others.PageTemplate;
 import others.TreeView;
 
-/**
- *
- * @author Cristian
- */
 public class PedidoController extends Controller {
     
     @Resource(name = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
+    
+    private static final String ERROR = "error";
     
     public void actionGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -52,22 +43,22 @@ public class PedidoController extends Controller {
         }
         
         if(!error.isEmpty()) {
-            
+            request.setAttribute(ERROR, error);
         } else {
             int id_ped = Integer.parseInt(id_ped_aux);
             PedidoDAO dao = new PedidoDAO(ds);
             if(dao.haveAccess(id_ped, id_user)) {
                 Pedido pedido = dao.get(id_ped);
                 if(pedido == null) {
-                    request.setAttribute("error", "Interneeeeeeet");
+                    request.setAttribute(ERROR, "Pedido no encontrado");
                 } else {
                     request.setAttribute("pedido", pedido);
                 }
             } else {
                 if(isAdmin(request)) {
-                    request.setAttribute("error", "El pedido o usuario no existe");
+                    request.setAttribute(ERROR, "El pedido o usuario no existe");
                 } else {
-                    request.setAttribute("error", "No tienes acceso");
+                    request.setAttribute(ERROR, "No tienes acceso");
                 }
             }
             dao.close();
@@ -88,16 +79,6 @@ public class PedidoController extends Controller {
         request.getSession().setAttribute("templatepage", pt);
         
         getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
-    }
-    
-    public void actionIndex(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        
-        this.checkAccessLogin(request, response);
-        
-        PrintWriter out = response.getWriter();
-        out.println("hola");
-        out.close();
     }
     
 }

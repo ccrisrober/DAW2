@@ -56,7 +56,7 @@ public class PedidoDAO extends AbstractDAO {
         Date date = new Date(Calendar.getInstance().getTime().getTime());
         PreparedStatement ps = null;
         ResultSet rs = null;
-        PedidoProductoDAO pedprod = null;
+        PedidoProductoDAO pedprod;
         try {
             String sql = "INSERT INTO Pedido(id_user, date) VALUES (?, ?)";
             ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);   // Extraemos el último ID
@@ -232,14 +232,9 @@ public class PedidoDAO extends AbstractDAO {
                 delete_ = true;
             } 
         } catch (SQLException e) {
-            //System.out.println(e.getMessage());
+            System.out.println(e.getMessage());
             this.close();
             pedprod.close();
-            try {
-                throw new SQLException (e);
-            } catch (SQLException ex) {
-                Logger.getLogger(PedidoDAO.class.getName()).log(Level.SEVERE, null, ex);
-            }
         } finally {
             this.closePreparedStatement(ps);
         }

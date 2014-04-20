@@ -22,6 +22,9 @@ public class CarritoController extends Controller {
 
     @Resource(lookup = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
+    
+    private static final String ERROR = "error";
+    private static final String CARRITO = "carrito";
 
     /**
      * Redefinimos esta operación para que el usuario no pueda recargar la
@@ -39,7 +42,7 @@ public class CarritoController extends Controller {
         if (action != null && !action.isEmpty() && action.equals("create")) {
             actionCreate(request, response);
         } else {
-            request.setAttribute("error", "No puedes volver a editar un carrito ya creado");
+            request.setAttribute(ERROR, "No puedes volver a editar un carrito ya creado");
             response.sendRedirect("Index");
         }
     }
@@ -52,7 +55,7 @@ public class CarritoController extends Controller {
 
         int id_usu_aux = (Integer) request.getSession(true).getAttribute("id_user");
 
-        session.setAttribute("carrito", new Carrito(id_usu_aux));
+        session.setAttribute(CARRITO, new Carrito(id_usu_aux));
         ProductoDAO dao = new ProductoDAO(ds);
         List<Producto> products = dao.getAll();
         if (products == null) {
@@ -78,12 +81,12 @@ public class CarritoController extends Controller {
             throws ServletException, IOException {
         this.checkAccessLogin(request, response);
         HttpSession session = request.getSession(true);
-        Object var = session.getAttribute("carrito");
+        Object var = session.getAttribute(CARRITO);
 
         if ((var != null) && (var instanceof Carrito)) {
             Set<Map.Entry<String, String[]>> entrySet = request.getParameterMap().entrySet();
 
-            int id_user = (Integer) session.getAttribute("id_user");
+            //int id_user = (Integer) session.getAttribute("id_user"); //Esto no es necesario
 
             List<PedidoProducto> lpp = new LinkedList<PedidoProducto>();
 
@@ -105,17 +108,17 @@ public class CarritoController extends Controller {
                         carr.annadirProducto(key, value);
                     }
                     } catch (NumberFormatException nfe) {
-                        
+                        System.err.println(nfe);
                     }
                 }
             }
-            request.getSession(true).setAttribute("carrito", carr);
+            request.getSession(true).setAttribute(CARRITO, carr);
             dao.close();
             total = Math.rint(total*100)/100;
             request.setAttribute("products", lpp);
             request.setAttribute("total", total);
         } else {
-            request.setAttribute("error", "No existe ningún carrito asociado. Por favor, inicie de nuevo el pedido.");
+            request.setAttribute(ERROR, "No existe ningún carrito asociado. Por favor, inicie de nuevo el pedido.");
         }
 
         List<String> ltv = new LinkedList<String>();
@@ -136,7 +139,7 @@ public class CarritoController extends Controller {
         this.checkAccessLogin(request, response);
         HttpSession session = request.getSession(true);
         int id_usu_aux = (Integer) session.getAttribute("id_user");
-        Object var = session.getAttribute("carrito");
+        Object var = session.getAttribute(CARRITO);
         if ((var != null) && (var instanceof Carrito)) {
             Carrito car = (Carrito) var;
             Map<Integer, Integer> productos = car.getProductos();
@@ -144,14 +147,14 @@ public class CarritoController extends Controller {
             PedidoDAO pedidos = new PedidoDAO(ds);
             boolean creado = pedidos.create(productos, id_usu_aux);
             if (!creado) {
-                request.setAttribute("error", "Error durante la creación");
+                request.setAttribute(ERROR, "Error durante la creación");
             } else {
                 request.setAttribute("ok", "Pedido creado con éxito");
-                session.setAttribute("carrito", null);
+                session.setAttribute(CARRITO, null);
             }
             pedidos.close();
         } else {
-            request.setAttribute("error", "El pedido ya se ha recibido o se ha expirado el tiempo de compra.");
+            request.setAttribute(ERROR, "El pedido ya se ha recibido o se ha expirado el tiempo de compra.");
         }
 
         List<String> ltv = new LinkedList<String>();

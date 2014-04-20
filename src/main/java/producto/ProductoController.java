@@ -1,6 +1,5 @@
 package producto;
 
-import java.io.File;
 import others.NumChar;
 import others.Controller;
 import others.PageTemplate;
@@ -10,8 +9,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -24,13 +21,21 @@ public class ProductoController extends Controller {
 
     @Resource(lookup = "jdbc/tienda_crodriguezbe")
     private DataSource ds;
+    
+    private static final String ERROR = "error";
+    private static final String PRODUCTO = "Producto";
+    private static final String FA_DASHBOARD = "fa-dashboard";
+    private static final String NUEVO_PRODUCTO = "Nuevo producto";
+    private static final String TEMPLATEPAGE = "templatepage";
+    private static final String TEMP_TEMP = "/templates/template.jsp";
+    private static final String PRODUCTS = "products";
 
-    private String UPLOAD_DIRECTORY;
+    /*private String UPLOAD_DIRECTORY;
 
     @Override
     public void init() throws ServletException {
-        UPLOAD_DIRECTORY = File.separator + "assets" + File.separator + "img" + File.separator + "products";
-    }
+        UPLOAD_DIRECTORY = File.separator + "assets" + File.separator + "img" + File.separator + PRODUCTS;
+    }*/
 
     public void postEdit(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -55,8 +60,8 @@ public class ProductoController extends Controller {
                 } else if (item.getFieldName().equals("file_routefield")) {
                     img_route = Streams.asString(item.getInputStream());
                 }
-            } else {
-                /*if (item.getContentType().equals("image/jpeg")
+            } /*else {
+                if (item.getContentType().equals("image/jpeg")
                         || item.getContentType().equals("image/jpg")
                         || item.getContentType().equals("image/png")) {
                     try {
@@ -71,8 +76,8 @@ public class ProductoController extends Controller {
                     } catch (Exception ex) {
                         Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }*/
-            }
+                }
+            }*/
         }
         
         //String charSec = request.getParameter("ac");
@@ -103,7 +108,7 @@ public class ProductoController extends Controller {
          }*/
         boolean errorB = false;
         if (!error.isEmpty()) {
-            request.setAttribute("error", "<ul>" + error + "</ul>");
+            request.setAttribute(ERROR, "<ul>" + error + "</ul>");
             errorB = true;
         } else {
             int id = Integer.parseInt(id_aux);
@@ -116,7 +121,7 @@ public class ProductoController extends Controller {
             if (update) {
                 request.setAttribute("ok", "Producto actualizado con éxito");
             } else {
-                request.setAttribute("error", "No se ha podido actualizar.");
+                request.setAttribute(ERROR, "No se ha podido actualizar.");
                 errorB = true;
             }
             dao.close();
@@ -130,20 +135,16 @@ public class ProductoController extends Controller {
         }
 
         List<String> ltv = new LinkedList<String>();
-        ltv.add("Producto");
+        ltv.add(PRODUCTO);
         ltv.add("Actualizar");
-        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        TreeView tv = new TreeView(ltv, FA_DASHBOARD);
 
         List<String> footer = new LinkedList<String>();
-        if (!error.isEmpty()) {
-            footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
-            footer.add("assets/js/producto/update.js");
-        }
 
-        PageTemplate pt = new PageTemplate("producto/update.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
-        request.getSession().setAttribute("templatepage", pt);
+        PageTemplate pt = new PageTemplate("producto/update.jsp", "", tv, null, footer, null, "", true, NUEVO_PRODUCTO);
+        request.getSession().setAttribute(TEMPLATEPAGE, pt);
 
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher(TEMP_TEMP).forward(request, response);
 
     }
 
@@ -172,8 +173,8 @@ public class ProductoController extends Controller {
                 } else if (item.getFieldName().equals("file_routefield")) {
                     img_route = Streams.asString(item.getInputStream());
                 }
-            } else {
-                /*if (item.getContentType().equals("image/jpeg")
+            } /*else {
+                if (item.getContentType().equals("image/jpeg")
                         || item.getContentType().equals("image/jpg")
                         || item.getContentType().equals("image/png")) {
                     try {
@@ -189,8 +190,8 @@ public class ProductoController extends Controller {
                     } catch (Exception ex) {
                         Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
                     }
-                }*/
-            }
+                }
+            }*/
         }
         
         // Check correct values
@@ -218,35 +219,31 @@ public class ProductoController extends Controller {
          }*/
 
         if (!error.isEmpty()) {
-            request.setAttribute("error", "<ul>" + error + "</ul>");
+            request.setAttribute(ERROR, "<ul>" + error + "</ul>");
         } else {
             double price = Double.parseDouble(price_aux);
-            System.out.println("Insertado xD");
+            System.out.println("Insertado");
             ProductoDAO dao = new ProductoDAO(ds);
 
             boolean insert = dao.insert(name, img_route, category, price);
             if (insert) {
                 request.setAttribute("ok", "El producto " + name + " se ha insertado correctamente.");
             } else {
-                request.setAttribute("error", "No se ha podido ingresar.");
+                request.setAttribute(ERROR, "No se ha podido ingresar.");
             }
             dao.close();
         }
         List<String> ltv = new LinkedList<String>();
-        ltv.add("Producto");
+        ltv.add(PRODUCTO);
         ltv.add("Nuevo");
-        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        TreeView tv = new TreeView(ltv, FA_DASHBOARD);
 
         List<String> footer = new LinkedList<String>();
-        if (!error.isEmpty()) {
-            footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
-            footer.add("assets/js/producto/create.js");
-        }
 
-        PageTemplate pt = new PageTemplate("producto/create.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
-        request.getSession().setAttribute("templatepage", pt);
+        PageTemplate pt = new PageTemplate("producto/create.jsp", "", tv, null, footer, null, "", true, NUEVO_PRODUCTO);
+        request.getSession().setAttribute(TEMPLATEPAGE, pt);
 
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher(TEMP_TEMP).forward(request, response);
     }
 
     public void actionCreate(HttpServletRequest request, HttpServletResponse response)
@@ -261,18 +258,16 @@ public class ProductoController extends Controller {
         request.setAttribute("asociatedpos", generateSecurity.getPos());
 
         List<String> ltv = new LinkedList<String>();
-        ltv.add("Producto");
+        ltv.add(PRODUCTO);
         ltv.add("Nuevo");
-        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        TreeView tv = new TreeView(ltv, FA_DASHBOARD);
 
         List<String> footer = new LinkedList<String>();
-        footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
-        footer.add("assets/js/producto/create.js");
 
-        PageTemplate pt = new PageTemplate("producto/create.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
-        request.getSession().setAttribute("templatepage", pt);
+        PageTemplate pt = new PageTemplate("producto/create.jsp", "", tv, null, footer, null, "", true, NUEVO_PRODUCTO);
+        request.getSession().setAttribute(TEMPLATEPAGE, pt);
 
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher(TEMP_TEMP).forward(request, response);
     }
 
     public void actionEdit(HttpServletRequest request, HttpServletResponse response)
@@ -289,7 +284,7 @@ public class ProductoController extends Controller {
         }
 
         if (!error.isEmpty()) {
-            request.setAttribute("error", "<ul>" + error + "</ul>");
+            request.setAttribute(ERROR, "<ul>" + error + "</ul>");
         } else {
             int id = Integer.parseInt(id_aux);
             ProductoDAO dao = new ProductoDAO(ds);
@@ -307,20 +302,16 @@ public class ProductoController extends Controller {
         }
 
         List<String> ltv = new LinkedList<String>();
-        ltv.add("Producto");
+        ltv.add(PRODUCTO);
         ltv.add("Actualizar");
-        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        TreeView tv = new TreeView(ltv, FA_DASHBOARD);
 
         List<String> footer = new LinkedList<String>();
-        if (!error.isEmpty()) {
-            footer.add("http://ajax.aspnetcdn.com/ajax/jquery.validate/1.11.1/jquery.validate.js");
-            footer.add("assets/js/producto/update.js");
-        }
 
-        PageTemplate pt = new PageTemplate("producto/update.jsp", "", tv, null, footer, null, "", true, "Nuevo producto");
-        request.getSession().setAttribute("templatepage", pt);
+        PageTemplate pt = new PageTemplate("producto/update.jsp", "", tv, null, footer, null, "", true, NUEVO_PRODUCTO);
+        request.getSession().setAttribute(TEMPLATEPAGE, pt);
 
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher(TEMP_TEMP).forward(request, response);
     }
 
     public void actionList(HttpServletRequest request, HttpServletResponse response)
@@ -331,19 +322,19 @@ public class ProductoController extends Controller {
         if (products == null) {
             products = new ArrayList<Producto>();
         }
-        request.setAttribute("products", products);
+        request.setAttribute(PRODUCTS, products);
         List<String> ltv = new LinkedList<String>();
-        ltv.add("Producto");
+        ltv.add(PRODUCTO);
         ltv.add("Listado");
-        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        TreeView tv = new TreeView(ltv, FA_DASHBOARD);
 
         List<String> footer = new LinkedList<String>();
         footer.add("assets/js/producto/list.js");
 
         PageTemplate pt = new PageTemplate("producto/list.jsp", "", tv, null, footer, null, "", true, "Listar productos");
-        request.getSession().setAttribute("templatepage", pt);
+        request.getSession().setAttribute(TEMPLATEPAGE, pt);
 
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher(TEMP_TEMP).forward(request, response);
     }
 
     public void actionDelete(HttpServletRequest request, HttpServletResponse response)
@@ -356,7 +347,7 @@ public class ProductoController extends Controller {
         
         // Checks errors
         if (!Functions.isID(id_aux)) {
-            request.setAttribute("error", "No se encuentra el producto a borrar.");
+            request.setAttribute(ERROR, "No se encuentra el producto a borrar.");
         } else {
             int id = Integer.parseInt(id_aux);
             ProductoDAO dao = new ProductoDAO(ds);
@@ -364,7 +355,7 @@ public class ProductoController extends Controller {
             if (delete) {
                 request.setAttribute("ok", "Borrado con éxito");
             } else {
-                request.setAttribute("error", "No se encuentra el producto a borrar.");
+                request.setAttribute(ERROR, "No se encuentra el producto a borrar.");
             }
             
             products = dao.getAll();
@@ -372,23 +363,23 @@ public class ProductoController extends Controller {
                 products = new ArrayList<Producto>();
             }
             
-            request.setAttribute("products", products);
+            request.setAttribute(PRODUCTS, products);
             
             dao.close();
         }
-        request.setAttribute("products", products);
+        request.setAttribute(PRODUCTS, products);
         List<String> ltv = new LinkedList<String>();
         ltv.add("Administrador");
         ltv.add("Listado productos");
-        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        TreeView tv = new TreeView(ltv, FA_DASHBOARD);
         
         List<String> footer = new LinkedList<String>();
         footer.add("assets/js/producto/list.js");
         
         PageTemplate pt = new PageTemplate("admin/list.jsp", "", tv, null, footer, null, "", true, "Listar productos", true);
-        request.getSession().setAttribute("templatepage", pt);
+        request.getSession().setAttribute(TEMPLATEPAGE, pt);
         
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher(TEMP_TEMP).forward(request, response);
     }
 
     public void actionLast(HttpServletRequest request, HttpServletResponse response)
@@ -400,19 +391,19 @@ public class ProductoController extends Controller {
             products = new ArrayList<Producto>();
         }
         dao.close();
-        request.setAttribute("products", products);
+        request.setAttribute(PRODUCTS, products);
         List<String> ltv = new LinkedList<String>();
-        ltv.add("Producto");
+        ltv.add(PRODUCTO);
         ltv.add("Últimos productos");
-        TreeView tv = new TreeView(ltv, "fa-dashboard");
+        TreeView tv = new TreeView(ltv, FA_DASHBOARD);
 
         List<String> footer = new LinkedList<String>();
         footer.add("assets/js/producto/list.js");
 
         PageTemplate pt = new PageTemplate("producto/list.jsp", "", tv, null, footer, null, "", true, "Listar productos");
-        request.getSession().setAttribute("templatepage", pt);
+        request.getSession().setAttribute(TEMPLATEPAGE, pt);
 
-        getServletContext().getRequestDispatcher("/templates/template.jsp").forward(request, response);
+        getServletContext().getRequestDispatcher(TEMP_TEMP).forward(request, response);
     }
 
 }
