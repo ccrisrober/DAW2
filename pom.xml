@@ -3,11 +3,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.mycompany</groupId>
-    <artifactId>Practica2DAW</artifactId>
+    <artifactId>Tienda_crodriguezbe</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>Practica2DAW</name>
+    <name>Tienda_crodriguezbe</name>
 
     <properties>
         <endorsed.dir>${project.build.directory}/endorsed</endorsed.dir>
@@ -25,6 +25,12 @@
             <artifactId>commons-fileupload</artifactId>
             <version>1.2.1</version>
             <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.10</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>javax</groupId>
