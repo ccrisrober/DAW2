@@ -1,9 +1,10 @@
 package others;
 
+import java.io.Serializable;
 import java.util.List;
 
 
-public class TreeView {
+public class TreeView implements Serializable {
     List<String> titles_;
     String icon_;
 

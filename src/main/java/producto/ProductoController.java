@@ -1,5 +1,6 @@
 package producto;
 
+import java.io.File;
 import others.NumChar;
 import others.Controller;
 import others.PageTemplate;
@@ -9,6 +10,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.annotation.Resource;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -29,6 +32,7 @@ public class ProductoController extends Controller {
     private static final String TEMPLATEPAGE = "templatepage";
     private static final String TEMP_TEMP = "/templates/template.jsp";
     private static final String PRODUCTS = "products";
+    private static final String separator = System.getProperty("file.separator");
 
     /*private String UPLOAD_DIRECTORY;
 
@@ -44,6 +48,8 @@ public class ProductoController extends Controller {
 
         String name = null, category = null, price_aux = null, img_route = "", img_route_old = null, id_aux = null;
         
+        // Check correct values
+        String error = "";
         List<FileItem> multiparts = (List<FileItem>) request.getAttribute("multiparts");
         for(FileItem item: multiparts) {
             if(item.isFormField()) {        // Esto es un input : D
@@ -60,31 +66,23 @@ public class ProductoController extends Controller {
                 } else if (item.getFieldName().equals("file_routefield")) {
                     img_route = Streams.asString(item.getInputStream());
                 }
-            } /*else {
-                if (item.getContentType().equals("image/jpeg")
-                        || item.getContentType().equals("image/jpg")
-                        || item.getContentType().equals("image/png")) {
-                    try {
-                        FileItem fI = (FileItem)item;
-                        File path = new File(this.getServletContext().getRealPath(UPLOAD_DIRECTORY));
-                        if(!path.exists()) {
-                            boolean status = path.mkdirs();
-                        }
-                        img_route = path + File.separator + item.getName();
-                        File uploadedFile = new File(img_route);
-                        fI.write(uploadedFile);
-                    } catch (Exception ex) {
-                        Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+            } else {
+                File archivo_server = new File(getServletContext().getRealPath("/") + "assets" + separator + "img" + separator + "products" + separator + item.getName());
+                try {
+                    item.write(archivo_server);
+                    img_route = "assets/img/products/" + item.getName();
+                } catch (Exception ex) {
+                    error += "<li>Error al intentar subir imagen</li>";
                 }
-            }*/
+                System.out.println("Nombre --> " + item.getName() );
+                System.out.println("<br> Tipo --> " + item.getContentType());
+                System.out.println("<br> tamaño --> " + (item.getSize()/1240)+ "KB");
+            }
         }
         
         //String charSec = request.getParameter("ac");
         //String intSec = request.getParameter("ai");
 
-        // Check correct values
-        String error = "";
         if (!Functions.isID(id_aux)) {
             error += "<li>Producto not found.</li>";
         }
@@ -161,6 +159,9 @@ public class ProductoController extends Controller {
 
         String img_route = "";
         
+        // Check correct values
+        String error = "";
+        
         List<FileItem> multiparts = (List<FileItem>) request.getAttribute("multiparts");
         for(FileItem item: multiparts) {
             if(item.isFormField()) {        // Esto es un input : D
@@ -173,29 +174,19 @@ public class ProductoController extends Controller {
                 } else if (item.getFieldName().equals("file_routefield")) {
                     img_route = Streams.asString(item.getInputStream());
                 }
-            } /*else {
-                if (item.getContentType().equals("image/jpeg")
-                        || item.getContentType().equals("image/jpg")
-                        || item.getContentType().equals("image/png")) {
-                    try {
-                        FileItem fI = (FileItem)item;
-                        File path = new File(this.getServletContext().getRealPath(UPLOAD_DIRECTORY));
-                        if(!path.exists()) {
-                            boolean status = path.mkdirs();
-                        }
-                        img_route = UPLOAD_DIRECTORY.replace(File.separator, "/") + item.getName();
-                        File uploadedFile = new File(path + File.separator + item.getName());
-                        fI.write(uploadedFile);
-                        
-                    } catch (Exception ex) {
-                        Logger.getLogger(ProductoController.class.getName()).log(Level.SEVERE, null, ex);
-                    }
+            } else {
+                File archivo_server = new File(getServletContext().getRealPath("/") + "assets" + separator + "img" + separator + "products" + separator + item.getName());
+                try {
+                    item.write(archivo_server);
+                    img_route = "assets/img/products/" + item.getName();
+                } catch (Exception ex) {
+                    error += "<li>Error al intentar subir imagen</li>";
                 }
-            }*/
+                System.out.println("Nombre --> " + item.getName() );
+                System.out.println("<br> Tipo --> " + item.getContentType());
+                System.out.println("<br> tamaño --> " + (item.getSize()/1240)+ "KB");
+            }
         }
-        
-        // Check correct values
-        String error = "";
         if (Functions.isEmpty(name)) {
             error += "<li>Name not found.</li>";
         }

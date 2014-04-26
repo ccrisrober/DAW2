@@ -30,8 +30,8 @@
                     <label for="pricefield">Precio</label><input type="text" class="form-control" id="pricefield" name="pricefield" value="${price}"/>
                 </div>
                 <div class="form-group">
-                    <!--<label for="filefield">Foto</label><input type="file" id="file" name="file" value="${photo}"/>-->
-                    <label for="file_routefield">Foto producto</label><input type="text" class="form-control" id="file_routefield" name="file_routefield" value="${photo}"/>
+                    <label for="filefield">Foto</label><input type="file" id="file" name="file"/>
+                    <!--<label for="file_routefield">Foto producto</label><input type="text" class="form-control" id="file_routefield" name="file_routefield" value="${photo}"/>-->
                 </div>
                 <button type="submit" class="btn btn-default">Submit</button>
 

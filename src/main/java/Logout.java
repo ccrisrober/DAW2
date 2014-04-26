@@ -10,7 +10,6 @@ public class Logout extends Controller {
  
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        checkAccessLogin(request, response);
         request.getSession(true).invalidate();
         response.sendRedirect("Index");
     }
