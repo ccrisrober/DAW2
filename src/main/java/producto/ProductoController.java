@@ -63,8 +63,6 @@ public class ProductoController extends Controller {
                     img_route_old = Streams.asString(item.getInputStream());
                 } else if(item.getFieldName().equals("id_prod")) {
                     id_aux = Streams.asString(item.getInputStream());
-                } else if (item.getFieldName().equals("file_routefield")) {
-                    img_route = Streams.asString(item.getInputStream());
                 }
             } else {
                 File archivo_server = new File(getServletContext().getRealPath("/") + "assets" + separator + "img" + separator + "products" + separator + item.getName());
@@ -171,8 +169,6 @@ public class ProductoController extends Controller {
                     category = Streams.asString(item.getInputStream());
                 } else if(item.getFieldName().equals("pricefield")) {
                     price_aux = Streams.asString(item.getInputStream());
-                } else if (item.getFieldName().equals("file_routefield")) {
-                    img_route = Streams.asString(item.getInputStream());
                 }
             } else {
                 File archivo_server = new File(getServletContext().getRealPath("/") + "assets" + separator + "img" + separator + "products" + separator + item.getName());
